@@ -1,0 +1,691 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        Payment Details | GrandStay Hotel
+    </title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            font-family: "Poppins", sans-serif;
+            color: #1f2937;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #b8860b;
+        }
+
+        .page-wrapper {
+            min-height: calc(100vh - 70px);
+            padding: 50px 20px;
+        }
+
+        .payment-card {
+            max-width: 1000px;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .payment-header {
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #374151
+            );
+            color: white;
+            padding: 35px;
+        }
+
+        .payment-header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .payment-header p {
+            margin: 8px 0 0;
+            color: #d1d5db;
+        }
+
+        .content {
+            padding: 35px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .info-label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .amount-box {
+            background: #fff8e1;
+            border: 1px solid #f0d98c;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .amount-label {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .amount {
+            font-size: 34px;
+            font-weight: 700;
+            color: #a16207;
+            margin-top: 5px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #a16207;
+        }
+
+        .status-failed {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .status-refunded {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .btn-back {
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-weight: 600;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+
+            .page-wrapper {
+                padding: 25px 12px;
+            }
+
+            .payment-header,
+            .content {
+                padding: 25px;
+            }
+
+            .payment-header h1 {
+                font-size: 23px;
+            }
+
+            .amount {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <a
+            href="{% url 'home' %}"
+            class="brand"
+        >
+            Grand<span>Stay</span>
+        </a>
+
+        <div class="ms-auto">
+
+            <a
+                href="{% url 'payment_history' %}"
+                class="btn btn-outline-secondary btn-sm"
+            >
+                <i class="bi bi-arrow-left me-1"></i>
+                Payment History
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<div class="page-wrapper">
+
+    <div class="payment-card">
+
+        <!-- HEADER -->
+
+        <div class="payment-header">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                <div>
+
+                    <h1>
+                        <i class="bi bi-receipt me-2"></i>
+                        Payment Details
+                    </h1>
+
+                    <p>
+                        Payment #{{ payment.id }}
+                    </p>
+
+                </div>
+
+                <div>
+
+                    {% if payment.status == "completed" %}
+
+                        <span class="status-badge status-completed">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Completed
+                        </span>
+
+                    {% elif payment.status == "pending" %}
+
+                        <span class="status-badge status-pending">
+                            <i class="bi bi-clock-fill"></i>
+                            Pending
+                        </span>
+
+                    {% elif payment.status == "failed" %}
+
+                        <span class="status-badge status-failed">
+                            <i class="bi bi-x-circle-fill"></i>
+                            Failed
+                        </span>
+
+                    {% elif payment.status == "refunded" %}
+
+                        <span class="status-badge status-refunded">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Refunded
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <!-- PAYMENT SUMMARY -->
+
+            <div class="section-title">
+
+                <i class="bi bi-credit-card me-2"></i>
+                Payment Information
+
+            </div>
+
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Payment ID
+                        </span>
+
+                        <div class="info-value">
+                            #{{ payment.id }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Transaction ID
+                        </span>
+
+                        <div class="info-value">
+
+                            {% if payment.transaction_id %}
+
+                                {{ payment.transaction_id }}
+
+                            {% else %}
+
+                                Not available
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Payment Method
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.get_method_display }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Payment Date
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.created_at|date:"d M Y, h:i A" }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AMOUNT -->
+
+            <div class="amount-box mb-5">
+
+                <div class="amount-label">
+                    Total Payment Amount
+                </div>
+
+                <div class="amount">
+
+                    Rs. {{ payment.amount|floatformat:2 }}
+
+                </div>
+
+            </div>
+
+
+            <!-- BOOKING INFORMATION -->
+
+            <div class="section-title">
+
+                <i class="bi bi-calendar-check me-2"></i>
+                Booking Information
+
+            </div>
+
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Booking ID
+                        </span>
+
+                        <div class="info-value">
+                            #{{ payment.booking.id }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Room
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.booking.room.name }}
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                Room
+                                {{ payment.booking.room.room_number }}
+
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Check-in
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.booking.check_in|date:"d M Y" }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Check-out
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.booking.check_out|date:"d M Y" }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Total Nights
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ total_nights }}
+
+                            {% if total_nights == 1 %}
+                                Night
+                            {% else %}
+                                Nights
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Guests
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.booking.guests }}
+
+                            {% if payment.booking.guests == 1 %}
+                                Guest
+                            {% else %}
+                                Guests
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Booking Status
+                        </span>
+
+                        <div class="info-value">
+
+                            {{ payment.booking.get_status_display }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SPECIAL REQUEST -->
+
+            {% if payment.booking.special_request %}
+
+                <div class="section-title">
+
+                    <i class="bi bi-chat-left-text me-2"></i>
+                    Special Request
+
+                </div>
+
+                <div class="info-box mb-4">
+
+                    {{ payment.booking.special_request }}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- PAID DATE -->
+
+            {% if payment.paid_at %}
+
+                <div class="info-box mb-4">
+
+                    <span class="info-label">
+                        Paid At
+                    </span>
+
+                    <div class="info-value">
+
+                        <i class="bi bi-check-circle text-success me-1"></i>
+
+                        {{ payment.paid_at|date:"d M Y, h:i A" }}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- ACTIONS -->
+
+            <div class="d-flex gap-2 flex-wrap">
+
+                <a
+                    href="{% url 'payment_history' %}"
+                    class="btn btn-outline-secondary btn-back"
+                >
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Back to Payment History
+                </a>
+
+                <a
+                    href="{% url 'booking_detail' payment.booking.id %}"
+                    class="btn btn-dark btn-back"
+                >
+                    <i class="bi bi-calendar-check me-1"></i>
+                    View Booking
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+
+        © {% now "Y" %} GrandStay Hotel.
+        All rights reserved.
+
+    </div>
+
+</div>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+
+</html>

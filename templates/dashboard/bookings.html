@@ -1,0 +1,1246 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block title %}
+    Booking Management | GrandStay Hotel
+{% endblock %}
+
+
+{% block navbar_title %}
+    Booking Management
+{% endblock %}
+
+
+{% block bookings_active %}
+    active
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       PAGE HEADER
+    ===================================================== */
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+
+    .page-heading h4 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+
+    .page-heading p {
+        margin: 5px 0 0;
+        color: #8b93a3;
+        font-size: 13px;
+    }
+
+
+
+    /* =====================================================
+       STAT CARDS
+    ===================================================== */
+
+    .stat-card {
+        background: #ffffff;
+        border: 1px solid #e8eaf0;
+        border-radius: 14px;
+        padding: 20px;
+        height: 100%;
+        transition: .2s ease;
+    }
+
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .05);
+    }
+
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(184,166,42,0.12);
+        color: #a18f19;
+        font-size: 19px;
+        margin-bottom: 13px;
+    }
+
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: 600;
+        color: #172033;
+    }
+
+
+    .stat-label {
+        font-size: 11px;
+        color: #8b93a3;
+        margin-top: 3px;
+    }
+
+
+
+    /* =====================================================
+       FILTER CARD
+    ===================================================== */
+
+    .filter-card {
+        background: #ffffff;
+        border: 1px solid #e8eaf0;
+        border-radius: 14px;
+        padding: 18px;
+        margin-top: 25px;
+        margin-bottom: 20px;
+    }
+
+
+    .filter-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: #4b5563;
+        margin-bottom: 6px;
+    }
+
+
+    .filter-input {
+        border: 1px solid #dfe3e8;
+        border-radius: 9px;
+        font-size: 12px;
+        padding: 10px 12px;
+        box-shadow: none;
+    }
+
+
+    .filter-input:focus {
+        border-color: #b8a62a;
+        box-shadow: 0 0 0 3px rgba(184,166,42,0.10);
+    }
+
+
+    .filter-btn {
+        background: #b8a62a;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        padding: 10px 17px;
+        font-size: 12px;
+        min-height: 39px;
+    }
+
+
+    .filter-btn:hover {
+        background: #a99a24;
+        color: white;
+    }
+
+
+    .reset-btn {
+        background: #f3f4f6;
+        color: #374151;
+        border: none;
+        border-radius: 9px;
+        padding: 10px 15px;
+        font-size: 12px;
+        min-height: 39px;
+    }
+
+
+    .reset-btn:hover {
+        background: #e5e7eb;
+        color: #111827;
+    }
+
+
+
+    /* =====================================================
+       TABLE CARD
+    ===================================================== */
+
+    .table-card {
+        background: #ffffff;
+        border: 1px solid #e8eaf0;
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+
+    .table-header {
+        padding: 18px 20px;
+        border-bottom: 1px solid #eef0f3;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+    .table-header h5 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+    .booking-count {
+        background: #f5f3dc;
+        color: #8c7b15;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+
+    .booking-table {
+        margin: 0;
+        min-width: 1100px;
+    }
+
+
+    .booking-table thead th {
+        background: #fafafa;
+        border-bottom: 1px solid #eef0f3;
+        color: #6b7280;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        padding: 14px 15px;
+        white-space: nowrap;
+    }
+
+
+    .booking-table tbody td {
+        padding: 15px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f0f1f3;
+        font-size: 12px;
+        color: #374151;
+    }
+
+
+    .booking-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    .booking-table tbody tr {
+        transition: .15s ease;
+    }
+
+
+    .booking-table tbody tr:hover {
+        background: #fafafa;
+    }
+
+
+
+    /* =====================================================
+       BOOKING INFORMATION
+    ===================================================== */
+
+    .booking-id {
+        font-weight: 600;
+        color: #b09c20;
+    }
+
+
+    .booking-date {
+        font-size: 10px;
+        color: #9ca3af;
+        margin-top: 3px;
+    }
+
+
+    .customer-name {
+        font-weight: 500;
+        color: #172033;
+    }
+
+
+    .customer-username {
+        font-size: 10px;
+        color: #9ca3af;
+        margin-top: 2px;
+    }
+
+
+    .room-number {
+        font-weight: 600;
+        color: #172033;
+    }
+
+
+    .room-name {
+        font-size: 10px;
+        color: #9ca3af;
+        margin-top: 2px;
+    }
+
+
+    .date-value {
+        white-space: nowrap;
+        font-size: 11px;
+    }
+
+
+    .guest-value {
+        font-weight: 500;
+    }
+
+
+    .amount-value {
+        font-weight: 600;
+        color: #172033;
+        white-space: nowrap;
+    }
+
+
+
+    /* =====================================================
+       STATUS BADGES
+    ===================================================== */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+
+    .status-pending {
+        background: #fef3c7;
+        color: #a16207;
+    }
+
+
+    .status-confirmed {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+
+    .status-checked_in {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+
+    .status-checked_out {
+        background: #e0e7ff;
+        color: #4338ca;
+    }
+
+
+    .status-cancelled {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+
+    /* =====================================================
+       PAYMENT BADGES
+    ===================================================== */
+
+    .payment-pending {
+        background: #fef3c7;
+        color: #a16207;
+    }
+
+
+    .payment-paid {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+
+    .payment-failed {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+
+    .payment-refunded {
+        background: #e0e7ff;
+        color: #4338ca;
+    }
+
+
+
+    /* =====================================================
+       ACTION BUTTONS
+    ===================================================== */
+
+    .action-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+
+    .view-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        color: #374151;
+        font-size: 14px;
+        transition: .2s ease;
+    }
+
+
+    .view-btn:hover {
+        background: #b8a62a;
+        color: white;
+    }
+
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-state {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+
+    .empty-icon {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 26px;
+        color: #9ca3af;
+    }
+
+
+    .empty-state h5 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #172033;
+    }
+
+
+    .empty-state p {
+        color: #8b93a3;
+        font-size: 12px;
+    }
+
+
+    .empty-state .btn {
+        background: #b8a62a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 12px;
+        padding: 9px 16px;
+    }
+
+
+    .empty-state .btn:hover {
+        background: #a99a24;
+    }
+
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .page-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .page-heading h4 {
+            font-size: 20px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     PAGE HEADER
+===================================================== -->
+
+<div class="page-header">
+
+    <div class="page-heading">
+
+        <h4>
+            Booking Management
+        </h4>
+
+        <p>
+            Manage hotel reservations, booking status and payments.
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<div class="row g-3">
+
+
+    <!-- TOTAL BOOKINGS -->
+
+    <div class="col-xl col-lg-4 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="bi bi-calendar-check"></i>
+
+            </div>
+
+            <div class="stat-value">
+
+                {{ total_bookings }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Total Bookings
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PENDING -->
+
+    <div class="col-xl col-lg-4 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="bi bi-clock"></i>
+
+            </div>
+
+            <div class="stat-value">
+
+                {{ pending_bookings }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Pending
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONFIRMED -->
+
+    <div class="col-xl col-lg-4 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="bi bi-check-circle"></i>
+
+            </div>
+
+            <div class="stat-value">
+
+                {{ confirmed_bookings }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Confirmed
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CHECKED IN -->
+
+    <div class="col-xl col-lg-4 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="bi bi-door-open"></i>
+
+            </div>
+
+            <div class="stat-value">
+
+                {{ checked_in_bookings }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Checked In
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PAID -->
+
+    <div class="col-xl col-lg-4 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="bi bi-credit-card"></i>
+
+            </div>
+
+            <div class="stat-value">
+
+                {{ paid_bookings }}
+
+            </div>
+
+            <div class="stat-label">
+
+                Paid Bookings
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+     FILTERS
+===================================================== -->
+
+<div class="filter-card">
+
+    <form method="get">
+
+        <div class="row g-2 align-items-end">
+
+
+            <!-- SEARCH -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <label class="filter-label">
+                    Search
+                </label>
+
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control filter-input"
+                    placeholder="Username, customer or room..."
+                    value="{{ search }}"
+                >
+
+            </div>
+
+
+
+            <!-- BOOKING STATUS -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label class="filter-label">
+                    Booking Status
+                </label>
+
+                <select
+                    name="status"
+                    class="form-select filter-input"
+                >
+
+                    <option value="">
+                        All Statuses
+                    </option>
+
+
+                    {% for value, label in status_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if selected_status == value %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ label }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <!-- PAYMENT STATUS -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label class="filter-label">
+                    Payment Status
+                </label>
+
+                <select
+                    name="payment_status"
+                    class="form-select filter-input"
+                >
+
+                    <option value="">
+                        All Payments
+                    </option>
+
+
+                    {% for value, label in payment_status_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if selected_payment_status == value %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ label }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="col-lg-2 col-md-6 d-flex gap-2">
+
+                <button
+                    type="submit"
+                    class="filter-btn flex-fill"
+                >
+
+                    <i class="bi bi-search me-1"></i>
+
+                    Filter
+
+                </button>
+
+
+                <a
+                    href="{% url 'manage_bookings' %}"
+                    class="btn reset-btn"
+                    title="Reset Filters"
+                >
+
+                    <i class="bi bi-arrow-clockwise"></i>
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<!-- =====================================================
+     BOOKING TABLE
+===================================================== -->
+
+<div class="table-card">
+
+
+    <!-- TABLE HEADER -->
+
+    <div class="table-header">
+
+        <h5>
+
+            <i class="bi bi-list-ul me-2"></i>
+
+            Booking List
+
+        </h5>
+
+
+        <span class="booking-count">
+
+            {{ bookings|length }} Booking{{ bookings|length|pluralize }}
+
+        </span>
+
+    </div>
+
+
+
+    {% if bookings %}
+
+
+        <div class="table-responsive">
+
+            <table class="table booking-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Booking
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Room
+                        </th>
+
+                        <th>
+                            Check In
+                        </th>
+
+                        <th>
+                            Check Out
+                        </th>
+
+                        <th>
+                            Guests
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Booking Status
+                        </th>
+
+                        <th>
+                            Payment
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+                    {% for booking in bookings %}
+
+                    <tr>
+
+
+                        <!-- =================================================
+                             BOOKING
+                        ================================================== -->
+
+                        <td>
+
+                            <div class="booking-id">
+
+                                #{{ booking.id }}
+
+                            </div>
+
+
+                            <div class="booking-date">
+
+                                {{ booking.created_at|date:"d M Y" }}
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             CUSTOMER
+                        ================================================== -->
+
+                        <td>
+
+                            <div class="customer-name">
+
+                                {% if booking.user.get_full_name %}
+
+                                    {{ booking.user.get_full_name }}
+
+                                {% else %}
+
+                                    {{ booking.user.username }}
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="customer-username">
+
+                                @{{ booking.user.username }}
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             ROOM
+                        ================================================== -->
+
+                        <td>
+
+                            <div class="room-number">
+
+                                {{ booking.room.room_number }}
+
+                            </div>
+
+
+                            <div class="room-name">
+
+                                {{ booking.room.name }}
+
+                            </div>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             CHECK IN
+                        ================================================== -->
+
+                        <td>
+
+                            <span class="date-value">
+
+                                <i class="bi bi-calendar-event me-1"></i>
+
+                                {{ booking.check_in|date:"d M Y" }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             CHECK OUT
+                        ================================================== -->
+
+                        <td>
+
+                            <span class="date-value">
+
+                                <i class="bi bi-calendar-event me-1"></i>
+
+                                {{ booking.check_out|date:"d M Y" }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             GUESTS
+                        ================================================== -->
+
+                        <td>
+
+                            <span class="guest-value">
+
+                                <i class="bi bi-people me-1"></i>
+
+                                {{ booking.guests }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             AMOUNT
+                        ================================================== -->
+
+                        <td>
+
+                            <span class="amount-value">
+
+                                Rs. {{ booking.total_amount }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             BOOKING STATUS
+                        ================================================== -->
+
+                        <td>
+
+                            <span
+                                class="status-badge status-{{ booking.status }}"
+                            >
+
+                                {% if booking.status == "pending" %}
+
+                                    <i class="bi bi-clock"></i>
+
+                                {% elif booking.status == "confirmed" %}
+
+                                    <i class="bi bi-check-circle"></i>
+
+                                {% elif booking.status == "checked_in" %}
+
+                                    <i class="bi bi-door-open"></i>
+
+                                {% elif booking.status == "checked_out" %}
+
+                                    <i class="bi bi-box-arrow-right"></i>
+
+                                {% elif booking.status == "cancelled" %}
+
+                                    <i class="bi bi-x-circle"></i>
+
+                                {% else %}
+
+                                    <i class="bi bi-info-circle"></i>
+
+                                {% endif %}
+
+
+                                {{ booking.get_status_display }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             PAYMENT
+                        ================================================== -->
+
+                        <td>
+
+                            <span
+                                class="status-badge payment-{{ booking.payment_status }}"
+                            >
+
+                                {% if booking.payment_status == "paid" %}
+
+                                    <i class="bi bi-check-circle"></i>
+
+                                {% elif booking.payment_status == "pending" %}
+
+                                    <i class="bi bi-clock"></i>
+
+                                {% elif booking.payment_status == "failed" %}
+
+                                    <i class="bi bi-x-circle"></i>
+
+                                {% elif booking.payment_status == "refunded" %}
+
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                                {% else %}
+
+                                    <i class="bi bi-credit-card"></i>
+
+                                {% endif %}
+
+
+                                {{ booking.get_payment_status_display }}
+
+                            </span>
+
+                        </td>
+
+
+
+                        <!-- =================================================
+                             ACTION
+                        ================================================== -->
+
+                        <td>
+
+                            <div class="action-wrapper">
+
+                                <!-- IMPORTANT:
+                                     This is the ADMIN booking detail URL.
+                                     Do NOT use booking_detail here.
+                                -->
+
+                                <a
+                                    href="{% url 'dashboard_booking_detail' booking.id %}"
+                                    class="view-btn"
+                                    title="View Booking Details"
+                                >
+
+                                    <i class="bi bi-eye"></i>
+
+                                </a>
+
+                            </div>
+
+                        </td>
+
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    {% else %}
+
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-calendar-x"></i>
+
+            </div>
+
+
+            <h5>
+                No Bookings Found
+            </h5>
+
+
+            <p>
+                There are no bookings matching your current filters.
+            </p>
+
+
+            <a
+                href="{% url 'manage_bookings' %}"
+                class="btn"
+            >
+
+                <i class="bi bi-arrow-clockwise me-1"></i>
+
+                Clear Filters
+
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+{% endblock %}

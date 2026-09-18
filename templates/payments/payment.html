@@ -1,0 +1,1000 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        Payment | GrandStay Hotel
+    </title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP 5
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         PAGE CSS
+    ====================================================== -->
+
+    <style>
+
+        /* =================================================
+           GLOBAL
+        ================================================= */
+
+        * {
+            font-family: Poppins, sans-serif;
+        }
+
+
+        body {
+            background: #f7f7f2;
+            min-height: 100vh;
+        }
+
+
+        /* =================================================
+           NAVBAR
+        ================================================= */
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, .08);
+        }
+
+
+        .navbar-brand {
+            color: #222222;
+            font-weight: 700;
+        }
+
+
+        .navbar-brand:hover {
+            color: #b8b63b;
+        }
+
+
+        /* =================================================
+           MAIN CARD
+        ================================================= */
+
+        .payment-card {
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, .08);
+        }
+
+
+        /* =================================================
+           SUMMARY BOX
+        ================================================= */
+
+        .summary {
+            background: #f7f7f2;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+
+        .summary-item {
+            margin-bottom: 8px;
+        }
+
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* =================================================
+           PAYMENT OPTIONS
+        ================================================= */
+
+        .payment-option-wrapper {
+            position: relative;
+        }
+
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 14px;
+
+            padding: 18px;
+
+            cursor: pointer;
+
+            background: #ffffff;
+
+            transition: all .2s ease;
+        }
+
+
+        .payment-option:hover {
+            border-color: #b8b63b;
+
+            background: #fafaf4;
+
+            transform: translateY(-1px);
+        }
+
+
+        .payment-option input {
+            width: 18px;
+            height: 18px;
+
+            accent-color: #b8b63b;
+
+            cursor: pointer;
+        }
+
+
+        .payment-option.selected {
+            border-color: #b8b63b;
+
+            background: #fafaf4;
+
+            box-shadow:
+                0 0 0 2px rgba(184, 182, 59, .12);
+        }
+
+
+        .payment-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #f1f1dc;
+
+            color: #8f8d28;
+
+            font-size: 20px;
+        }
+
+
+        .payment-content {
+            flex: 1;
+        }
+
+
+        .payment-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+
+        .payment-description {
+            font-size: 13px;
+            color: #777777;
+        }
+
+
+        /* =================================================
+           MAIN BUTTON
+        ================================================= */
+
+        .btn-main {
+            background: #b8b63b;
+
+            color: #ffffff;
+
+            border: none;
+
+            padding: 13px 20px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+            transition: all .2s ease;
+        }
+
+
+        .btn-main:hover {
+            background: #9e9c2e;
+
+            color: #ffffff;
+
+            transform: translateY(-1px);
+        }
+
+
+        .btn-main:disabled {
+            opacity: .7;
+
+            cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        /* =================================================
+           BACK BUTTON
+        ================================================= */
+
+        .btn-back {
+            border-radius: 10px;
+        }
+
+
+        /* =================================================
+           SECURITY NOTE
+        ================================================= */
+
+        .security-note {
+            background: #f8f9fa;
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            font-size: 13px;
+
+            color: #6c757d;
+        }
+
+
+        /* =================================================
+           PRICE
+        ================================================= */
+
+        .total-price {
+            color: #222222;
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================= */
+
+        @media (max-width: 768px) {
+
+            .payment-card {
+                padding: 22px;
+            }
+
+
+            .summary {
+                padding: 18px;
+            }
+
+
+            .payment-option {
+                padding: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg">
+
+    <div class="container">
+
+        <a
+            href="{% url 'home' %}"
+            class="navbar-brand text-decoration-none"
+        >
+
+            <i class="bi bi-building me-2"></i>
+
+            GrandStay Hotel
+
+        </a>
+
+
+        <a
+            href="{% url 'my_bookings' %}"
+            class="btn btn-outline-secondary btn-back"
+        >
+
+            <i class="bi bi-calendar2-check me-1"></i>
+
+            My Bookings
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9 col-xl-8">
+
+
+            <!-- =================================================
+                 PAYMENT CARD
+            ================================================== -->
+
+            <div class="payment-card">
+
+
+                <!-- =================================================
+                     HEADER
+                ================================================== -->
+
+                <div class="mb-4">
+
+                    <div class="d-flex align-items-center mb-2">
+
+                        <div
+                            class="payment-icon me-3"
+                            style="width:50px;height:50px;"
+                        >
+
+                            <i class="bi bi-credit-card"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2 class="fw-bold mb-1">
+
+                                Complete Payment
+
+                            </h2>
+
+                            <p class="text-muted mb-0">
+
+                                Choose your preferred payment method.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DJANGO MESSAGES
+                ================================================== -->
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div
+                            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                            role="alert"
+                        >
+
+                            {% if message.tags == "success" %}
+
+                                <i class="bi bi-check-circle me-2"></i>
+
+                            {% elif message.tags == "error" %}
+
+                                <i class="bi bi-exclamation-triangle me-2"></i>
+
+                            {% else %}
+
+                                <i class="bi bi-info-circle me-2"></i>
+
+                            {% endif %}
+
+                            {{ message }}
+
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                            ></button>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+
+                <hr class="mb-4">
+
+
+
+                <!-- =================================================
+                     BOOKING SUMMARY
+                ================================================== -->
+
+                <div class="summary mb-4">
+
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-3"
+                    >
+
+                        <h5 class="fw-bold mb-0">
+
+                            <i class="bi bi-calendar-check me-2"></i>
+
+                            Booking Summary
+
+                        </h5>
+
+
+                        <span class="badge bg-secondary">
+
+                            #{{ booking.id }}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="row g-3">
+
+
+                        <!-- ROOM -->
+
+                        <div class="col-md-6">
+
+                            <div class="summary-item">
+
+                                <small class="text-muted d-block">
+
+                                    Room
+
+                                </small>
+
+                                <strong>
+
+                                    {{ booking.room.name }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- ROOM NUMBER -->
+
+                        <div class="col-md-6">
+
+                            <div class="summary-item">
+
+                                <small class="text-muted d-block">
+
+                                    Room Number
+
+                                </small>
+
+                                <strong>
+
+                                    {{ booking.room.room_number }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="col-md-6">
+
+                            <div class="summary-item">
+
+                                <small class="text-muted d-block">
+
+                                    Room Category
+
+                                </small>
+
+                                <strong>
+
+                                    {{ booking.room.category.name }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- GUESTS -->
+
+                        <div class="col-md-6">
+
+                            <div class="summary-item">
+
+                                <small class="text-muted d-block">
+
+                                    Guests
+
+                                </small>
+
+                                <strong>
+
+                                    {{ booking.guests }}
+
+                                    {% if booking.guests == 1 %}
+                                        Guest
+                                    {% else %}
+                                        Guests
+                                    {% endif %}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CHECK IN -->
+
+                        <div class="col-md-6">
+
+                            <div class="summary-item">
+
+                                <small class="text-muted d-block">
+
+                                    Check-in
+
+                                </small>
+
+                                <strong>
+
+                                    {{ booking.check_in|date:"M d, Y" }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CHECK OUT -->
+
+                        <div class="col-md-6">
+
+                            <div class="summary-item">
+
+                                <small class="text-muted d-block">
+
+                                    Check-out
+
+                                </small>
+
+                                <strong>
+
+                                    {{ booking.check_out|date:"M d, Y" }}
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <hr>
+
+
+
+                    <!-- TOTAL -->
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <span class="fw-semibold">
+
+                            Total Amount
+
+                        </span>
+
+
+                        <strong class="fs-3 total-price">
+
+                            Rs. {{ booking.total_amount }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PAYMENT FORM
+                     
+                     IMPORTANT:
+                     CSRF TOKEN IS REQUIRED FOR POST.
+                ================================================== -->
+
+                <form
+                    method="POST"
+                    action="{% url 'customer_payment' booking.id %}"
+                    id="paymentForm"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- =================================================
+                         PAYMENT METHOD TITLE
+                    ================================================== -->
+
+                    <h5 class="fw-bold mb-3">
+
+                        <i class="bi bi-wallet2 me-2"></i>
+
+                        Select Payment Method
+
+                    </h5>
+
+
+
+                    <!-- =================================================
+                         PAYMENT OPTIONS
+                    ================================================== -->
+
+                    {% for value, label in method_choices %}
+
+                        <div class="payment-option-wrapper mb-3">
+
+                            <label
+                                class="payment-option"
+                                for="payment_{{ value }}"
+                            >
+
+
+                                <!-- RADIO -->
+
+                                <input
+                                    type="radio"
+                                    name="method"
+                                    value="{{ value }}"
+                                    id="payment_{{ value }}"
+                                    required
+                                >
+
+
+
+                                <!-- ICON -->
+
+                                <div class="payment-icon">
+
+                                    {% if value == 'cash' %}
+
+                                        <i class="bi bi-cash-stack"></i>
+
+                                    {% elif value == 'card' %}
+
+                                        <i class="bi bi-credit-card"></i>
+
+                                    {% elif value == 'online' %}
+
+                                        <i class="bi bi-phone"></i>
+
+                                    {% else %}
+
+                                        <i class="bi bi-wallet2"></i>
+
+                                    {% endif %}
+
+                                </div>
+
+
+
+                                <!-- CONTENT -->
+
+                                <div class="payment-content">
+
+                                    <div class="payment-title">
+
+                                        {{ label }}
+
+                                    </div>
+
+
+                                    <div class="payment-description">
+
+                                        {% if value == 'cash' %}
+
+                                            Pay at the hotel during your stay.
+
+                                        {% elif value == 'card' %}
+
+                                            Complete payment using your card.
+
+                                        {% elif value == 'online' %}
+
+                                            Pay securely using an online payment method.
+
+                                        {% else %}
+
+                                            Select this payment method.
+
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
+                    {% empty %}
+
+                        <div class="alert alert-warning">
+
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+
+                            No payment methods are currently available.
+
+                        </div>
+
+                    {% endfor %}
+
+
+
+                    <!-- =================================================
+                         SECURITY MESSAGE
+                    ================================================== -->
+
+                    <div class="security-note mt-4">
+
+                        <i class="bi bi-shield-check me-2"></i>
+
+                        Your booking information is protected by
+                        Django's secure form validation.
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         BUTTONS
+                    ================================================== -->
+
+                    <div class="row g-3 mt-2">
+
+                        <div class="col-md-4">
+
+                            <a
+                                href="{% url 'booking_detail' booking.id %}"
+                                class="btn btn-outline-secondary w-100"
+                            >
+
+                                <i class="bi bi-arrow-left me-2"></i>
+
+                                Back
+
+                            </a>
+
+                        </div>
+
+
+                        <div class="col-md-8">
+
+                            <button
+                                type="submit"
+                                class="btn btn-main w-100"
+                                id="paymentButton"
+                            >
+
+                                <i class="bi bi-lock-fill me-2"></i>
+
+                                Continue Payment
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP JAVASCRIPT
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+
+<!-- =========================================================
+     PAYMENT PAGE JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /*
+    ============================================================
+    PAYMENT OPTION SELECTION
+    ============================================================
+    */
+
+    const paymentOptions =
+        document.querySelectorAll(
+            '.payment-option'
+        );
+
+
+    paymentOptions.forEach(
+        function(option) {
+
+            const radio =
+                option.querySelector(
+                    'input[type="radio"]'
+                );
+
+
+            radio.addEventListener(
+                'change',
+                function() {
+
+                    paymentOptions.forEach(
+                        function(item) {
+
+                            item.classList.remove(
+                                'selected'
+                            );
+
+                        }
+                    );
+
+
+                    if (radio.checked) {
+
+                        option.classList.add(
+                            'selected'
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+
+    /*
+    ============================================================
+    FORM SUBMISSION
+    ============================================================
+    */
+
+    const paymentForm =
+        document.getElementById(
+            'paymentForm'
+        );
+
+
+    const paymentButton =
+        document.getElementById(
+            'paymentButton'
+        );
+
+
+    if (paymentForm) {
+
+        paymentForm.addEventListener(
+            'submit',
+            function() {
+
+                const selected =
+                    document.querySelector(
+                        'input[name="method"]:checked'
+                    );
+
+
+                if (!selected) {
+
+                    return;
+
+                }
+
+
+                paymentButton.disabled = true;
+
+
+                paymentButton.innerHTML =
+                    '<span class="spinner-border spinner-border-sm me-2"></span>' +
+                    'Processing Payment...';
+
+            }
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

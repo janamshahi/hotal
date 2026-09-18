@@ -1,0 +1,1038 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+
+{% block title %}
+    Customers | GrandStay Hotel
+{% endblock %}
+
+
+{% block navbar_title %}
+    Customers
+{% endblock %}
+
+
+{% block customers_active %}
+    active
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       CUSTOMERS PAGE
+    ===================================================== */
+
+    .customers-page {
+        padding-bottom: 30px;
+    }
+
+
+    /* =====================================================
+       PAGE HEADER
+    ===================================================== */
+
+    .page-header {
+
+        background:
+            linear-gradient(
+                135deg,
+                #ffffff,
+                #f7f7f2
+            );
+
+        border: 1px solid #e7e7d8;
+
+        border-radius: 20px;
+
+        padding: 26px 28px;
+
+        margin-bottom: 24px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.04);
+    }
+
+
+    .page-title {
+
+        margin: 0;
+
+        font-size: 28px;
+
+        font-weight: 700;
+
+        color: #252525;
+    }
+
+
+    .page-subtitle {
+
+        margin: 6px 0 0;
+
+        color: #777;
+
+        font-size: 14px;
+    }
+
+
+    .customer-count {
+
+        min-width: 110px;
+
+        text-align: center;
+
+        background: #b8b63b;
+
+        color: #ffffff;
+
+        border-radius: 14px;
+
+        padding: 12px 18px;
+    }
+
+
+    .customer-count strong {
+
+        display: block;
+
+        font-size: 24px;
+
+        line-height: 1;
+    }
+
+
+    .customer-count span {
+
+        display: block;
+
+        font-size: 12px;
+
+        margin-top: 5px;
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    .search-card {
+
+        background: #ffffff;
+
+        border: 1px solid #e8e8df;
+
+        border-radius: 18px;
+
+        padding: 18px;
+
+        margin-bottom: 24px;
+
+        box-shadow:
+            0 6px 20px rgba(0, 0, 0, 0.035);
+    }
+
+
+    .search-wrapper {
+
+        position: relative;
+    }
+
+
+    .search-wrapper i {
+
+        position: absolute;
+
+        left: 16px;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #999;
+
+        font-size: 17px;
+    }
+
+
+    .search-input {
+
+        width: 100%;
+
+        height: 48px;
+
+        border: 1px solid #deded3;
+
+        border-radius: 12px;
+
+        padding: 0 120px 0 45px;
+
+        outline: none;
+
+        transition: 0.2s;
+
+        font-size: 14px;
+    }
+
+
+    .search-input:focus {
+
+        border-color: #b8b63b;
+
+        box-shadow:
+            0 0 0 3px rgba(184, 182, 59, 0.12);
+    }
+
+
+    .search-btn {
+
+        position: absolute;
+
+        right: 6px;
+
+        top: 6px;
+
+        height: 36px;
+
+        border: none;
+
+        border-radius: 9px;
+
+        background: #b8b63b;
+
+        color: white;
+
+        padding: 0 18px;
+
+        font-weight: 600;
+
+        transition: 0.2s;
+    }
+
+
+    .search-btn:hover {
+
+        background: #9e9c2e;
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       CUSTOMER TABLE CARD
+    ===================================================== */
+
+    .table-card {
+
+        background: #ffffff;
+
+        border: 1px solid #e8e8df;
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.04);
+    }
+
+
+    .table-header {
+
+        padding: 20px 24px;
+
+        border-bottom: 1px solid #eeeeea;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+    }
+
+
+    .table-header h5 {
+
+        margin: 0;
+
+        font-size: 17px;
+
+        font-weight: 700;
+
+        color: #292929;
+    }
+
+
+    .table-responsive {
+
+        overflow-x: auto;
+    }
+
+
+    .customer-table {
+
+        width: 100%;
+
+        margin: 0;
+
+        border-collapse: collapse;
+
+        min-width: 850px;
+    }
+
+
+    .customer-table thead th {
+
+        background: #f7f7f2;
+
+        padding: 15px 20px;
+
+        color: #6d6d61;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: .4px;
+
+        border-bottom: 1px solid #e9e9df;
+
+        white-space: nowrap;
+    }
+
+
+    .customer-table tbody td {
+
+        padding: 17px 20px;
+
+        border-bottom: 1px solid #f0f0ea;
+
+        vertical-align: middle;
+
+        font-size: 14px;
+
+        color: #444;
+    }
+
+
+    .customer-table tbody tr {
+
+        transition: 0.2s;
+    }
+
+
+    .customer-table tbody tr:hover {
+
+        background: #fcfcf7;
+    }
+
+
+    .customer-table tbody tr:last-child td {
+
+        border-bottom: none;
+    }
+
+
+    /* =====================================================
+       CUSTOMER PROFILE
+    ===================================================== */
+
+    .customer-profile {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+    }
+
+
+    .customer-avatar {
+
+        width: 44px;
+
+        height: 44px;
+
+        min-width: 44px;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background:
+            linear-gradient(
+                135deg,
+                #d9d75f,
+                #b8b63b
+            );
+
+        color: #ffffff;
+
+        font-weight: 700;
+
+        font-size: 15px;
+    }
+
+
+    .customer-name {
+
+        font-weight: 700;
+
+        color: #292929;
+
+        margin-bottom: 2px;
+    }
+
+
+    .customer-username {
+
+        color: #929292;
+
+        font-size: 12px;
+    }
+
+
+    /* =====================================================
+       EMAIL
+    ===================================================== */
+
+    .email-text {
+
+        color: #555;
+
+        word-break: break-word;
+    }
+
+
+    /* =====================================================
+       PHONE
+    ===================================================== */
+
+    .phone-text {
+
+        white-space: nowrap;
+
+        color: #555;
+    }
+
+
+    /* =====================================================
+       BOOKING BADGE
+    ===================================================== */
+
+    .booking-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        min-width: 34px;
+
+        height: 30px;
+
+        padding: 0 10px;
+
+        background: #f1f1df;
+
+        color: #77740e;
+
+        border-radius: 8px;
+
+        font-weight: 700;
+
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .status-badge {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 6px;
+
+        padding: 6px 10px;
+
+        border-radius: 20px;
+
+        background: #e8f7ee;
+
+        color: #198754;
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    .status-dot {
+
+        width: 7px;
+
+        height: 7px;
+
+        background: currentColor;
+
+        border-radius: 50%;
+    }
+
+
+    /* =====================================================
+       ACTIONS
+    ===================================================== */
+
+    .action-group {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 7px;
+    }
+
+
+    .action-btn {
+
+        width: 36px;
+
+        height: 36px;
+
+        border-radius: 9px;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-decoration: none;
+
+        border: 1px solid #e4e4d9;
+
+        background: #ffffff;
+
+        color: #666;
+
+        transition: 0.2s;
+    }
+
+
+    .action-btn:hover {
+
+        transform: translateY(-2px);
+
+        background: #f7f7f2;
+
+        color: #77740e;
+
+        border-color: #d9d75f;
+    }
+
+
+    .delete-btn:hover {
+
+        color: #dc3545;
+
+        border-color: #f1b5bb;
+
+        background: #fff5f6;
+    }
+
+
+    /* =====================================================
+       EMPTY STATE
+    ===================================================== */
+
+    .empty-state {
+
+        padding: 70px 30px;
+
+        text-align: center;
+    }
+
+
+    .empty-icon {
+
+        width: 70px;
+
+        height: 70px;
+
+        margin: 0 auto 18px;
+
+        border-radius: 20px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #f2f2df;
+
+        color: #aaa82e;
+
+        font-size: 30px;
+    }
+
+
+    .empty-state h5 {
+
+        margin-bottom: 7px;
+
+        color: #333;
+
+        font-weight: 700;
+    }
+
+
+    .empty-state p {
+
+        color: #888;
+
+        margin: 0;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .page-header {
+
+            padding: 20px;
+
+            align-items: flex-start;
+
+            flex-direction: column;
+        }
+
+
+        .customer-count {
+
+            width: 100%;
+        }
+
+
+        .search-card {
+
+            padding: 14px;
+        }
+
+
+        .page-title {
+
+            font-size: 23px;
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="customers-page">
+
+    <!-- =================================================
+         PAGE HEADER
+    ================================================= -->
+
+    <div class="page-header">
+
+        <div>
+
+            <h1 class="page-title">
+
+                Customer Management
+
+            </h1>
+
+            <p class="page-subtitle">
+
+                View and manage all registered hotel customers.
+
+            </p>
+
+        </div>
+
+
+        <div class="customer-count">
+
+            <strong>
+                {{ customers|length }}
+            </strong>
+
+            <span>
+                Customers
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================= -->
+
+    <div class="search-card">
+
+        <form
+            method="GET"
+            action="{% url 'manage_customers' %}"
+        >
+
+            <div class="search-wrapper">
+
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search }}"
+                    class="search-input"
+                    placeholder="Search by name, username, email or phone..."
+                >
+
+                <button
+                    type="submit"
+                    class="search-btn"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+
+    <!-- =================================================
+         CUSTOMER TABLE
+    ================================================= -->
+
+    <div class="table-card">
+
+        <div class="table-header">
+
+            <h5>
+
+                <i class="bi bi-people me-2"></i>
+
+                Registered Customers
+
+            </h5>
+
+            <span class="text-muted small">
+
+                {{ customers|length }} records
+
+            </span>
+
+        </div>
+
+
+        {% if customers %}
+
+            <div class="table-responsive">
+
+                <table class="customer-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Phone
+                            </th>
+
+                            <th>
+                                Bookings
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Joined
+                            </th>
+
+                            <th class="text-end">
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for customer in customers %}
+
+                            <tr>
+
+                                <!-- CUSTOMER -->
+
+                                <td>
+
+                                    <div class="customer-profile">
+
+                                        <div class="customer-avatar">
+
+                                            {% if customer.first_name %}
+
+                                                {{ customer.first_name|first|upper }}
+
+                                            {% else %}
+
+                                                {{ customer.username|first|upper }}
+
+                                            {% endif %}
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <div class="customer-name">
+
+                                                {% if customer.get_full_name %}
+
+                                                    {{ customer.get_full_name }}
+
+                                                {% else %}
+
+                                                    {{ customer.username }}
+
+                                                {% endif %}
+
+                                            </div>
+
+                                            <div class="customer-username">
+
+                                                @{{ customer.username }}
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- EMAIL -->
+
+                                <td>
+
+                                    <span class="email-text">
+
+                                        {{ customer.email|default:"Not provided" }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- PHONE -->
+
+                                <td>
+
+                                    <span class="phone-text">
+
+                                        {% if customer.customer_profile %}
+
+                                            {{ customer.customer_profile.phone|default:"Not provided" }}
+
+                                        {% else %}
+
+                                            Not provided
+
+                                        {% endif %}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- BOOKINGS -->
+
+                                <td>
+
+                                    <span class="booking-badge">
+
+                                        {{ customer.bookings.count }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    {% if customer.is_active %}
+
+                                        <span class="status-badge">
+
+                                            <span class="status-dot"></span>
+
+                                            Active
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-secondary">
+
+                                            Inactive
+
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- JOINED -->
+
+                                <td>
+
+                                    {{ customer.date_joined|date:"M d, Y" }}
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="action-group justify-content-end">
+
+                                        <a
+                                            href="{% url 'customer_detail' customer.id %}"
+                                            class="action-btn"
+                                            title="View Customer"
+                                        >
+
+                                            <i class="bi bi-eye"></i>
+
+                                        </a>
+
+
+                                        <form
+                                            method="POST"
+                                            action="{% url 'delete_customer' customer.id %}"
+                                            onsubmit="return confirm('Are you sure you want to delete this customer?');"
+                                            style="display:inline;"
+                                        >
+
+                                            {% csrf_token %}
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn delete-btn"
+                                                title="Delete Customer"
+                                            >
+
+                                                <i class="bi bi-trash"></i>
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="bi bi-people"></i>
+
+                </div>
+
+
+                <h5>
+                    No Customers Found
+                </h5>
+
+
+                <p>
+
+                    {% if search %}
+
+                        No customer matched your search.
+
+                    {% else %}
+
+                        There are currently no registered customers.
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,1669 @@
+{% extends "dashboard/base.html" %}
+
+{% load static %}
+
+{% block title %}
+Booking #{{ booking.id }} | GrandStay Hotel
+{% endblock %}
+
+{% block navbar_title %}
+Booking Details
+{% endblock %}
+
+{% block bookings_active %}
+active
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   GLOBAL PAGE
+========================================================= */
+
+.booking-page {
+    padding: 10px 0 40px;
+}
+
+.booking-page,
+.booking-page * {
+    box-sizing: border-box;
+}
+
+.text-main {
+    color: #292929;
+}
+
+.text-muted-custom {
+    color: #888;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.breadcrumb-custom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    color: #999;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.breadcrumb-custom a {
+    color: #777;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.breadcrumb-custom a:hover {
+    color: #aaa82f;
+}
+
+.breadcrumb-custom .current {
+    color: #aaa82f;
+    font-weight: 600;
+}
+
+.booking-title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 750;
+    letter-spacing: -.5px;
+    color: #252525;
+}
+
+.booking-subtitle {
+    margin: 7px 0 0;
+    color: #888;
+    font-size: 14px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn-dashboard-main {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 17px;
+    background: #b8b63b;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.btn-dashboard-main:hover {
+    background: #9d9b2e;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-dashboard-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 16px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.btn-dashboard-outline:hover {
+    border-color: #b8b63b;
+    color: #8d8b26;
+    background: #fffef4;
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.booking-alert {
+    border: none;
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-size: 13px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.04);
+}
+
+
+/* =========================================================
+   MAIN ROOM CARD
+========================================================= */
+
+.room-card {
+    background: #fff;
+    border: 1px solid #eeeeea;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px rgba(0,0,0,.055);
+    margin-bottom: 24px;
+}
+
+.room-image-column {
+    min-height: 390px;
+}
+
+.room-image-wrapper {
+    width: 100%;
+    height: 100%;
+    min-height: 390px;
+    position: relative;
+    overflow: hidden;
+    background: #ededE7;
+}
+
+.room-image {
+    width: 100%;
+    height: 100%;
+    min-height: 390px;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+}
+
+.room-card:hover .room-image {
+    transform: scale(1.025);
+}
+
+.room-placeholder {
+    width: 100%;
+    min-height: 390px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        linear-gradient(
+            135deg,
+            #eeeeea,
+            #e2e2dc
+        );
+    color: #aaa;
+}
+
+.room-placeholder i {
+    font-size: 64px;
+}
+
+
+/* IMAGE OVERLAY */
+
+.room-image-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.booking-id-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 50px;
+    background: rgba(0,0,0,.68);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* ROOM CONTENT */
+
+.room-content {
+    padding: 34px;
+}
+
+.room-top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 14px;
+}
+
+.room-name {
+    margin: 0;
+    color: #252525;
+    font-size: 27px;
+    font-weight: 750;
+}
+
+.room-number {
+    margin-top: 6px;
+    color: #888;
+    font-size: 13px;
+}
+
+.room-number i {
+    color: #aaa82f;
+}
+
+.room-description {
+    margin: 20px 0 0;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background: #fff4d2;
+    color: #9a6700;
+}
+
+.status-confirmed {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status-checked_in {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-checked_out {
+    background: #e8e5ff;
+    color: #4f46a5;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+
+/* =========================================================
+   ROOM FEATURES
+========================================================= */
+
+.room-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 24px;
+}
+
+.room-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 11px;
+    border-radius: 9px;
+    background: #f7f7f2;
+    color: #666;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.room-feature i {
+    color: #aaa82f;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.section-heading-icon {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f4f4df;
+    color: #9a9828;
+}
+
+.section-heading h5 {
+    margin: 0;
+    color: #292929;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INFORMATION CARDS
+========================================================= */
+
+.info-card {
+    height: 100%;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #eeeeea;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+    transition: .2s;
+}
+
+.info-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+.info-card-inner {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.info-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f3f3dc;
+    color: #9a9828;
+    font-size: 18px;
+}
+
+.info-label {
+    margin-bottom: 4px;
+    color: #999;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .7px;
+    text-transform: uppercase;
+}
+
+.info-value {
+    color: #333;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   CUSTOMER CARD
+========================================================= */
+
+.customer-card {
+    height: 100%;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #eeeeea;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+}
+
+.customer-profile {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 5px;
+}
+
+.customer-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #333;
+    color: #d9d75f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.customer-name {
+    margin: 0;
+    color: #292929;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.customer-username {
+    margin-top: 3px;
+    color: #999;
+    font-size: 11px;
+}
+
+.customer-row {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.customer-row:last-child {
+    border-bottom: none;
+}
+
+.customer-label {
+    margin-bottom: 4px;
+    color: #999;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+.customer-value {
+    color: #444;
+    font-size: 13px;
+    font-weight: 500;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   PAYMENT CARD
+========================================================= */
+
+.payment-card {
+    height: 100%;
+    padding: 25px;
+    border-radius: 17px;
+    background: #303030;
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(0,0,0,.12);
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-card::after {
+    content: "";
+    position: absolute;
+    width: 170px;
+    height: 170px;
+    right: -65px;
+    top: -65px;
+    border-radius: 50%;
+    border: 30px solid rgba(217,215,95,.07);
+}
+
+.payment-heading {
+    position: relative;
+    z-index: 1;
+    color: rgba(255,255,255,.65);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.total-price {
+    position: relative;
+    z-index: 1;
+    margin: 7px 0 21px;
+    color: #d9d75f;
+    font-size: 31px;
+    font-weight: 750;
+}
+
+.payment-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(255,255,255,.09);
+    font-size: 12px;
+}
+
+.payment-row:last-child {
+    border-bottom: none;
+}
+
+.payment-label {
+    color: rgba(255,255,255,.55);
+}
+
+.payment-value {
+    color: #fff;
+    font-weight: 600;
+    text-align: right;
+}
+
+.payment-status {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.payment-paid {
+    background: rgba(34,197,94,.16);
+    color: #86efac;
+}
+
+.payment-pending {
+    background: rgba(250,204,21,.16);
+    color: #fde68a;
+}
+
+.payment-failed {
+    background: rgba(239,68,68,.16);
+    color: #fca5a5;
+}
+
+.payment-refunded {
+    background: rgba(147,197,253,.16);
+    color: #bfdbfe;
+}
+
+
+/* =========================================================
+   SPECIAL REQUEST
+========================================================= */
+
+.request-card {
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #eeeeea;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+}
+
+.request-box {
+    padding: 17px 18px;
+    border-left: 4px solid #b8b63b;
+    border-radius: 10px;
+    background: #fffdf1;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.request-empty {
+    color: #999;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   MANAGEMENT CARD
+========================================================= */
+
+.management-card {
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #eeeeea;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+}
+
+.management-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.management-title {
+    margin: 0;
+    color: #292929;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.management-description {
+    margin: 5px 0 0;
+    color: #888;
+    font-size: 12px;
+}
+
+.management-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+
+/* DELETE BUTTON */
+
+.btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 16px;
+    background: #dc2626;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.btn-delete:hover {
+    background: #b91c1c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .booking-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .room-image-column,
+    .room-image-wrapper,
+    .room-image,
+    .room-placeholder {
+        min-height: 320px;
+    }
+
+    .room-content {
+        padding: 28px;
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .booking-title {
+        font-size: 25px;
+    }
+
+    .room-top-line {
+        flex-direction: column;
+    }
+
+    .room-name {
+        font-size: 23px;
+    }
+
+    .management-content {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .management-actions {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .booking-page {
+        padding-top: 0;
+    }
+
+    .booking-title {
+        font-size: 22px;
+    }
+
+    .booking-subtitle {
+        font-size: 12px;
+    }
+
+    .room-image-column,
+    .room-image-wrapper,
+    .room-image,
+    .room-placeholder {
+        min-height: 235px;
+    }
+
+    .room-content {
+        padding: 21px;
+    }
+
+    .room-name {
+        font-size: 21px;
+    }
+
+    .customer-card,
+    .payment-card,
+    .request-card,
+    .management-card {
+        padding: 19px;
+    }
+
+    .total-price {
+        font-size: 27px;
+    }
+
+    .header-actions,
+    .management-actions {
+        width: 100%;
+    }
+
+    .header-actions a,
+    .management-actions a,
+    .management-actions form,
+    .management-actions button {
+        width: 100%;
+    }
+
+    .management-actions form button {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid booking-page">
+<!-- =====================================================
+     PAGE HEADER
+====================================================== -->
+
+<div class="booking-header">
+
+    <div>
+
+        <div class="breadcrumb-custom">
+
+            <a href="{% url 'dashboard' %}">
+                Dashboard
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <a href="{% url 'manage_bookings' %}">
+                Bookings
+            </a>
+
+            <i class="bi bi-chevron-right"></i>
+
+            <span class="current">
+                Booking #{{ booking.id }}
+            </span>
+
+        </div>
+
+        <h1 class="booking-title">
+            Booking Details
+        </h1>
+
+        <p class="booking-subtitle">
+            Review customer, room, stay and payment information.
+        </p>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <a
+            href="{% url 'manage_bookings' %}"
+            class="btn-dashboard-outline"
+        >
+            <i class="bi bi-arrow-left"></i>
+            Back to Bookings
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MESSAGES
+====================================================== -->
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div
+            class="alert alert-{{ message.tags }} booking-alert alert-dismissible fade show mb-3"
+            role="alert"
+        >
+
+            <i class="bi bi-info-circle me-2"></i>
+
+            {{ message }}
+
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+            ></button>
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+
+<!-- =====================================================
+     ROOM OVERVIEW
+====================================================== -->
+
+<div class="room-card">
+
+    <div class="row g-0">
+
+
+        <!-- ROOM IMAGE -->
+
+        <div class="col-lg-5 room-image-column">
+
+            <div class="room-image-wrapper">
+
+                {% if booking.room.image %}
+
+                    <img
+                        src="{{ booking.room.image.url }}"
+                        alt="{{ booking.room.name }}"
+                        class="room-image"
+                    >
+
+                {% else %}
+
+                    <div class="room-placeholder">
+
+                        <div class="text-center">
+
+                            <i class="bi bi-building"></i>
+
+                            <div class="mt-2 small">
+                                No Room Image
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="room-image-overlay">
+
+                    <span class="booking-id-badge">
+
+                        <i class="bi bi-receipt"></i>
+
+                        Booking #{{ booking.id }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ROOM INFORMATION -->
+
+        <div class="col-lg-7">
+
+            <div class="room-content">
+
+                <div class="room-top-line">
+
+                    <div>
+
+                        <h2 class="room-name">
+                            {{ booking.room.name }}
+                        </h2>
+
+                        <div class="room-number">
+
+                            <i class="bi bi-door-open me-1"></i>
+
+                            Room {{ booking.room.room_number }}
+
+                            <span class="mx-2">
+                                •
+                            </span>
+
+                            <i class="bi bi-grid me-1"></i>
+
+                            {{ booking.room.category.name }}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div>
+
+                        {% if booking.status == "confirmed" %}
+
+                            <span class="status-badge status-confirmed">
+                                <i class="bi bi-check-circle-fill"></i>
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        {% elif booking.status == "pending" %}
+
+                            <span class="status-badge status-pending">
+                                <i class="bi bi-clock-fill"></i>
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        {% elif booking.status == "checked_in" %}
+
+                            <span class="status-badge status-checked_in">
+                                <i class="bi bi-door-open-fill"></i>
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        {% elif booking.status == "checked_out" %}
+
+                            <span class="status-badge status-checked_out">
+                                <i class="bi bi-box-arrow-right"></i>
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        {% elif booking.status == "cancelled" %}
+
+                            <span class="status-badge status-cancelled">
+                                <i class="bi bi-x-circle-fill"></i>
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="status-badge status-pending">
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                {% if booking.room.description %}
+
+                    <p class="room-description">
+                        {{ booking.room.description }}
+                    </p>
+
+                {% endif %}
+
+
+                <!-- ROOM FEATURES -->
+
+                <div class="room-features">
+
+                    <span class="room-feature">
+                        <i class="bi bi-people"></i>
+                        {{ booking.room.capacity }} Guests
+                    </span>
+
+                    <span class="room-feature">
+                        <i class="bi bi-arrows-fullscreen"></i>
+                        {{ booking.room.size }} m²
+                    </span>
+
+                    <span class="room-feature">
+                        <i class="bi bi-bed"></i>
+                        {{ booking.room.bed_type }}
+                    </span>
+
+                    {% if booking.room.has_wifi %}
+
+                        <span class="room-feature">
+                            <i class="bi bi-wifi"></i>
+                            Wi-Fi
+                        </span>
+
+                    {% endif %}
+
+                    {% if booking.room.has_ac %}
+
+                        <span class="room-feature">
+                            <i class="bi bi-snow"></i>
+                            AC
+                        </span>
+
+                    {% endif %}
+
+                    {% if booking.room.has_tv %}
+
+                        <span class="room-feature">
+                            <i class="bi bi-tv"></i>
+                            TV
+                        </span>
+
+                    {% endif %}
+
+                    {% if booking.room.has_breakfast %}
+
+                        <span class="room-feature">
+                            <i class="bi bi-cup-hot"></i>
+                            Breakfast
+                        </span>
+
+                    {% endif %}
+
+                    {% if booking.room.has_balcony %}
+
+                        <span class="room-feature">
+                            <i class="bi bi-house"></i>
+                            Balcony
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     STAY SUMMARY
+====================================================== -->
+
+<div class="section-heading">
+
+    <div class="section-heading-icon">
+        <i class="bi bi-calendar2-week"></i>
+    </div>
+
+    <h5>
+        Stay Information
+    </h5>
+
+</div>
+
+
+<div class="row g-3 mb-4">
+
+
+    <!-- CHECK IN -->
+
+    <div class="col-6 col-xl-3">
+
+        <div class="info-card">
+
+            <div class="info-card-inner">
+
+                <div class="info-icon">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                </div>
+
+                <div>
+
+                    <div class="info-label">
+                        Check-in
+                    </div>
+
+                    <div class="info-value">
+                        {{ booking.check_in|date:"M d, Y" }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHECK OUT -->
+
+    <div class="col-6 col-xl-3">
+
+        <div class="info-card">
+
+            <div class="info-card-inner">
+
+                <div class="info-icon">
+                    <i class="bi bi-box-arrow-right"></i>
+                </div>
+
+                <div>
+
+                    <div class="info-label">
+                        Check-out
+                    </div>
+
+                    <div class="info-value">
+                        {{ booking.check_out|date:"M d, Y" }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- GUESTS -->
+
+    <div class="col-6 col-xl-3">
+
+        <div class="info-card">
+
+            <div class="info-card-inner">
+
+                <div class="info-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <div>
+
+                    <div class="info-label">
+                        Guests
+                    </div>
+
+                    <div class="info-value">
+
+                        {{ booking.guests }}
+
+                        {% if booking.guests == 1 %}
+                            Guest
+                        {% else %}
+                            Guests
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NIGHTS -->
+
+    <div class="col-6 col-xl-3">
+
+        <div class="info-card">
+
+            <div class="info-card-inner">
+
+                <div class="info-icon">
+                    <i class="bi bi-moon-stars"></i>
+                </div>
+
+                <div>
+
+                    <div class="info-label">
+                        Nights
+                    </div>
+
+                    <div class="info-value">
+
+                        {% with nights=booking.check_out|timeuntil:booking.check_in %}
+                            {{ total_nights|default:"0" }}
+                        {% endwith %}
+
+                        {% if total_nights == 1 %}
+                            Night
+                        {% else %}
+                            Nights
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     CUSTOMER + PAYMENT
+====================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- CUSTOMER -->
+
+    <div class="col-lg-6">
+
+        <div class="customer-card">
+
+            <div class="section-heading">
+
+                <div class="section-heading-icon">
+                    <i class="bi bi-person"></i>
+                </div>
+
+                <h5>
+                    Guest Information
+                </h5>
+
+            </div>
+
+
+            <div class="customer-profile">
+
+                <div class="customer-avatar">
+
+                    {% if booking.user.first_name %}
+
+                        {{ booking.user.first_name|first|upper }}
+
+                    {% else %}
+
+                        {{ booking.user.username|first|upper }}
+
+                    {% endif %}
+
+                </div>
+
+                <div>
+
+                    <h6 class="customer-name">
+
+                        {% if booking.user.get_full_name %}
+
+                            {{ booking.user.get_full_name }}
+
+                        {% else %}
+
+                            {{ booking.user.username }}
+
+                        {% endif %}
+
+                    </h6>
+
+                    <div class="customer-username">
+
+                        @{{ booking.user.username }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="customer-row">
+
+                <div class="customer-label">
+                    Email
+                </div>
+
+                <div class="customer-value">
+
+                    {% if booking.user.email %}
+
+                        {{ booking.user.email }}
+
+                    {% else %}
+
+                        Not provided
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            {% if booking.user.customer_profile.phone %}
+
+                <div class="customer-row">
+
+                    <div class="customer-label">
+                        Phone
+                    </div>
+
+                    <div class="customer-value">
+                        {{ booking.user.customer_profile.phone }}
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            {% if booking.user.customer_profile.address %}
+
+                <div class="customer-row">
+
+                    <div class="customer-label">
+                        Address
+                    </div>
+
+                    <div class="customer-value">
+                        {{ booking.user.customer_profile.address }}
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PAYMENT -->
+
+    <div class="col-lg-6">
+
+        <div class="payment-card">
+
+            <div class="payment-heading">
+
+                <i class="bi bi-credit-card me-1"></i>
+
+                PAYMENT SUMMARY
+
+            </div>
+
+
+            <div class="total-price">
+
+                Rs. {{ booking.total_amount }}
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Booking Status
+                </span>
+
+                <span class="payment-value">
+                    {{ booking.get_status_display }}
+                </span>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Payment Status
+                </span>
+
+                <span>
+
+                    {% if booking.payment_status == "paid" %}
+
+                        <span class="payment-status payment-paid">
+                            {{ booking.get_payment_status_display }}
+                        </span>
+
+                    {% elif booking.payment_status == "pending" %}
+
+                        <span class="payment-status payment-pending">
+                            {{ booking.get_payment_status_display }}
+                        </span>
+
+                    {% elif booking.payment_status == "failed" %}
+
+                        <span class="payment-status payment-failed">
+                            {{ booking.get_payment_status_display }}
+                        </span>
+
+                    {% elif booking.payment_status == "refunded" %}
+
+                        <span class="payment-status payment-refunded">
+                            {{ booking.get_payment_status_display }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="payment-status payment-pending">
+                            {{ booking.get_payment_status_display }}
+                        </span>
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Booking Created
+                </span>
+
+                <span class="payment-value">
+                    {{ booking.created_at|date:"M d, Y" }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SPECIAL REQUEST
+====================================================== -->
+
+<div class="request-card mb-4">
+
+    <div class="section-heading">
+
+        <div class="section-heading-icon">
+            <i class="bi bi-chat-left-text"></i>
+        </div>
+
+        <h5>
+            Special Request
+        </h5>
+
+    </div>
+
+
+    {% if booking.special_request %}
+
+        <div class="request-box">
+
+            {{ booking.special_request|linebreaksbr }}
+
+        </div>
+
+    {% else %}
+
+        <div class="request-box request-empty">
+
+            <i class="bi bi-info-circle me-1"></i>
+
+            No special request was added to this booking.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- =====================================================
+     ADMIN MANAGEMENT
+====================================================== -->
+
+<div class="management-card">
+
+    <div class="management-content">
+
+
+        <div>
+
+            <h5 class="management-title">
+
+                <i class="bi bi-gear me-2"></i>
+
+                Manage Booking
+
+            </h5>
+
+            <p class="management-description">
+
+                Update the booking status or permanently remove
+                this booking from the system.
+
+            </p>
+
+        </div>
+
+
+        <div class="management-actions">
+
+
+            <!-- BACK -->
+
+            <a
+                href="{% url 'manage_bookings' %}"
+                class="btn-dashboard-outline"
+            >
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back
+
+            </a>
+
+
+            <!-- UPDATE -->
+
+            <a
+                href="{% url 'update_booking' booking.id %}"
+                class="btn-dashboard-main"
+            >
+
+                <i class="bi bi-pencil-square"></i>
+
+                Update Booking
+
+            </a>
+
+
+            <!-- DELETE -->
+
+            <form
+                method="POST"
+                action="{% url 'delete_booking' booking.id %}"
+                class="m-0"
+                onsubmit="return confirm(
+                    'Are you sure you want to permanently delete Booking #{{ booking.id }}?'
+                );"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn-delete"
+                >
+
+                    <i class="bi bi-trash3"></i>
+
+                    Delete
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

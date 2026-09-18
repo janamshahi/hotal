@@ -1,0 +1,565 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block title %}
+
+    {{ page_title }} | GrandStay Hotel
+
+{% endblock %}
+
+
+{% block navbar_title %}
+
+    {{ page_title }}
+
+{% endblock %}
+
+
+{% block categories_active %}
+
+    active
+
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .form-container {
+
+        max-width: 850px;
+
+        margin: 0 auto;
+
+    }
+
+
+    .form-card {
+
+        background: white;
+
+        border: 1px solid #e8eaf0;
+
+        border-radius: 16px;
+
+        overflow: hidden;
+
+    }
+
+
+    .form-header {
+
+        padding: 25px 28px;
+
+        border-bottom: 1px solid #eef0f3;
+
+    }
+
+
+    .form-header h4 {
+
+        margin: 0;
+
+        font-size: 19px;
+
+        font-weight: 600;
+
+        color: #172033;
+
+    }
+
+
+    .form-header p {
+
+        margin: 6px 0 0;
+
+        color: #8b93a3;
+
+        font-size: 12px;
+
+    }
+
+
+    .form-body {
+
+        padding: 28px;
+
+    }
+
+
+    .form-label {
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        color: #374151;
+
+        margin-bottom: 7px;
+
+    }
+
+
+    .form-control {
+
+        border: 1px solid #dfe3e8;
+
+        border-radius: 9px;
+
+        padding: 11px 13px;
+
+        font-size: 13px;
+
+        box-shadow: none;
+
+    }
+
+
+    .form-control:focus {
+
+        border-color: #b8a62a;
+
+        box-shadow: 0 0 0 3px rgba(184,166,42,0.10);
+
+    }
+
+
+    textarea.form-control {
+
+        min-height: 130px;
+
+        resize: vertical;
+
+    }
+
+
+    .form-check {
+
+        background: #f8f9fa;
+
+        border: 1px solid #e8eaf0;
+
+        border-radius: 10px;
+
+        padding: 13px 15px 13px 40px;
+
+    }
+
+
+    .form-check-input {
+
+        margin-top: 3px;
+
+    }
+
+
+    .form-check-input:checked {
+
+        background-color: #b8a62a;
+
+        border-color: #b8a62a;
+
+    }
+
+
+    .form-check-label {
+
+        font-size: 12px;
+
+        color: #374151;
+
+    }
+
+
+    .form-actions {
+
+        display: flex;
+
+        justify-content: flex-end;
+
+        gap: 10px;
+
+        padding: 20px 28px;
+
+        border-top: 1px solid #eef0f3;
+
+        background: #fafafa;
+
+    }
+
+
+    .cancel-btn {
+
+        border: 1px solid #dfe3e8;
+
+        background: white;
+
+        color: #374151;
+
+        border-radius: 9px;
+
+        padding: 10px 18px;
+
+        font-size: 12px;
+
+        font-weight: 500;
+
+    }
+
+
+    .cancel-btn:hover {
+
+        background: #f3f4f6;
+
+        color: #172033;
+
+    }
+
+
+    .save-btn {
+
+        border: none;
+
+        background: #b8a62a;
+
+        color: white;
+
+        border-radius: 9px;
+
+        padding: 10px 20px;
+
+        font-size: 12px;
+
+        font-weight: 500;
+
+    }
+
+
+    .save-btn:hover {
+
+        background: #a99a24;
+
+        color: white;
+
+    }
+
+
+    .required {
+
+        color: #dc2626;
+
+    }
+
+
+    @media (max-width: 576px) {
+
+        .form-body {
+
+            padding: 20px;
+
+        }
+
+
+        .form-header {
+
+            padding: 20px;
+
+        }
+
+
+        .form-actions {
+
+            padding: 18px 20px;
+
+            flex-direction: column-reverse;
+
+        }
+
+
+        .cancel-btn,
+
+        .save-btn {
+
+            width: 100%;
+
+        }
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="form-container">
+
+
+    <div class="form-card">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <div class="form-header">
+
+            <h4>
+
+                {% if category %}
+
+                    Edit Room Category
+
+                {% else %}
+
+                    Add Room Category
+
+                {% endif %}
+
+            </h4>
+
+
+            <p>
+
+                {% if category %}
+
+                    Update the details of this room category.
+
+                {% else %}
+
+                    Create a new room category for your hotel.
+
+                {% endif %}
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+            method="post"
+            novalidate
+        >
+
+            {% csrf_token %}
+
+
+            <div class="form-body">
+
+
+                <!-- =================================================
+                     CATEGORY NAME
+                ================================================== -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Category Name
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        name="name"
+                        class="form-control"
+                        placeholder="e.g. Deluxe Room"
+                        value="{% if form_data %}{{ form_data.name }}{% elif category %}{{ category.name }}{% endif %}"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- =================================================
+                     MAX GUESTS
+                ================================================== -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Maximum Guests
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        name="max_guests"
+                        class="form-control"
+                        min="1"
+                        placeholder="e.g. 2"
+                        value="{% if form_data %}{{ form_data.max_guests }}{% elif category %}{{ category.max_guests }}{% else %}2{% endif %}"
+                        required
+                    >
+
+
+                    <div class="form-text">
+
+                        Maximum number of guests allowed for this category.
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DESCRIPTION
+                ================================================== -->
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Description
+
+                    </label>
+
+
+                    <textarea
+                        name="description"
+                        class="form-control"
+                        placeholder="Describe this room category..."
+                    >{% if form_data %}{{ form_data.description }}{% elif category %}{{ category.description }}{% endif %}</textarea>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     STATUS
+                ================================================== -->
+
+                <div class="mb-2">
+
+                    <label class="form-label">
+
+                        Category Status
+
+                    </label>
+
+
+                    <div class="form-check">
+
+                        <input
+                            type="checkbox"
+                            name="is_active"
+                            id="is_active"
+                            class="form-check-input"
+
+                            {% if form_data %}
+
+                                {% if form_data.is_active %}
+                                    checked
+                                {% endif %}
+
+                            {% elif category %}
+
+                                {% if category.is_active %}
+                                    checked
+                                {% endif %}
+
+                            {% else %}
+
+                                checked
+
+                            {% endif %}
+                        >
+
+
+                        <label
+                            class="form-check-label"
+                            for="is_active"
+                        >
+
+                            <strong>
+                                Active Category
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                Active categories can be assigned to rooms.
+
+                            </small>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACTIONS
+            ================================================== -->
+
+            <div class="form-actions">
+
+
+                <a
+                    href="{% url 'manage_categories' %}"
+                    class="cancel-btn"
+                >
+
+                    <i class="bi bi-arrow-left me-1"></i>
+
+                    Cancel
+
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+
+                    <i class="bi bi-check-lg me-1"></i>
+
+
+                    {% if category %}
+
+                        Update Category
+
+                    {% else %}
+
+                        Save Category
+
+                    {% endif %}
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

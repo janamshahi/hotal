@@ -1,0 +1,954 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Login | GrandStay Hotel</title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: 'Poppins', sans-serif;
+
+            background:
+                linear-gradient(
+                    rgba(15, 23, 42, 0.78),
+                    rgba(15, 23, 42, 0.88)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=85");
+
+            background-size: cover;
+
+            background-position: center;
+
+            background-attachment: fixed;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+
+        }
+
+
+        /* =====================================================
+           MAIN CARD
+        ====================================================== */
+
+        .login-wrapper {
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            min-height: 620px;
+
+            background: #ffffff;
+
+            border-radius: 24px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.35);
+
+        }
+
+
+        /* =====================================================
+           LEFT SECTION
+        ====================================================== */
+
+        .login-left {
+
+            width: 50%;
+
+            padding: 60px;
+
+            color: #ffffff;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    rgba(15, 23, 42, 0.55),
+                    rgba(15, 23, 42, 0.88)
+                ),
+                url("https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=85");
+
+            background-size: cover;
+
+            background-position: center;
+
+        }
+
+
+        .hotel-icon {
+
+            width: 72px;
+
+            height: 72px;
+
+            border-radius: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(10px);
+
+            font-size: 32px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .login-left h1 {
+
+            font-size: 42px;
+
+            font-weight: 700;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .login-left h1 span {
+
+            color: #d4af37;
+
+        }
+
+
+        .login-left .description {
+
+            max-width: 440px;
+
+            font-size: 14px;
+
+            line-height: 1.9;
+
+            color: rgba(255,255,255,0.82);
+
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ====================================================== */
+
+        .features {
+
+            margin-top: 35px;
+
+        }
+
+
+        .feature-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 17px;
+
+            font-size: 14px;
+
+            color: rgba(255,255,255,0.92);
+
+        }
+
+
+        .feature-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: rgba(212,175,55,0.15);
+
+            color: #d4af37;
+
+            flex-shrink: 0;
+
+        }
+
+
+        /* =====================================================
+           RIGHT SECTION
+        ====================================================== */
+
+        .login-right {
+
+            width: 50%;
+
+            padding: 60px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+        .login-heading {
+
+            margin-bottom: 32px;
+
+        }
+
+
+        .login-heading-icon {
+
+            width: 60px;
+
+            height: 60px;
+
+            border-radius: 16px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #f5f1d8;
+
+            color: #897817;
+
+            font-size: 27px;
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .login-heading h2 {
+
+            font-size: 30px;
+
+            font-weight: 700;
+
+            color: #172033;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .login-heading p {
+
+            color: #7b8495;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ====================================================== */
+
+        .alert {
+
+            border: none;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =====================================================
+           FORM
+        ====================================================== */
+
+        .form-label {
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .input-wrapper {
+
+            height: 52px;
+
+            border: 1px solid #e2e5ea;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            overflow: hidden;
+
+            background: #ffffff;
+
+            transition: 0.25s;
+
+        }
+
+
+        .input-wrapper:focus-within {
+
+            border-color: #b8a62a;
+
+            box-shadow:
+                0 0 0 4px rgba(184,166,42,0.10);
+
+        }
+
+
+        .input-icon {
+
+            width: 50px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #8b93a3;
+
+        }
+
+
+        .input-wrapper input {
+
+            flex: 1;
+
+            height: 100%;
+
+            border: none;
+
+            outline: none;
+
+            font-size: 14px;
+
+            padding: 0 8px;
+
+            color: #172033;
+
+        }
+
+
+        .input-wrapper input::placeholder {
+
+            color: #a5abb6;
+
+        }
+
+
+        .password-toggle {
+
+            width: 50px;
+
+            height: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            color: #8b93a3;
+
+            cursor: pointer;
+
+        }
+
+
+        .password-toggle:hover {
+
+            color: #172033;
+
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+        ====================================================== */
+
+        .login-button {
+
+            width: 100%;
+
+            height: 52px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #172033;
+
+            color: #ffffff;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: all 0.25s ease;
+
+        }
+
+
+        .login-button:hover {
+
+            background: #b8a62a;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(184,166,42,0.25);
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .login-footer {
+
+            text-align: center;
+
+            margin-top: 28px;
+
+            font-size: 12px;
+
+            color: #8b93a3;
+
+        }
+
+
+        .back-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            margin-top: 8px;
+
+            color: #897817;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+        }
+
+
+        .back-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 900px) {
+
+            .login-wrapper {
+
+                max-width: 550px;
+
+            }
+
+            .login-left {
+
+                display: none;
+
+            }
+
+            .login-right {
+
+                width: 100%;
+
+                padding: 55px;
+
+            }
+
+        }
+
+
+        @media (max-width: 576px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+            .login-wrapper {
+
+                min-height: auto;
+
+                border-radius: 18px;
+
+            }
+
+            .login-right {
+
+                padding: 35px 25px;
+
+            }
+
+            .login-heading h2 {
+
+                font-size: 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     LOGIN WRAPPER
+========================================================= -->
+
+<div class="login-wrapper">
+
+
+    <!-- =====================================================
+         LEFT
+    ====================================================== -->
+
+    <div class="login-left">
+
+
+        <div class="hotel-icon">
+
+            <i class="bi bi-building"></i>
+
+        </div>
+
+
+        <h1>
+            Grand<span>Stay</span>
+        </h1>
+
+
+        <p class="description">
+
+            Welcome to the GrandStay Hotel Management System.
+            Manage your rooms, bookings, customers, payments
+            and hotel operations from one powerful dashboard.
+
+        </p>
+
+
+        <div class="features">
+
+
+            <div class="feature-item">
+
+                <div class="feature-icon">
+
+                    <i class="bi bi-door-open"></i>
+
+                </div>
+
+                <span>
+                    Manage Hotel Rooms
+                </span>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <div class="feature-icon">
+
+                    <i class="bi bi-calendar-check"></i>
+
+                </div>
+
+                <span>
+                    Manage Bookings
+                </span>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <div class="feature-icon">
+
+                    <i class="bi bi-people"></i>
+
+                </div>
+
+                <span>
+                    Manage Customers
+                </span>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <div class="feature-icon">
+
+                    <i class="bi bi-bar-chart"></i>
+
+                </div>
+
+                <span>
+                    Reports & Analytics
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RIGHT
+    ====================================================== -->
+
+    <div class="login-right">
+
+
+        <div class="login-heading">
+
+
+            <div class="login-heading-icon">
+
+                <i class="bi bi-shield-lock"></i>
+
+            </div>
+
+
+            <h2>
+                Admin Login
+            </h2>
+
+
+            <p>
+                Sign in to access your hotel dashboard.
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             DJANGO MESSAGES
+        ================================================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="alert alert-danger mb-4">
+
+                    <i class="bi bi-exclamation-circle me-2"></i>
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+
+        <!-- =================================================
+             LOGIN FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            autocomplete="off"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- USERNAME -->
+
+            <div class="mb-4">
+
+                <label
+                    for="username"
+                    class="form-label"
+                >
+                    Username
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <div class="input-icon">
+
+                        <i class="bi bi-person"></i>
+
+                    </div>
+
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter admin username"
+                        required
+                        autofocus
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PASSWORD -->
+
+            <div class="mb-4">
+
+                <label
+                    for="password"
+                    class="form-label"
+                >
+                    Password
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <div class="input-icon">
+
+                        <i class="bi bi-lock"></i>
+
+                    </div>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        onclick="togglePassword()"
+                        aria-label="Show password"
+                    >
+
+                        <i
+                            class="bi bi-eye"
+                            id="passwordIcon"
+                        ></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+
+                <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                Login to Dashboard
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <div class="login-footer">
+
+            <div>
+                GrandStay Hotel Management System
+            </div>
+
+
+            <a
+                href="{% url 'home' %}"
+                class="back-link"
+            >
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to Website
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    const icon =
+        document.getElementById("passwordIcon");
+
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        icon.classList.remove("bi-eye");
+
+        icon.classList.add("bi-eye-slash");
+
+    } else {
+
+        password.type = "password";
+
+        icon.classList.remove("bi-eye-slash");
+
+        icon.classList.add("bi-eye");
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

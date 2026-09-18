@@ -1,0 +1,490 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+Review Management | GrandStay Hotel
+{% endblock %}
+
+{% block navbar_title %}
+Review Management
+{% endblock %}
+
+{% block reviews_active %}
+active
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="mb-4">
+
+        <h3 class="fw-bold mb-1">
+            Review Management
+        </h3>
+
+        <p class="text-muted mb-0">
+            Manage customer reviews and ratings
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Total Reviews
+                    </p>
+
+                    <h3 class="fw-bold">
+                        {{ total_reviews }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Approved
+                    </p>
+
+                    <h3 class="fw-bold text-success">
+                        {{ approved_reviews }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Pending
+                    </p>
+
+                    <h3 class="fw-bold text-warning">
+                        {{ pending_reviews }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Average Rating
+                    </p>
+
+                    <h3 class="fw-bold">
+
+                        {{ average_rating }}
+
+                        <span class="text-warning">
+                            ★
+                        </span>
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH / FILTER
+    ====================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="get">
+
+                <div class="row g-3">
+
+                    <div class="col-lg-5">
+
+                        <label class="form-label">
+                            Search
+                        </label>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ search }}"
+                            class="form-control"
+                            placeholder="Customer, room, comment..."
+                        >
+
+                    </div>
+
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Approval
+                        </label>
+
+                        <select
+                            name="approval"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Reviews
+                            </option>
+
+                            <option
+                                value="approved"
+                                {% if selected_approval == 'approved' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Approved
+                            </option>
+
+                            <option
+                                value="pending"
+                                {% if selected_approval == 'pending' %}
+                                    selected
+                                {% endif %}
+                            >
+                                Pending
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Rating
+                        </label>
+
+                        <select
+                            name="rating"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Ratings
+                            </option>
+
+                            {% for value, label in rating_choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if selected_rating == value|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-1 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100"
+                        >
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         REVIEW TABLE
+    ====================================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white py-3">
+
+            <h5 class="fw-bold mb-0">
+                Customer Reviews
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Customer</th>
+
+                            <th>Room</th>
+
+                            <th>Rating</th>
+
+                            <th>Comment</th>
+
+                            <th>Status</th>
+
+                            <th>Date</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for review in reviews %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    {{ review.user.get_full_name|default:review.user.username }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    @{{ review.user.username }}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ review.room.room_number }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ review.room.name }}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="text-warning">
+
+                                    {% for star in "12345" %}
+
+                                        {% if forloop.counter <= review.rating %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                </span>
+
+                                <br>
+
+                                <small>
+                                    {{ review.rating }}/5
+                                </small>
+
+                            </td>
+
+
+                            <td style="max-width: 300px;">
+
+                                {{ review.comment|truncatechars:100 }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if review.is_approved %}
+
+                                    <span class="badge bg-success">
+                                        Approved
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ review.created_at|date:"d M Y" }}
+
+                            </td>
+
+
+                            <td>
+
+                                <a
+                                    href="{% url 'review_detail' review.id %}"
+                                    class="btn btn-sm btn-outline-dark"
+                                >
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                <form
+                                    method="post"
+                                    action="{% url 'toggle_review_approval' review.id %}"
+                                    class="d-inline"
+                                >
+
+                                    {% csrf_token %}
+
+                                    {% if review.is_approved %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-warning"
+                                            title="Unapprove"
+                                        >
+                                            <i class="bi bi-eye-slash"></i>
+                                        </button>
+
+                                    {% else %}
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-outline-success"
+                                            title="Approve"
+                                        >
+                                            <i class="bi bi-check-circle"></i>
+                                        </button>
+
+                                    {% endif %}
+
+                                </form>
+
+                                <form
+                                    method="post"
+                                    action="{% url 'delete_review' review.id %}"
+                                    class="d-inline"
+                                    onsubmit="return confirm('Delete this review?');"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                    >
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="text-center py-5"
+                            >
+
+                                <i class="bi bi-star fs-1 text-muted"></i>
+
+                                <h5 class="mt-3">
+                                    No reviews found
+                                </h5>
+
+                                <p class="text-muted">
+                                    Customer reviews will appear here.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

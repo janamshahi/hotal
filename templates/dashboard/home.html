@@ -1,0 +1,1349 @@
+{% extends "dashboard/base.html" %}
+
+
+{% block title %}
+    Dashboard | GrandStay Hotel
+{% endblock %}
+
+
+{% block navbar_title %}
+    Admin Dashboard
+{% endblock %}
+
+
+{% block dashboard_active %}
+    active
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       WELCOME
+    ===================================================== */
+
+    .welcome-card {
+
+        background:
+            linear-gradient(
+                135deg,
+                #172033,
+                #28344d
+            );
+
+        border-radius: 18px;
+
+        padding: 30px;
+
+        color: white;
+
+        margin-bottom: 25px;
+
+        position: relative;
+
+        overflow: hidden;
+
+    }
+
+
+    .welcome-card::after {
+
+        content: "";
+
+        position: absolute;
+
+        width: 220px;
+
+        height: 220px;
+
+        border-radius: 50%;
+
+        background: rgba(212,175,55,0.10);
+
+        right: -70px;
+
+        top: -90px;
+
+    }
+
+
+    .welcome-card h2 {
+
+        font-size: 24px;
+
+        font-weight: 700;
+
+        margin-bottom: 8px;
+
+    }
+
+
+    .welcome-card p {
+
+        color: rgba(255,255,255,0.70);
+
+        font-size: 13px;
+
+        margin-bottom: 0;
+
+    }
+
+
+    .hotel-name {
+
+        color: #d4af37;
+
+    }
+
+
+    /* =====================================================
+       STAT CARDS
+    ===================================================== */
+
+    .stat-card {
+
+        background: white;
+
+        border-radius: 16px;
+
+        padding: 22px;
+
+        border: 1px solid #e9ebef;
+
+        height: 100%;
+
+        transition: 0.25s;
+
+    }
+
+
+    .stat-card:hover {
+
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 12px 30px rgba(15,23,42,0.08);
+
+    }
+
+
+    .stat-icon {
+
+        width: 48px;
+
+        height: 48px;
+
+        border-radius: 13px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 21px;
+
+        margin-bottom: 17px;
+
+    }
+
+
+    .icon-blue {
+
+        background: #eaf2ff;
+
+        color: #3b82f6;
+
+    }
+
+
+    .icon-green {
+
+        background: #e9f8f0;
+
+        color: #16a34a;
+
+    }
+
+
+    .icon-orange {
+
+        background: #fff3e5;
+
+        color: #f97316;
+
+    }
+
+
+    .icon-red {
+
+        background: #ffecec;
+
+        color: #ef4444;
+
+    }
+
+
+    .stat-title {
+
+        color: #8b93a3;
+
+        font-size: 12px;
+
+        margin-bottom: 5px;
+
+    }
+
+
+    .stat-value {
+
+        color: #172033;
+
+        font-size: 27px;
+
+        font-weight: 700;
+
+    }
+
+
+    /* =====================================================
+       SECTION CARD
+    ===================================================== */
+
+    .dashboard-card {
+
+        background: white;
+
+        border-radius: 16px;
+
+        border: 1px solid #e9ebef;
+
+        overflow: hidden;
+
+        height: 100%;
+
+    }
+
+
+    .card-header-custom {
+
+        padding: 20px 22px;
+
+        border-bottom: 1px solid #edf0f3;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+    }
+
+
+    .card-header-custom h5 {
+
+        margin: 0;
+
+        font-size: 15px;
+
+        font-weight: 600;
+
+    }
+
+
+    .view-link {
+
+        font-size: 12px;
+
+        color: #8a7b16;
+
+        font-weight: 600;
+
+    }
+
+
+    /* =====================================================
+       TABLE
+    ===================================================== */
+
+    .table {
+
+        margin: 0;
+
+    }
+
+
+    .table th {
+
+        color: #8b93a3;
+
+        font-size: 11px;
+
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        border-bottom: 1px solid #edf0f3;
+
+        padding: 15px 20px;
+
+        white-space: nowrap;
+
+    }
+
+
+    .table td {
+
+        padding: 16px 20px;
+
+        vertical-align: middle;
+
+        font-size: 12px;
+
+        border-bottom: 1px solid #f0f1f3;
+
+    }
+
+
+    .table tr:last-child td {
+
+        border-bottom: none;
+
+    }
+
+
+    .room-number {
+
+        font-weight: 600;
+
+        color: #172033;
+
+    }
+
+
+    .room-category {
+
+        color: #8b93a3;
+
+    }
+
+
+    .status {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        font-size: 10px;
+
+        font-weight: 600;
+
+    }
+
+
+    .status-available {
+
+        background: #e9f8f0;
+
+        color: #15803d;
+
+    }
+
+
+    .status-maintenance {
+
+        background: #fff3e5;
+
+        color: #c2410c;
+
+    }
+
+
+    .status-inactive {
+
+        background: #f1f2f4;
+
+        color: #6b7280;
+
+    }
+
+
+    /* =====================================================
+       QUICK ACTIONS
+    ===================================================== */
+
+    .quick-action {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 15px;
+
+        border: 1px solid #edf0f3;
+
+        border-radius: 12px;
+
+        margin-bottom: 10px;
+
+        color: #172033;
+
+        transition: 0.2s;
+
+    }
+
+
+    .quick-action:hover {
+
+        border-color: #d4af37;
+
+        background: #fffdf3;
+
+        color: #172033;
+
+    }
+
+
+    .quick-action-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+        border-radius: 11px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #f5f1d8;
+
+        color: #897817;
+
+    }
+
+
+    .quick-action-text strong {
+
+        display: block;
+
+        font-size: 12px;
+
+    }
+
+
+    .quick-action-text small {
+
+        color: #8b93a3;
+
+        font-size: 10px;
+
+    }
+
+
+    /* =====================================================
+       HOTEL INFORMATION
+    ===================================================== */
+
+    .hotel-info {
+
+        padding: 22px;
+
+    }
+
+
+    .info-item {
+
+        display: flex;
+
+        gap: 12px;
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .info-icon {
+
+        width: 38px;
+
+        height: 38px;
+
+        border-radius: 10px;
+
+        background: #f4f5f7;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        color: #6b7280;
+
+        flex-shrink: 0;
+
+    }
+
+
+    .info-label {
+
+        color: #9aa1ad;
+
+        font-size: 10px;
+
+        margin-bottom: 3px;
+
+    }
+
+
+    .info-value {
+
+        font-size: 12px;
+
+        font-weight: 500;
+
+        color: #374151;
+
+    }
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- =========================================================
+     WELCOME
+========================================================= -->
+
+<div class="welcome-card">
+
+    <h2>
+
+        Welcome back,
+
+        {% if request.user.first_name %}
+
+            {{ request.user.first_name }}
+
+        {% else %}
+
+            {{ request.user.username }}
+
+        {% endif %}
+
+        👋
+
+    </h2>
+
+
+    <p>
+
+        Manage your
+
+        {% if hotel %}
+
+            <span class="hotel-name">
+                {{ hotel.name }}
+            </span>
+
+        {% else %}
+
+            <span class="hotel-name">
+                GrandStay Hotel
+            </span>
+
+        {% endif %}
+
+        operations from your admin dashboard.
+
+    </p>
+
+</div>
+
+
+
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- TOTAL ROOMS -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-blue">
+
+                <i class="bi bi-door-open"></i>
+
+            </div>
+
+            <div class="stat-title">
+                Total Rooms
+            </div>
+
+            <div class="stat-value">
+                {{ total_rooms }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- AVAILABLE -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-green">
+
+                <i class="bi bi-check-circle"></i>
+
+            </div>
+
+            <div class="stat-title">
+                Available Rooms
+            </div>
+
+            <div class="stat-value">
+                {{ available_rooms }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MAINTENANCE -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-orange">
+
+                <i class="bi bi-tools"></i>
+
+            </div>
+
+            <div class="stat-title">
+                Maintenance
+            </div>
+
+            <div class="stat-value">
+                {{ maintenance_rooms }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CATEGORIES -->
+
+    <div class="col-xl-3 col-md-6">
+
+        <div class="stat-card">
+
+            <div class="stat-icon icon-red">
+
+                <i class="bi bi-tags"></i>
+
+            </div>
+
+            <div class="stat-title">
+                Room Categories
+            </div>
+
+            <div class="stat-value">
+                {{ total_categories }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     SECOND ROW
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+
+    <!-- RECENT ROOMS -->
+
+    <div class="col-xl-8">
+
+        <div class="dashboard-card">
+
+
+            <div class="card-header-custom">
+
+                <h5>
+
+                    <i class="bi bi-door-open me-2"></i>
+
+                    Recent Rooms
+
+                </h5>
+
+
+                <a
+                    href="#"
+                    class="view-link"
+                >
+                    View All
+                </a>
+
+            </div>
+
+
+
+            <div class="table-responsive">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Room
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                Capacity
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for room in recent_rooms %}
+
+                        <tr>
+
+                            <td>
+
+                                <span class="room-number">
+
+                                    {{ room.room_number }}
+
+                                </span>
+
+                                <br>
+
+                                <small class="text-muted">
+
+                                    {{ room.name }}
+
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="room-category">
+
+                                    {{ room.category.name }}
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
+                                Rs. {{ room.price }}
+
+                            </td>
+
+
+                            <td>
+
+                                <i class="bi bi-people me-1"></i>
+
+                                {{ room.capacity }}
+
+                            </td>
+
+
+                            <td>
+
+
+                                {% if room.status == 'available' %}
+
+                                    <span class="status status-available">
+
+                                        Available
+
+                                    </span>
+
+                                {% elif room.status == 'maintenance' %}
+
+                                    <span class="status status-maintenance">
+
+                                        Maintenance
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status status-inactive">
+
+                                        Inactive
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        </tr>
+
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="text-center py-5 text-muted"
+                            >
+
+                                <i
+                                    class="bi bi-door-open d-block mb-2"
+                                    style="font-size:30px;"
+                                ></i>
+
+                                No rooms have been added yet.
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="col-xl-4">
+
+        <div class="dashboard-card">
+
+
+            <div class="card-header-custom">
+
+                <h5>
+
+                    <i class="bi bi-lightning-charge me-2"></i>
+
+                    Quick Actions
+
+                </h5>
+
+            </div>
+
+
+            <div class="p-3">
+
+
+                <a
+                    href="#"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+
+                        <i class="bi bi-plus-lg"></i>
+
+                    </div>
+
+
+                    <div class="quick-action-text">
+
+                        <strong>
+                            Add New Room
+                        </strong>
+
+                        <small>
+                            Create a new hotel room
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="#"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+
+                        <i class="bi bi-calendar-plus"></i>
+
+                    </div>
+
+
+                    <div class="quick-action-text">
+
+                        <strong>
+                            New Booking
+                        </strong>
+
+                        <small>
+                            Create a customer booking
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="#"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+
+                        <i class="bi bi-tags"></i>
+
+                    </div>
+
+
+                    <div class="quick-action-text">
+
+                        <strong>
+                            Room Category
+                        </strong>
+
+                        <small>
+                            Manage room categories
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="#"
+                    class="quick-action"
+                >
+
+                    <div class="quick-action-icon">
+
+                        <i class="bi bi-bar-chart"></i>
+
+                    </div>
+
+
+                    <div class="quick-action-text">
+
+                        <strong>
+                            View Reports
+                        </strong>
+
+                        <small>
+                            Check hotel reports
+                        </small>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     THIRD ROW
+========================================================= -->
+
+<div class="row g-4">
+
+
+    <!-- ROOM STATUS -->
+
+    <div class="col-lg-6">
+
+        <div class="dashboard-card">
+
+            <div class="card-header-custom">
+
+                <h5>
+
+                    <i class="bi bi-pie-chart me-2"></i>
+
+                    Room Status
+
+                </h5>
+
+            </div>
+
+
+            <div class="p-4">
+
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="small">
+                        Available
+                    </span>
+
+                    <strong class="small">
+                        {{ available_rooms }}
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="progress mb-4"
+                    style="height:8px;"
+                >
+
+                    <div
+                        class="progress-bar bg-success"
+                        style="
+                            width:
+                            {% if total_rooms %}
+                                {% widthratio available_rooms total_rooms 100 %}
+                            {% else %}
+                                0
+                            {% endif %}%"
+                    ></div>
+
+                </div>
+
+
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="small">
+                        Maintenance
+                    </span>
+
+                    <strong class="small">
+                        {{ maintenance_rooms }}
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="progress mb-4"
+                    style="height:8px;"
+                >
+
+                    <div
+                        class="progress-bar bg-warning"
+                        style="
+                            width:
+                            {% if total_rooms %}
+                                {% widthratio maintenance_rooms total_rooms 100 %}
+                            {% else %}
+                                0
+                            {% endif %}%"
+                    ></div>
+
+                </div>
+
+
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="small">
+                        Inactive
+                    </span>
+
+                    <strong class="small">
+                        {{ inactive_rooms }}
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="progress"
+                    style="height:8px;"
+                >
+
+                    <div
+                        class="progress-bar bg-secondary"
+                        style="
+                            width:
+                            {% if total_rooms %}
+                                {% widthratio inactive_rooms total_rooms 100 %}
+                            {% else %}
+                                0
+                            {% endif %}%"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HOTEL INFORMATION -->
+
+    <div class="col-lg-6">
+
+        <div class="dashboard-card">
+
+
+            <div class="card-header-custom">
+
+                <h5>
+
+                    <i class="bi bi-building me-2"></i>
+
+                    Hotel Information
+
+                </h5>
+
+            </div>
+
+
+            <div class="hotel-info">
+
+
+                {% if hotel %}
+
+
+                <div class="info-item">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-building"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="info-label">
+                            Hotel Name
+                        </div>
+
+                        <div class="info-value">
+                            {{ hotel.name }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="info-item">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="info-label">
+                            Address
+                        </div>
+
+                        <div class="info-value">
+
+                            {% if hotel.address %}
+
+                                {{ hotel.address }}
+
+                            {% else %}
+
+                                Not configured
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="info-item">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-telephone"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="info-label">
+                            Phone
+                        </div>
+
+                        <div class="info-value">
+
+                            {% if hotel.phone %}
+
+                                {{ hotel.phone }}
+
+                            {% else %}
+
+                                Not configured
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="info-item mb-0">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-envelope"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="info-label">
+                            Email
+                        </div>
+
+                        <div class="info-value">
+
+                            {% if hotel.email %}
+
+                                {{ hotel.email }}
+
+                            {% else %}
+
+                                Not configured
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {% else %}
+
+
+                <div class="text-center py-4 text-muted">
+
+                    <i
+                        class="bi bi-building"
+                        style="font-size:35px;"
+                    ></i>
+
+                    <p class="small mt-2 mb-0">
+
+                        Hotel information has not been configured yet.
+
+                    </p>
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

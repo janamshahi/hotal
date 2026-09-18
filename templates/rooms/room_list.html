@@ -1,0 +1,1758 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+>
+
+<title>Rooms | GrandStay Hotel</title>
+
+
+<!-- =====================================================
+     GOOGLE FONT
+====================================================== -->
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     BOOTSTRAP 5
+====================================================== -->
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     BOOTSTRAP ICONS
+====================================================== -->
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+>
+
+
+<!-- =====================================================
+     PAGE CSS
+====================================================== -->
+
+<style>
+
+    /* =================================================
+       GLOBAL
+    ================================================= */
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #f8f9fa;
+        color: #333;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+
+    /* =================================================
+       NAVBAR
+    ================================================= */
+
+    .navbar {
+        background: #ffffff;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+        padding: 15px 0;
+    }
+
+    .navbar-brand {
+        font-size: 24px;
+        font-weight: 700;
+        color: #b38b59 !important;
+    }
+
+    .navbar-brand i {
+        margin-right: 7px;
+    }
+
+    .navbar-nav .nav-link {
+        color: #333;
+        font-weight: 500;
+        margin-left: 12px;
+        transition: 0.3s;
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        color: #b38b59;
+    }
+
+    .btn-login {
+        border: 1px solid #b38b59;
+        color: #b38b59;
+        border-radius: 8px;
+        padding: 8px 18px;
+        font-weight: 500;
+    }
+
+    .btn-login:hover {
+        background: #b38b59;
+        color: #fff;
+    }
+
+    .btn-register {
+        background: #b38b59;
+        color: #fff;
+        border-radius: 8px;
+        padding: 9px 18px;
+        font-weight: 500;
+        margin-left: 8px;
+    }
+
+    .btn-register:hover {
+        background: #8f6c43;
+        color: #fff;
+    }
+
+
+    /* =================================================
+       PAGE HEADER
+    ================================================= */
+
+    .page-header {
+        background:
+            linear-gradient(
+                rgba(0, 0, 0, 0.58),
+                rgba(0, 0, 0, 0.58)
+            ),
+            url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=85")
+            center / cover;
+
+        min-height: 330px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+
+        color: white;
+
+        margin-bottom: 0;
+    }
+
+    .page-header h1 {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .page-header p {
+        font-size: 17px;
+        max-width: 650px;
+        margin: auto;
+        color: rgba(255, 255, 255, 0.9);
+    }
+
+
+    /* =================================================
+       SEARCH BOX
+    ================================================= */
+
+    .search-wrapper {
+        margin-top: -55px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .search-box {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 28px;
+
+        box-shadow:
+            0 15px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    .search-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 22px;
+    }
+
+    .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 7px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 48px;
+        border-radius: 9px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #b38b59;
+        box-shadow: 0 0 0 0.2rem rgba(179, 139, 89, 0.12);
+    }
+
+    .btn-search {
+        width: 100%;
+        min-height: 48px;
+
+        border: none;
+        border-radius: 9px;
+
+        background: #b38b59;
+        color: white;
+
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+    .btn-search:hover {
+        background: #8f6c43;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .btn-clear {
+        min-height: 48px;
+        border-radius: 9px;
+        border: 1px solid #ddd;
+        color: #666;
+        background: #fff;
+    }
+
+    .btn-clear:hover {
+        background: #f3f3f3;
+    }
+
+
+    /* =================================================
+       RESULT HEADER
+    ================================================= */
+
+    .rooms-section {
+        padding: 75px 0;
+    }
+
+    .result-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 30px;
+    }
+
+    .result-header h2 {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .result-count {
+        color: #777;
+        font-size: 14px;
+    }
+
+
+    /* =================================================
+       ROOM CARD
+    ================================================= */
+
+    .room-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+
+        height: 100%;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.07);
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .room-card:hover {
+        transform: translateY(-7px);
+
+        box-shadow:
+            0 18px 45px rgba(0, 0, 0, 0.12);
+    }
+
+    .room-image-wrapper {
+        height: 235px;
+        position: relative;
+        overflow: hidden;
+        background: #eee;
+    }
+
+    .room-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+
+        transition: transform 0.5s ease;
+    }
+
+    .room-card:hover .room-image {
+        transform: scale(1.06);
+    }
+
+    .no-image {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eee;
+        color: #aaa;
+
+        font-size: 45px;
+    }
+
+    .featured-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+
+        background: #b38b59;
+        color: white;
+
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .category-badge {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+
+        background: rgba(255, 255, 255, 0.95);
+        color: #8f6c43;
+
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .room-body {
+        padding: 22px;
+    }
+
+    .room-number {
+        font-size: 12px;
+        color: #999;
+        margin-bottom: 5px;
+    }
+
+    .room-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #222;
+
+        margin-bottom: 10px;
+    }
+
+    .room-description {
+        color: #777;
+        font-size: 13px;
+        line-height: 1.7;
+
+        min-height: 45px;
+
+        margin-bottom: 17px;
+    }
+
+
+    /* =================================================
+       ROOM FEATURES
+    ================================================= */
+
+    .room-features {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        margin-bottom: 20px;
+    }
+
+    .feature-item {
+        background: #f7f5f1;
+
+        color: #666;
+
+        border-radius: 6px;
+
+        padding: 6px 9px;
+
+        font-size: 11px;
+    }
+
+    .feature-item i {
+        color: #b38b59;
+        margin-right: 3px;
+    }
+
+
+    /* =================================================
+       ROOM FOOTER
+    ================================================= */
+
+    .room-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        border-top: 1px solid #eee;
+
+        padding-top: 18px;
+    }
+
+    .price {
+        color: #b38b59;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .price small {
+        color: #888;
+        font-size: 11px;
+        font-weight: 400;
+    }
+
+    .btn-view {
+        background: #b38b59;
+        color: white;
+
+        border-radius: 8px;
+
+        padding: 9px 15px;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+    .btn-view:hover {
+        background: #8f6c43;
+        color: white;
+    }
+
+
+    /* =================================================
+       EMPTY STATE
+    ================================================= */
+
+    .empty-state {
+        background: #fff;
+
+        border-radius: 18px;
+
+        padding: 70px 25px;
+
+        text-align: center;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .empty-icon {
+        width: 90px;
+        height: 90px;
+
+        margin: 0 auto 22px;
+
+        border-radius: 50%;
+
+        background: #f5efe7;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #b38b59;
+
+        font-size: 40px;
+    }
+
+    .empty-state h3 {
+        font-size: 23px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        color: #777;
+        font-size: 14px;
+        max-width: 500px;
+        margin: 0 auto 25px;
+    }
+
+
+    /* =================================================
+       FOOTER
+    ================================================= */
+
+    footer {
+        background: #202020;
+        color: #aaa;
+        padding: 55px 0 25px;
+    }
+
+    .footer-brand {
+        color: #fff;
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .footer-brand i {
+        color: #b38b59;
+        margin-right: 6px;
+    }
+
+    .footer-text {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .footer-title {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 18px;
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: #aaa;
+        font-size: 13px;
+        transition: 0.3s;
+    }
+
+    .footer-links a:hover {
+        color: #b38b59;
+    }
+
+    .footer-contact {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .footer-contact i {
+        color: #b38b59;
+        width: 20px;
+    }
+
+    .copyright {
+        border-top: 1px solid #333;
+        margin-top: 40px;
+        padding-top: 20px;
+
+        text-align: center;
+
+        font-size: 12px;
+        color: #777;
+    }
+
+
+    /* =================================================
+       RESPONSIVE
+    ================================================= */
+
+    @media (max-width: 991px) {
+
+        .navbar-nav {
+            padding-top: 15px;
+        }
+
+        .navbar-nav .nav-link {
+            margin-left: 0;
+            padding: 10px 0;
+        }
+
+        .btn-register {
+            margin-left: 0;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .page-header h1 {
+            font-size: 38px;
+        }
+
+        .search-wrapper {
+            margin-top: -40px;
+        }
+
+    }
+
+
+    @media (max-width: 767px) {
+
+        .page-header {
+            min-height: 280px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+        }
+
+        .rooms-section {
+            padding: 55px 0;
+        }
+
+        .result-header {
+            display: block;
+        }
+
+        .result-header h2 {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .room-image-wrapper {
+            height: 220px;
+        }
+
+    }
+
+
+    @media (max-width: 575px) {
+
+        .search-box {
+            padding: 20px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+        }
+
+        .room-body {
+            padding: 18px;
+        }
+
+        .room-title {
+            font-size: 18px;
+        }
+
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg sticky-top">
+
+```
+<div class="container">
+
+    <!-- Brand -->
+
+    <a
+        class="navbar-brand"
+        href="{% url 'home' %}"
+    >
+
+        <i class="bi bi-building"></i>
+
+        GrandStay
+
+    </a>
+
+
+    <!-- Mobile Toggle -->
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <!-- Navigation -->
+
+    <div
+        class="collapse navbar-collapse"
+        id="mainNavbar"
+    >
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="{% url 'home' %}"
+                >
+                    Home
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link active"
+                    href="{% url 'room_list' %}"
+                >
+                    Rooms
+                </a>
+
+            </li>
+
+
+            {% if user.is_authenticated %}
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'my_bookings' %}"
+                    >
+                        My Bookings
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'profile' %}"
+                    >
+                        <i class="bi bi-person"></i>
+                        Profile
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="btn btn-register"
+                        href="{% url 'logout' %}"
+                    >
+                        Logout
+                    </a>
+
+                </li>
+
+            {% else %}
+
+                <li class="nav-item">
+
+                    <a
+                        class="btn btn-login"
+                        href="{% url 'login' %}"
+                    >
+                        Login
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a
+                        class="btn btn-register"
+                        href="{% url 'register' %}"
+                    >
+                        Register
+                    </a>
+
+                </li>
+
+            {% endif %}
+
+        </ul>
+
+    </div>
+
+</div>
+```
+
+</nav>
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="page-header">
+
+```
+<div class="container">
+
+    <h1>
+        Our Rooms
+    </h1>
+
+    <p>
+        Discover comfortable, elegant and beautifully designed
+        rooms for a relaxing stay at GrandStay Hotel.
+    </p>
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     SEARCH / FILTER SECTION
+========================================================= -->
+
+<section class="search-wrapper">
+
+```
+<div class="container">
+
+    <div class="search-box">
+
+        <div class="search-title">
+
+            <i class="bi bi-search me-2"></i>
+
+            Find Your Perfect Room
+
+        </div>
+
+
+        <form
+            method="GET"
+            action="{% url 'room_list' %}"
+        >
+
+            <div class="row g-3">
+
+
+                <!-- Search -->
+
+                <div class="col-lg-3 col-md-6">
+
+                    <label
+                        class="form-label"
+                        for="search"
+                    >
+                        Search Room
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="search"
+                        name="search"
+                        value="{{ search }}"
+                        placeholder="Room name or number"
+                    >
+
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="col-lg-2 col-md-6">
+
+                    <label
+                        class="form-label"
+                        for="category"
+                    >
+                        Category
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="category"
+                        name="category"
+                    >
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        {% for category in categories %}
+
+                            <option
+                                value="{{ category.id }}"
+                                {% if selected_category|stringformat:"s" == category.id|stringformat:"s" %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ category.name }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Check In -->
+
+                <div class="col-lg-2 col-md-6">
+
+                    <label
+                        class="form-label"
+                        for="check_in"
+                    >
+                        Check-in
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="check_in"
+                        name="check_in"
+                        value="{{ check_in }}"
+                    >
+
+                </div>
+
+
+                <!-- Check Out -->
+
+                <div class="col-lg-2 col-md-6">
+
+                    <label
+                        class="form-label"
+                        for="check_out"
+                    >
+                        Check-out
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        id="check_out"
+                        name="check_out"
+                        value="{{ check_out }}"
+                    >
+
+                </div>
+
+
+                <!-- Guests -->
+
+                <div class="col-lg-1 col-md-6">
+
+                    <label
+                        class="form-label"
+                        for="guests"
+                    >
+                        Guests
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="guests"
+                        name="guests"
+                        min="1"
+                        value="{{ guests }}"
+                        placeholder="2"
+                    >
+
+                </div>
+
+
+                <!-- Search Button -->
+
+                <div class="col-lg-2 col-md-6 d-flex align-items-end">
+
+                    <button
+                        type="submit"
+                        class="btn-search"
+                    >
+
+                        <i class="bi bi-search me-1"></i>
+
+                        Search Rooms
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Clear Filters -->
+
+            {% if search or selected_category or check_in or check_out or guests %}
+
+                <div class="mt-3">
+
+                    <a
+                        href="{% url 'room_list' %}"
+                        class="btn btn-clear btn-sm px-3"
+                    >
+
+                        <i class="bi bi-x-circle me-1"></i>
+
+                        Clear Filters
+
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     ROOMS
+========================================================= -->
+
+<section class="rooms-section">
+
+```
+<div class="container">
+
+
+    <!-- Result Header -->
+
+    <div class="result-header">
+
+        <div>
+
+            <h2>
+                Available Rooms
+            </h2>
+
+            <div class="result-count">
+
+                {% if room_count == 1 %}
+
+                    1 room found
+
+                {% else %}
+
+                    {{ room_count }} rooms found
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ROOMS FOUND
+    ================================================== -->
+
+    {% if rooms %}
+
+        <div class="row g-4">
+
+            {% for room in rooms %}
+
+                <div class="col-xl-4 col-lg-6 col-md-6">
+
+                    <div class="room-card">
+
+
+                        <!-- Room Image -->
+
+                        <div class="room-image-wrapper">
+
+                            {% if room.image %}
+
+                                <img
+                                    src="{{ room.image.url }}"
+                                    alt="{{ room.name }}"
+                                    class="room-image"
+                                >
+
+                            {% else %}
+
+                                <div class="no-image">
+
+                                    <i class="bi bi-building"></i>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- Featured -->
+
+                            {% if room.is_featured %}
+
+                                <span class="featured-badge">
+
+                                    <i class="bi bi-star-fill me-1"></i>
+
+                                    Featured
+
+                                </span>
+
+                            {% endif %}
+
+
+                            <!-- Category -->
+
+                            <span class="category-badge">
+
+                                {{ room.category.name }}
+
+                            </span>
+
+                        </div>
+
+
+                        <!-- Room Body -->
+
+                        <div class="room-body">
+
+
+                            <!-- Room Number -->
+
+                            <div class="room-number">
+
+                                Room No. {{ room.room_number }}
+
+                            </div>
+
+
+                            <!-- Room Name -->
+
+                            <h3 class="room-title">
+
+                                {{ room.name }}
+
+                            </h3>
+
+
+                            <!-- Description -->
+
+                            <p class="room-description">
+
+                                {% if room.description %}
+
+                                    {{ room.description|truncatewords:18 }}
+
+                                {% else %}
+
+                                    Comfortable and beautifully designed
+                                    room with modern facilities.
+
+                                {% endif %}
+
+                            </p>
+
+
+                            <!-- Room Features -->
+
+                            <div class="room-features">
+
+
+                                <!-- Capacity -->
+
+                                <span class="feature-item">
+
+                                    <i class="bi bi-people"></i>
+
+                                    {{ room.capacity }} Guests
+
+                                </span>
+
+
+                                <!-- Size -->
+
+                                <span class="feature-item">
+
+                                    <i class="bi bi-aspect-ratio"></i>
+
+                                    {{ room.size }} m²
+
+                                </span>
+
+
+                                <!-- Bed -->
+
+                                <span class="feature-item">
+
+                                    <i class="bi bi-moon"></i>
+
+                                    {{ room.bed_type }}
+
+                                </span>
+
+
+                                <!-- WiFi -->
+
+                                {% if room.has_wifi %}
+
+                                    <span class="feature-item">
+
+                                        <i class="bi bi-wifi"></i>
+
+                                        WiFi
+
+                                    </span>
+
+                                {% endif %}
+
+
+                                <!-- AC -->
+
+                                {% if room.has_ac %}
+
+                                    <span class="feature-item">
+
+                                        <i class="bi bi-snow"></i>
+
+                                        AC
+
+                                    </span>
+
+                                {% endif %}
+
+
+                                <!-- TV -->
+
+                                {% if room.has_tv %}
+
+                                    <span class="feature-item">
+
+                                        <i class="bi bi-tv"></i>
+
+                                        TV
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                            <!-- Room Footer -->
+
+                            <div class="room-footer">
+
+
+                                <!-- Price -->
+
+                                <div class="price">
+
+                                    Rs. {{ room.price }}
+
+                                    <small>
+                                        / night
+                                    </small>
+
+                                </div>
+
+
+                                <!-- View Details -->
+
+                                <a
+                                    href="{% url 'room_detail' room.id %}"
+                                    class="btn-view"
+                                >
+
+                                    View Details
+
+                                    <i class="bi bi-arrow-right ms-1"></i>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    <!-- =================================================
+         NO ROOMS
+    ================================================== -->
+
+    {% else %}
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-building-x"></i>
+
+            </div>
+
+
+            <h3>
+                No Rooms Found
+            </h3>
+
+
+            <p>
+
+                We couldn't find any rooms matching your
+                search criteria. Try changing your filters
+                or search for another room.
+
+            </p>
+
+
+            <a
+                href="{% url 'room_list' %}"
+                class="btn btn-view px-4 py-2"
+            >
+
+                <i class="bi bi-arrow-counterclockwise me-1"></i>
+
+                View All Rooms
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+```
+
+</section>
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+```
+<div class="container">
+
+    <div class="row g-4">
+
+
+        <!-- About -->
+
+        <div class="col-lg-5 col-md-6">
+
+            <div class="footer-brand">
+
+                <i class="bi bi-building"></i>
+
+                GrandStay Hotel
+
+            </div>
+
+            <p class="footer-text">
+
+                Experience comfort, luxury and warm hospitality
+                at GrandStay Hotel. We are dedicated to making
+                every stay memorable and relaxing.
+
+            </p>
+
+        </div>
+
+
+        <!-- Quick Links -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="footer-title">
+                Quick Links
+            </div>
+
+            <ul class="footer-links">
+
+                <li>
+                    <a href="{% url 'home' %}">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'room_list' %}">
+                        Rooms
+                    </a>
+                </li>
+
+                {% if user.is_authenticated %}
+
+                    <li>
+                        <a href="{% url 'my_bookings' %}">
+                            My Bookings
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'profile' %}">
+                            My Profile
+                        </a>
+                    </li>
+
+                {% else %}
+
+                    <li>
+                        <a href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+
+        <!-- Contact -->
+
+        <div class="col-lg-4 col-md-12">
+
+            <div class="footer-title">
+                Contact Us
+            </div>
+
+            {% if hotel %}
+
+                {% if hotel.address %}
+
+                    <div class="footer-contact">
+
+                        <i class="bi bi-geo-alt"></i>
+
+                        {{ hotel.address }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if hotel.phone %}
+
+                    <div class="footer-contact">
+
+                        <i class="bi bi-telephone"></i>
+
+                        {{ hotel.phone }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if hotel.email %}
+
+                    <div class="footer-contact">
+
+                        <i class="bi bi-envelope"></i>
+
+                        {{ hotel.email }}
+
+                    </div>
+
+                {% endif %}
+
+            {% else %}
+
+                <div class="footer-contact">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    GrandStay Hotel
+
+                </div>
+
+                <div class="footer-contact">
+
+                    <i class="bi bi-envelope"></i>
+
+                    info@grandstayhotel.com
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Copyright -->
+
+    <div class="copyright">
+
+        &copy;
+
+        <span id="currentYear"></span>
+
+        GrandStay Hotel.
+
+        All Rights Reserved.
+
+    </div>
+
+</div>
+```
+
+</footer>
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<!-- =========================================================
+     PAGE JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    // =====================================================
+    // CURRENT YEAR
+    // =====================================================
+
+    document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+
+
+    // =====================================================
+    // DATE VALIDATION
+    // =====================================================
+
+    const checkIn = document.getElementById("check_in");
+    const checkOut = document.getElementById("check_out");
+
+
+    // Set minimum check-in date to today
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+
+    const month = String(
+        today.getMonth() + 1
+    ).padStart(2, "0");
+
+    const day = String(
+        today.getDate()
+    ).padStart(2, "0");
+
+    const todayString =
+        `${year}-${month}-${day}`;
+
+
+    checkIn.min = todayString;
+
+
+    // =====================================================
+    // CHECK-IN CHANGE
+    // =====================================================
+
+    checkIn.addEventListener(
+        "change",
+        function () {
+
+            if (checkIn.value) {
+
+                checkOut.min =
+                    checkIn.value;
+
+                if (
+                    checkOut.value &&
+                    checkOut.value <= checkIn.value
+                ) {
+
+                    checkOut.value = "";
+
+                }
+
+            } else {
+
+                checkOut.min =
+                    todayString;
+
+            }
+
+        }
+    );
+
+
+    // =====================================================
+    // CHECK-OUT VALIDATION
+    // =====================================================
+
+    checkOut.addEventListener(
+        "change",
+        function () {
+
+            if (
+                checkIn.value &&
+                checkOut.value <= checkIn.value
+            ) {
+
+                alert(
+                    "Check-out date must be after check-in date."
+                );
+
+                checkOut.value = "";
+
+            }
+
+        }
+    );
+
+
+    // =====================================================
+    // SEARCH FORM VALIDATION
+    // =====================================================
+
+    const searchForm =
+        document.querySelector(
+            'form[action="{% url "room_list" %}"]'
+        );
+
+
+    if (searchForm) {
+
+        searchForm.addEventListener(
+            "submit",
+            function (event) {
+
+                if (
+                    checkIn.value &&
+                    checkOut.value &&
+                    checkOut.value <= checkIn.value
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a valid check-out date."
+                    );
+
+                    checkOut.focus();
+
+                    return;
+
+                }
+
+
+                const guests =
+                    document.getElementById("guests").value;
+
+
+                if (
+                    guests &&
+                    parseInt(guests) < 1
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Number of guests must be at least 1."
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
+
+</html>

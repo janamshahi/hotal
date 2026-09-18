@@ -1,0 +1,470 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Customer Details | GrandStay Hotel
+{% endblock %}
+
+{% block navbar_title %}
+    Customer Details
+{% endblock %}
+
+{% block customers_active %}
+    active
+{% endblock %}
+
+
+{% block extra_css %}
+
+<style>
+
+    .customer-detail-page {
+        padding-bottom: 30px;
+    }
+
+    .detail-header {
+        background: #ffffff;
+        border: 1px solid #e7e7d8;
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .profile-large {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #d9d75f, #b8b63b);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .profile-name {
+        margin: 0;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .profile-username {
+        color: #888;
+        margin-top: 4px;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        padding: 10px 16px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        color: #555;
+        background: #fff;
+    }
+
+    .back-btn:hover {
+        background: #f7f7f2;
+        color: #77740e;
+    }
+
+    .info-card {
+        background: #fff;
+        border: 1px solid #e8e8df;
+        border-radius: 18px;
+        padding: 22px;
+        height: 100%;
+    }
+
+    .info-card h5 {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0ea;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-label {
+        color: #888;
+        font-size: 13px;
+    }
+
+    .info-value {
+        text-align: right;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .booking-table {
+        width: 100%;
+        min-width: 750px;
+        border-collapse: collapse;
+    }
+
+    .booking-table th {
+        background: #f7f7f2;
+        padding: 14px;
+        font-size: 12px;
+        color: #777;
+        text-transform: uppercase;
+    }
+
+    .booking-table td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+
+    .booking-status {
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #f1f1df;
+        color: #77740e;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="customer-detail-page">
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <div class="detail-header">
+
+        <div class="profile-large">
+
+            <div class="profile-avatar">
+
+                {% if customer.first_name %}
+                    {{ customer.first_name|first|upper }}
+                {% else %}
+                    {{ customer.username|first|upper }}
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <h1 class="profile-name">
+                    {{ customer.get_full_name|default:customer.username }}
+                </h1>
+
+                <div class="profile-username">
+                    @{{ customer.username }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{% url 'manage_customers' %}"
+            class="back-btn"
+        >
+            <i class="bi bi-arrow-left me-1"></i>
+            Back to Customers
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         INFORMATION
+    ================================================= -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-lg-6">
+
+            <div class="info-card">
+
+                <h5>
+                    <i class="bi bi-person me-2"></i>
+                    Personal Information
+                </h5>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Full Name
+                    </span>
+
+                    <span class="info-value">
+                        {{ customer.get_full_name|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Username
+                    </span>
+
+                    <span class="info-value">
+                        @{{ customer.username }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Email
+                    </span>
+
+                    <span class="info-value">
+                        {{ customer.email|default:"Not provided" }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Phone
+                    </span>
+
+                    <span class="info-value">
+
+                        {% if customer.customer_profile %}
+
+                            {{ customer.customer_profile.phone|default:"Not provided" }}
+
+                        {% else %}
+
+                            Not provided
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-6">
+
+            <div class="info-card">
+
+                <h5>
+                    <i class="bi bi-bar-chart me-2"></i>
+                    Customer Summary
+                </h5>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Account Status
+                    </span>
+
+                    <span class="info-value">
+
+                        {% if customer.is_active %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Total Bookings
+                    </span>
+
+                    <span class="info-value">
+                        {{ bookings|length }}
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Joined
+                    </span>
+
+                    <span class="info-value">
+                        {{ customer.date_joined|date:"M d, Y" }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+         BOOKING HISTORY
+    ================================================= -->
+
+    <div class="info-card">
+
+        <h5>
+            <i class="bi bi-calendar-check me-2"></i>
+            Booking History
+        </h5>
+
+
+        {% if bookings %}
+
+            <div class="table-responsive">
+
+                <table class="booking-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Booking
+                            </th>
+
+                            <th>
+                                Room
+                            </th>
+
+                            <th>
+                                Check In
+                            </th>
+
+                            <th>
+                                Check Out
+                            </th>
+
+                            <th>
+                                Guests
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for booking in bookings %}
+
+                            <tr>
+
+                                <td>
+                                    #{{ booking.id }}
+                                </td>
+
+                                <td>
+                                    {{ booking.room.room_number }}
+                                    -
+                                    {{ booking.room.name }}
+                                </td>
+
+                                <td>
+                                    {{ booking.check_in|date:"M d, Y" }}
+                                </td>
+
+                                <td>
+                                    {{ booking.check_out|date:"M d, Y" }}
+                                </td>
+
+                                <td>
+                                    {{ booking.guests }}
+                                </td>
+
+                                <td>
+                                    Rs. {{ booking.total_amount }}
+                                </td>
+
+                                <td>
+
+                                    <span class="booking-status">
+
+                                        {{ booking.get_status_display }}
+
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="text-center py-5 text-muted">
+
+                <i
+                    class="bi bi-calendar-x"
+                    style="font-size:40px;"
+                ></i>
+
+                <p class="mt-3 mb-0">
+                    This customer has no bookings yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

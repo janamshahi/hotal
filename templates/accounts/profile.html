@@ -1,0 +1,1180 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Profile | GrandStay Hotel</title>
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f6f7f8;
+            color: #1f2937;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
+
+        .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.06);
+            padding: 14px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1f2937 !important;
+        }
+
+        .navbar-brand i {
+            color: #b59b45;
+        }
+
+        .nav-link {
+            color: #4b5563 !important;
+            font-weight: 500;
+            margin: 0 5px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #b59b45 !important;
+        }
+
+        .profile-nav {
+            background: #d9d9d9;
+            color: white !important;
+            padding: 9px 18px !important;
+            border-radius: 8px;
+        }
+
+        .profile-nav:hover {
+            color: white !important;
+            background: #9f8739;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ====================================================== */
+
+        .page-header {
+            background:
+                linear-gradient(
+                    rgba(24, 29, 35, 0.78),
+                    rgba(24, 29, 35, 0.78)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=85");
+
+            background-size: cover;
+            background-position: center;
+
+            padding: 85px 0;
+
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 2.7rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           PROFILE SECTION
+        ====================================================== */
+
+        .profile-section {
+            padding: 70px 0;
+        }
+
+
+        /* =====================================================
+           PROFILE CARD
+        ====================================================== */
+
+        .profile-card {
+            background: #ffffff;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.07);
+        }
+
+
+        /* =====================================================
+           PROFILE SIDEBAR
+        ====================================================== */
+
+        .profile-sidebar {
+            background: linear-gradient(
+                145deg,
+                #b59b45,
+                #8e7831
+            );
+
+            color: white;
+            padding: 40px 25px;
+            text-align: center;
+            height: 100%;
+        }
+
+        .profile-image-wrapper {
+            width: 125px;
+            height: 125px;
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            border: 5px solid rgba(255, 255, 255, 0.35);
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .default-avatar {
+            font-size: 4rem;
+            color: white;
+        }
+
+        .profile-sidebar h3 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-sidebar .username {
+            opacity: 0.85;
+            font-size: 0.9rem;
+        }
+
+        .member-since {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.25);
+            font-size: 0.85rem;
+        }
+
+
+        /* =====================================================
+           PROFILE CONTENT
+        ====================================================== */
+
+        .profile-content {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1f2937;
+        }
+
+        .section-title i {
+            color: #b59b45;
+            margin-right: 8px;
+        }
+
+
+        /* =====================================================
+           INFORMATION BOX
+        ====================================================== */
+
+        .info-box {
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 18px;
+            height: 100%;
+        }
+
+        .info-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #9ca3af;
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            font-size: 0.98rem;
+            font-weight: 500;
+            color: #374151;
+            word-break: break-word;
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 10px;
+
+            background: #f4f0df;
+
+            color: #9b8335;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 1.15rem;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .btn-gold {
+            background: #b59b45;
+            border: none;
+            color: white;
+            padding: 11px 22px;
+            border-radius: 9px;
+            font-weight: 500;
+        }
+
+        .btn-gold:hover {
+            background: #9b8335;
+            color: white;
+        }
+
+        .btn-outline-gold {
+            border: 1px solid #b59b45;
+            color: #9b8335;
+            padding: 10px 22px;
+            border-radius: 9px;
+            font-weight: 500;
+        }
+
+        .btn-outline-gold:hover {
+            background: #b59b45;
+            color: white;
+        }
+
+
+        /* =====================================================
+           QUICK LINKS
+        ====================================================== */
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            padding: 16px;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            color: #374151;
+
+            transition: 0.25s;
+
+            height: 100%;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-3px);
+            border-color: #b59b45;
+            box-shadow: 0 7px 20px rgba(0,0,0,0.06);
+            color: #9b8335;
+        }
+
+        .quick-link-icon {
+            width: 45px;
+            height: 45px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background: #f4f0df;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #9b8335;
+
+            font-size: 1.2rem;
+        }
+
+        .quick-link strong {
+            display: block;
+            font-size: 0.92rem;
+        }
+
+        .quick-link small {
+            color: #9ca3af;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        footer {
+            background: #171a1f;
+            color: #d1d5db;
+            padding: 50px 0 25px;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        footer a {
+            color: #d1d5db;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #c5aa4c;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #2f3338;
+            margin-top: 35px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 767px) {
+
+            .page-header {
+                padding: 60px 0;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .profile-content {
+                padding: 25px 20px;
+            }
+
+            .profile-sidebar {
+                padding: 35px 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg sticky-top">
+
+    <div class="container">
+
+        <a
+            class="navbar-brand"
+            href="{% url 'home' %}"
+        >
+
+            <i class="bi bi-building"></i>
+
+            GrandStay
+
+        </a>
+
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+        >
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <div
+            class="collapse navbar-collapse"
+            id="mainNavbar"
+        >
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="{% url 'home' %}"
+                    >
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="{% url 'room_list' %}"
+                    >
+                        Rooms
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="{% url 'my_bookings' %}"
+                    >
+                        My Bookings
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a
+                        class="nav-link"
+                        href="{% url 'payment_history' %}"
+                    >
+                        Payments
+                    </a>
+                </li>
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="nav-link profile-nav active"
+                        href="{% url 'profile' %}"
+                    >
+
+                        <i class="bi bi-person-circle me-1"></i>
+
+                        Profile
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item ms-lg-2">
+
+                    <a
+                        class="nav-link text-danger"
+                        href="{% url 'logout' %}"
+                    >
+
+                        <i class="bi bi-box-arrow-right me-1"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<section class="page-header">
+
+    <div class="container text-center">
+
+        <h1>
+            My Profile
+        </h1>
+
+        <p>
+            Manage your GrandStay Hotel account information
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     PROFILE SECTION
+========================================================= -->
+
+<section class="profile-section">
+
+    <div class="container">
+
+        <div class="profile-card">
+
+            <div class="row g-0">
+
+
+                <!-- =================================================
+                     LEFT PROFILE SIDEBAR
+                ================================================== -->
+
+                <div class="col-lg-4">
+
+                    <div class="profile-sidebar">
+
+                        <div class="profile-image-wrapper">
+
+                            {% if customer.profile_image %}
+
+                                <img
+                                    src="{{ customer.profile_image.url }}"
+                                    alt="Profile Image"
+                                    class="profile-image"
+                                >
+
+                            {% else %}
+
+                                <i class="bi bi-person default-avatar"></i>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <h3>
+                            {{ request.user.get_full_name|default:request.user.username }}
+                        </h3>
+
+
+                        <div class="username">
+
+                            @{{ request.user.username }}
+
+                        </div>
+
+
+                        <div class="member-since">
+
+                            <i class="bi bi-calendar3 me-1"></i>
+
+                            Member since
+
+                            <br>
+
+                            <strong>
+                                {{ customer.created_at|date:"F Y" }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     RIGHT PROFILE CONTENT
+                ================================================== -->
+
+                <div class="col-lg-8">
+
+                    <div class="profile-content">
+
+
+                        <!-- =========================================
+                             PERSONAL INFORMATION
+                        ========================================== -->
+
+                        <h4 class="section-title">
+
+                            <i class="bi bi-person-vcard"></i>
+
+                            Personal Information
+
+                        </h4>
+
+
+                        <div class="row g-3 mb-4">
+
+
+                            <!-- First Name -->
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+
+                                    <div class="info-icon">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
+                                    <div class="info-label">
+                                        First Name
+                                    </div>
+
+                                    <div class="info-value">
+
+                                        {{ request.user.first_name|default:"Not provided" }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Last Name -->
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+
+                                    <div class="info-icon">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
+                                    <div class="info-label">
+                                        Last Name
+                                    </div>
+
+                                    <div class="info-value">
+
+                                        {{ request.user.last_name|default:"Not provided" }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Username -->
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+
+                                    <div class="info-icon">
+
+                                        <i class="bi bi-at"></i>
+
+                                    </div>
+
+                                    <div class="info-label">
+                                        Username
+                                    </div>
+
+                                    <div class="info-value">
+
+                                        {{ request.user.username }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Email -->
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+
+                                    <div class="info-icon">
+
+                                        <i class="bi bi-envelope"></i>
+
+                                    </div>
+
+                                    <div class="info-label">
+                                        Email Address
+                                    </div>
+
+                                    <div class="info-value">
+
+                                        {{ request.user.email|default:"Not provided" }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Phone -->
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+
+                                    <div class="info-icon">
+
+                                        <i class="bi bi-telephone"></i>
+
+                                    </div>
+
+                                    <div class="info-label">
+                                        Phone Number
+                                    </div>
+
+                                    <div class="info-value">
+
+                                        {{ customer.phone|default:"Not provided" }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Address -->
+
+                            <div class="col-md-6">
+
+                                <div class="info-box">
+
+                                    <div class="info-icon">
+
+                                        <i class="bi bi-geo-alt"></i>
+
+                                    </div>
+
+                                    <div class="info-label">
+                                        Address
+                                    </div>
+
+                                    <div class="info-value">
+
+                                        {{ customer.address|default:"Not provided" }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             ACTION BUTTONS
+                        ========================================== -->
+
+                        <div class="d-flex flex-wrap gap-2 mb-5">
+
+                            <a
+                                href="{% url 'profile_edit' %}"
+                                class="btn btn-gold"
+                            >
+
+                                <i class="bi bi-pencil-square me-1"></i>
+
+                                Edit Profile
+
+                            </a>
+
+
+                            <a
+                                href="{% url 'change_password' %}"
+                                class="btn btn-outline-gold"
+                            >
+
+                                <i class="bi bi-shield-lock me-1"></i>
+
+                                Change Password
+
+                            </a>
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             QUICK LINKS
+                        ========================================== -->
+
+                        <h4 class="section-title">
+
+                            <i class="bi bi-grid"></i>
+
+                            Quick Access
+
+                        </h4>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- My Bookings -->
+
+                            <div class="col-md-6">
+
+                                <a
+                                    href="{% url 'my_bookings' %}"
+                                    class="quick-link"
+                                >
+
+                                    <div class="quick-link-icon">
+
+                                        <i class="bi bi-calendar-check"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            My Bookings
+                                        </strong>
+
+                                        <small>
+                                            View your hotel bookings
+                                        </small>
+
+                                    </div>
+
+                                </a>
+
+                            </div>
+
+
+
+                            <!-- Payment History -->
+
+                            <div class="col-md-6">
+
+                                <a
+                                    href="{% url 'payment_history' %}"
+                                    class="quick-link"
+                                >
+
+                                    <div class="quick-link-icon">
+
+                                        <i class="bi bi-credit-card"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Payment History
+                                        </strong>
+
+                                        <small>
+                                            View your payments
+                                        </small>
+
+                                    </div>
+
+                                </a>
+
+                            </div>
+
+
+
+                            <!-- Browse Rooms -->
+
+                            <div class="col-md-6">
+
+                                <a
+                                    href="{% url 'room_list' %}"
+                                    class="quick-link"
+                                >
+
+                                    <div class="quick-link-icon">
+
+                                        <i class="bi bi-door-open"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Browse Rooms
+                                        </strong>
+
+                                        <small>
+                                            Find your perfect room
+                                        </small>
+
+                                    </div>
+
+                                </a>
+
+                            </div>
+
+
+
+                            <!-- Home -->
+
+                            <div class="col-md-6">
+
+                                <a
+                                    href="{% url 'home' %}"
+                                    class="quick-link"
+                                >
+
+                                    <div class="quick-link-icon">
+
+                                        <i class="bi bi-house"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Hotel Home
+                                        </strong>
+
+                                        <small>
+                                            Return to GrandStay
+                                        </small>
+
+                                    </div>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="row g-4">
+
+
+            <div class="col-lg-5">
+
+                <h5>
+                    <i class="bi bi-building me-2"></i>
+                    GrandStay Hotel
+                </h5>
+
+                <p>
+                    Experience comfort, luxury and exceptional
+                    hospitality with GrandStay Hotel.
+                </p>
+
+            </div>
+
+
+            <div class="col-md-3">
+
+                <h5>
+                    Quick Links
+                </h5>
+
+                <p class="mb-2">
+                    <a href="{% url 'home' %}">
+                        Home
+                    </a>
+                </p>
+
+                <p class="mb-2">
+                    <a href="{% url 'room_list' %}">
+                        Rooms
+                    </a>
+                </p>
+
+                <p class="mb-2">
+                    <a href="{% url 'my_bookings' %}">
+                        My Bookings
+                    </a>
+                </p>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <h5>
+                    Contact
+                </h5>
+
+                {% if hotel %}
+
+                    {% if hotel.address %}
+                        <p class="mb-2">
+                            <i class="bi bi-geo-alt me-2"></i>
+                            {{ hotel.address }}
+                        </p>
+                    {% endif %}
+
+                    {% if hotel.phone %}
+                        <p class="mb-2">
+                            <i class="bi bi-telephone me-2"></i>
+                            {{ hotel.phone }}
+                        </p>
+                    {% endif %}
+
+                    {% if hotel.email %}
+                        <p class="mb-2">
+                            <i class="bi bi-envelope me-2"></i>
+                            {{ hotel.email }}
+                        </p>
+                    {% endif %}
+
+                {% else %}
+
+                    <p>
+                        <i class="bi bi-geo-alt me-2"></i>
+                        Dhangadhi, Kailali, Nepal
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            &copy; {% now "Y" %}
+
+            GrandStay Hotel.
+
+            All Rights Reserved.
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+</body>
+
+</html>

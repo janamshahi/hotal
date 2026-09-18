@@ -1,0 +1,471 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+Payment Management | GrandStay Hotel
+{% endblock %}
+
+{% block navbar_title %}
+Payment Management
+{% endblock %}
+
+{% block payments_active %}
+active
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h3 class="fw-bold mb-1">
+                Payment Management
+            </h3>
+
+            <p class="text-muted mb-0">
+                Manage hotel booking payments
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STATISTICS
+    ====================================================== -->
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <p class="text-muted mb-1">
+                                Total Payments
+                            </p>
+
+                            <h3 class="fw-bold">
+                                {{ total_payments }}
+                            </h3>
+
+                        </div>
+
+                        <div class="fs-1 text-primary">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Completed
+                    </p>
+
+                    <h3 class="fw-bold text-success">
+                        {{ completed_payments }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Pending
+                    </p>
+
+                    <h3 class="fw-bold text-warning">
+                        {{ pending_payments }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <p class="text-muted mb-1">
+                        Completed Revenue
+                    </p>
+
+                    <h3 class="fw-bold">
+                        Rs. {{ total_revenue }}
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SEARCH & FILTER
+    ====================================================== -->
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <form method="get">
+
+                <div class="row g-3">
+
+                    <div class="col-lg-5">
+
+                        <label class="form-label">
+                            Search
+                        </label>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ search }}"
+                            class="form-control"
+                            placeholder="Customer, transaction ID, room..."
+                        >
+
+                    </div>
+
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Status
+                            </option>
+
+                            {% for value, label in status_choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if selected_status == value %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-3">
+
+                        <label class="form-label">
+                            Payment Method
+                        </label>
+
+                        <select
+                            name="method"
+                            class="form-select"
+                        >
+
+                            <option value="">
+                                All Methods
+                            </option>
+
+                            {% for value, label in method_choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if selected_method == value %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-lg-1 d-flex align-items-end">
+
+                        <button
+                            type="submit"
+                            class="btn btn-dark w-100"
+                        >
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PAYMENT TABLE
+    ====================================================== -->
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white py-3">
+
+            <h5 class="mb-0 fw-bold">
+                Payment Records
+            </h5>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Payment</th>
+
+                            <th>Customer</th>
+
+                            <th>Room</th>
+
+                            <th>Amount</th>
+
+                            <th>Method</th>
+
+                            <th>Status</th>
+
+                            <th>Transaction ID</th>
+
+                            <th>Date</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for payment in payments %}
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+                                    #{{ payment.id }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ payment.booking.user.get_full_name|default:payment.booking.user.username }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ payment.booking.user.username }}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    {{ payment.booking.room.room_number }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ payment.booking.room.name }}
+                                </small>
+
+                            </td>
+
+
+                            <td>
+
+                                <strong>
+                                    Rs. {{ payment.amount }}
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                {{ payment.get_method_display }}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if payment.status == 'completed' %}
+
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+
+                                {% elif payment.status == 'pending' %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+                                {% elif payment.status == 'failed' %}
+
+                                    <span class="badge bg-danger">
+                                        Failed
+                                    </span>
+
+                                {% elif payment.status == 'refunded' %}
+
+                                    <span class="badge bg-info">
+                                        Refunded
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if payment.transaction_id %}
+
+                                    <small>
+                                        {{ payment.transaction_id }}
+                                    </small>
+
+                                {% else %}
+
+                                    <span class="text-muted">
+                                        —
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {{ payment.created_at|date:"d M Y" }}
+
+                            </td>
+
+
+                            <td>
+
+                                <a
+                                    href="{% url 'payment_detail' payment.id %}"
+                                    class="btn btn-sm btn-outline-dark"
+                                >
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="9"
+                                class="text-center py-5"
+                            >
+
+                                <i class="bi bi-credit-card fs-1 text-muted"></i>
+
+                                <h5 class="mt-3">
+                                    No payments found
+                                </h5>
+
+                                <p class="text-muted">
+                                    Payment records will appear here.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
