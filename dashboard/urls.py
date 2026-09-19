@@ -237,4 +237,52 @@ path(
     views.delete_customer,
     name='delete_customer'
 ),
+
+path(
+    "notifications/",
+    views.admin_notifications,
+    name="admin_notifications"
+),
+
+path(
+    "notifications/send/",
+    views.send_notification,
+    name="send_notification"
+),
+
+path(
+    "notifications/read-all/",
+    views.mark_all_admin_notifications_read,
+    name="mark_all_admin_notifications_read"
+),
+
+# =========================================================
+# REPORTS
+# =========================================================
+
+path(
+    "reports/",
+    views.reports,
+    name="reports"
+),
+
+path(
+    "analytics/",
+    views.analytics,
+    name="analytics"
+),
+
+path("profile/", views.admin_profile, name="admin_profile"),
+
+
+    # =====================================================
+    # DASHBOARD CALENDAR
+    # =====================================================
+
+path(
+    "calendar-data/",
+    views.calendar_data,
+    name="calendar_data"
+),
+
 ]

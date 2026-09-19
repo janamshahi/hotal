@@ -9,6 +9,7 @@ from django.contrib.auth import (
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
+
 from django.shortcuts import render, redirect
 
 from .models import Customer
@@ -27,13 +28,20 @@ from .forms import (
 def register_view(request):
 
     # -----------------------------------------------------
-    # If already logged in, go to home
+    # If already logged in
     # -----------------------------------------------------
 
     if request.user.is_authenticated:
 
-        return redirect("home")
+        # Admin / Staff -> Dashboard
+        if (
+            request.user.is_staff
+            or request.user.is_superuser
+        ):
+            return redirect("dashboard")
 
+        # Customer -> Home
+        return redirect("home")
 
     # -----------------------------------------------------
     # POST
@@ -44,7 +52,6 @@ def register_view(request):
         form = RegisterForm(
             request.POST
         )
-
 
         # -------------------------------------------------
         # Validate form
@@ -61,7 +68,6 @@ def register_view(request):
 
             return redirect("login")
 
-
     # -----------------------------------------------------
     # GET
     # -----------------------------------------------------
@@ -69,7 +75,6 @@ def register_view(request):
     else:
 
         form = RegisterForm()
-
 
     # -----------------------------------------------------
     # Render
@@ -85,7 +90,16 @@ def register_view(request):
 
 
 # =========================================================
-# LOGIN
+# CUSTOMER LOGIN
+# =========================================================
+#
+# URL:
+# /accounts/login/
+#
+# Normal customers can login here.
+# Admin / Staff accounts cannot login here.
+# Admin / Staff must use:
+# /dashboard/login/
 # =========================================================
 
 def login_view(request):
@@ -96,8 +110,15 @@ def login_view(request):
 
     if request.user.is_authenticated:
 
-        return redirect("home")
+        # Admin / Staff -> Dashboard
+        if (
+            request.user.is_staff
+            or request.user.is_superuser
+        ):
+            return redirect("dashboard")
 
+        # Customer -> Home
+        return redirect("home")
 
     # -----------------------------------------------------
     # POST
@@ -115,6 +136,21 @@ def login_view(request):
             ""
         )
 
+        # -------------------------------------------------
+        # Validate fields
+        # -------------------------------------------------
+
+        if not username or not password:
+
+            messages.error(
+                request,
+                "Please enter username and password."
+            )
+
+            return render(
+                request,
+                "accounts/login.html"
+            )
 
         # -------------------------------------------------
         # Authenticate
@@ -126,57 +162,116 @@ def login_view(request):
             password=password
         )
 
-
         # -------------------------------------------------
-        # Login successful
+        # Authentication failed
         # -------------------------------------------------
 
-        if user is not None:
+        if user is None:
 
-            login(
+            messages.error(
                 request,
-                user
+                "Invalid username or password."
             )
 
-            messages.success(
+            return render(
                 request,
-                f"Welcome back, "
-                f"{user.first_name or user.username}!"
+                "accounts/login.html"
             )
 
+        # =================================================
+        # BLOCK ADMIN / STAFF FROM CUSTOMER LOGIN
+        # =================================================
 
-            # ---------------------------------------------
-            # Redirect to requested page if available
-            # ---------------------------------------------
+        if (
+            user.is_staff
+            or user.is_superuser
+        ):
 
-            next_url = request.GET.get(
-                "next"
+            messages.error(
+                request,
+                "Administrator accounts cannot use Customer Login. "
+                "Please use Admin Dashboard Login."
             )
 
-            if next_url:
-
-                return redirect(
-                    next_url
-                )
-
-
-            return redirect(
-                "home"
+            return render(
+                request,
+                "accounts/login.html"
             )
 
+        # =================================================
+        # GET CUSTOMER PROFILE
+        # =================================================
 
-        # -------------------------------------------------
-        # Login failed
-        # -------------------------------------------------
+        try:
 
-        messages.error(
+            customer = user.customer_profile
+
+        except Customer.DoesNotExist:
+
+            messages.error(
+                request,
+                "Customer profile not found. "
+                "Please contact the administrator."
+            )
+
+            return render(
+                request,
+                "accounts/login.html"
+            )
+
+        # =================================================
+        # CUSTOMER LOGIN
+        # =================================================
+        #
+        # IMPORTANT:
+        # Customer model does NOT have a role field.
+        #
+        # Therefore we do NOT use:
+        #
+        #     customer.role
+        #
+        # Admin accounts are already separated using:
+        #
+        #     user.is_staff
+        #     user.is_superuser
+        #
+        # =================================================
+
+        login(
             request,
-            "Invalid username or password."
+            user
         )
 
+        messages.success(
+            request,
+            f"Welcome back, "
+            f"{user.first_name or user.username}!"
+        )
+
+        # -------------------------------------------------
+        # Redirect to requested page
+        # -------------------------------------------------
+
+        next_url = request.GET.get(
+            "next"
+        )
+
+        if next_url:
+
+            return redirect(
+                next_url
+            )
+
+        # -------------------------------------------------
+        # Default customer destination
+        # -------------------------------------------------
+
+        return redirect(
+            "home"
+        )
 
     # -----------------------------------------------------
-    # Render login page
+    # GET
     # -----------------------------------------------------
 
     return render(
@@ -192,6 +287,19 @@ def login_view(request):
 @login_required(login_url="login")
 def logout_view(request):
 
+    # -----------------------------------------------------
+    # Check account type before logout
+    # -----------------------------------------------------
+
+    is_admin = (
+        request.user.is_staff
+        or request.user.is_superuser
+    )
+
+    # -----------------------------------------------------
+    # Logout
+    # -----------------------------------------------------
+
     logout(
         request
     )
@@ -200,6 +308,17 @@ def logout_view(request):
         request,
         "You have been logged out successfully."
     )
+
+    # -----------------------------------------------------
+    # Admin -> Dashboard Login
+    # Customer -> Customer Login
+    # -----------------------------------------------------
+
+    if is_admin:
+
+        return redirect(
+            "dashboard_login"
+        )
 
     return redirect(
         "login"
@@ -214,8 +333,21 @@ def logout_view(request):
 def profile_view(request):
 
     # -----------------------------------------------------
-    # Get existing Customer profile
-    # or create one if it doesn't exist
+    # Admin / Staff should use dashboard
+    # -----------------------------------------------------
+
+    if (
+        request.user.is_staff
+        or request.user.is_superuser
+    ):
+
+        return redirect(
+            "dashboard"
+        )
+
+    # -----------------------------------------------------
+    # Get customer profile
+    # or create one if missing
     # -----------------------------------------------------
 
     customer, created = (
@@ -223,7 +355,6 @@ def profile_view(request):
             user=request.user
         )
     )
-
 
     # -----------------------------------------------------
     # Render profile
@@ -246,6 +377,19 @@ def profile_view(request):
 def edit_profile_view(request):
 
     # -----------------------------------------------------
+    # Admin / Staff should use dashboard
+    # -----------------------------------------------------
+
+    if (
+        request.user.is_staff
+        or request.user.is_superuser
+    ):
+
+        return redirect(
+            "dashboard"
+        )
+
+    # -----------------------------------------------------
     # Get customer profile
     # -----------------------------------------------------
 
@@ -254,7 +398,6 @@ def edit_profile_view(request):
             user=request.user
         )
     )
-
 
     # =====================================================
     # POST REQUEST
@@ -271,7 +414,6 @@ def edit_profile_view(request):
             instance=request.user
         )
 
-
         # -------------------------------------------------
         # Customer profile form
         # -------------------------------------------------
@@ -281,7 +423,6 @@ def edit_profile_view(request):
             request.FILES,
             instance=customer
         )
-
 
         # -------------------------------------------------
         # Validate both forms
@@ -298,13 +439,11 @@ def edit_profile_view(request):
 
             user_form.save()
 
-
             # ---------------------------------------------
             # Save Customer information
             # ---------------------------------------------
 
             profile_form.save()
-
 
             # ---------------------------------------------
             # Success message
@@ -315,15 +454,13 @@ def edit_profile_view(request):
                 "Profile updated successfully."
             )
 
-
             # ---------------------------------------------
-            # Return to profile
+            # Redirect to profile
             # ---------------------------------------------
 
             return redirect(
                 "profile"
             )
-
 
     # =====================================================
     # GET REQUEST
@@ -338,7 +475,6 @@ def edit_profile_view(request):
         profile_form = ProfileUpdateForm(
             instance=customer
         )
-
 
     # =====================================================
     # RENDER EDIT PROFILE
@@ -361,6 +497,19 @@ def edit_profile_view(request):
 @login_required(login_url="login")
 def change_password_view(request):
 
+    # -----------------------------------------------------
+    # Admin / Staff should use dashboard
+    # -----------------------------------------------------
+
+    if (
+        request.user.is_staff
+        or request.user.is_superuser
+    ):
+
+        return redirect(
+            "dashboard"
+        )
+
     # =====================================================
     # POST
     # =====================================================
@@ -372,7 +521,6 @@ def change_password_view(request):
             request.POST
         )
 
-
         # -------------------------------------------------
         # Validate
         # -------------------------------------------------
@@ -380,11 +528,10 @@ def change_password_view(request):
         if form.is_valid():
 
             # ---------------------------------------------
-            # Save new password
+            # Save password
             # ---------------------------------------------
 
             user = form.save()
-
 
             # ---------------------------------------------
             # Keep user logged in
@@ -395,7 +542,6 @@ def change_password_view(request):
                 user
             )
 
-
             # ---------------------------------------------
             # Success message
             # ---------------------------------------------
@@ -405,11 +551,9 @@ def change_password_view(request):
                 "Password changed successfully."
             )
 
-
             return redirect(
                 "profile"
             )
-
 
     # =====================================================
     # GET
@@ -420,7 +564,6 @@ def change_password_view(request):
         form = PasswordChangeForm(
             request.user
         )
-
 
     # =====================================================
     # RENDER

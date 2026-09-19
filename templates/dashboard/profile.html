@@ -1,0 +1,626 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Admin Profile | GrandStay Hotel
+{% endblock %}
+
+{% block navbar_title %}
+    Admin Profile
+{% endblock %}
+
+{% block profile_active %}
+    active
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   PROFILE PAGE
+========================================================= */
+
+.profile-page {
+    padding: 10px 0 30px;
+}
+
+/* HEADER */
+
+.profile-header {
+    margin-bottom: 22px;
+}
+
+.profile-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.profile-header p {
+    margin: 5px 0 0;
+    color: #7b8495;
+    font-size: 13px;
+}
+
+
+/* MAIN PROFILE CARD */
+
+.profile-card {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #e9ecf1;
+    box-shadow: 0 8px 25px rgba(20, 30, 50, 0.06);
+    overflow: hidden;
+}
+
+
+/* PROFILE TOP */
+
+.profile-top {
+    background: linear-gradient(
+        135deg,
+        #172033,
+        #28344b
+    );
+
+    padding: 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+/* AVATAR */
+
+.profile-avatar {
+    width: 76px;
+    height: 76px;
+
+    border-radius: 50%;
+
+    background: #c5a253;
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+
+    border: 4px solid rgba(255,255,255,0.18);
+
+    flex-shrink: 0;
+}
+
+
+/* PROFILE NAME */
+
+.profile-name {
+    color: #ffffff;
+}
+
+.profile-name h3 {
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 700;
+}
+
+.profile-name p {
+    margin: 5px 0 0;
+
+    color: rgba(255,255,255,0.68);
+
+    font-size: 13px;
+}
+
+
+/* ADMIN BADGE */
+
+.admin-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 9px;
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(197,162,83,0.18);
+
+    color: #e4c77e;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* PROFILE BODY */
+
+.profile-body {
+    padding: 25px;
+}
+
+
+/* SECTION TITLE */
+
+.profile-section-title {
+    margin-bottom: 15px;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    color: #172033;
+}
+
+
+/* INFORMATION GRID */
+
+.profile-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
+}
+
+
+/* INFO BOX */
+
+.profile-info-box {
+    background: #f8f9fb;
+
+    border: 1px solid #edf0f4;
+
+    border-radius: 12px;
+
+    padding: 14px;
+}
+
+.profile-info-box small {
+    display: block;
+
+    color: #8992a3;
+
+    font-size: 11px;
+
+    margin-bottom: 5px;
+}
+
+.profile-info-box strong {
+    display: block;
+
+    color: #252d3d;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    word-break: break-word;
+}
+
+
+/* ICON */
+
+.info-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #eee9d9;
+
+    color: #9a7b30;
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+}
+
+
+/* ACTIONS */
+
+.profile-actions {
+    margin-top: 22px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #edf0f4;
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+
+.profile-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 9px 15px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    transition: 0.2s;
+}
+
+
+.profile-btn-dashboard {
+    background: #172033;
+
+    color: #ffffff;
+}
+
+.profile-btn-dashboard:hover {
+    background: #27344b;
+
+    color: #ffffff;
+}
+
+
+.profile-btn-logout {
+    background: #fbecec;
+
+    color: #c84b4b;
+}
+
+.profile-btn-logout:hover {
+    background: #f7dcdc;
+
+    color: #b53b3b;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .profile-top {
+        padding: 22px;
+
+        gap: 15px;
+    }
+
+    .profile-avatar {
+        width: 62px;
+        height: 62px;
+
+        font-size: 26px;
+    }
+
+    .profile-name h3 {
+        font-size: 18px;
+    }
+
+    .profile-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .profile-page {
+        padding: 5px 0 20px;
+    }
+
+    .profile-top {
+        padding: 18px;
+    }
+
+    .profile-body {
+        padding: 18px;
+    }
+
+    .profile-avatar {
+        width: 55px;
+        height: 55px;
+
+        font-size: 23px;
+    }
+
+    .profile-name h3 {
+        font-size: 16px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="profile-page">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="profile-header">
+
+        <h2>
+            Admin Profile
+        </h2>
+
+        <p>
+            View your GrandStay Hotel administrator account information.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         PROFILE CARD
+    ====================================================== -->
+
+    <div class="profile-card">
+
+        <!-- PROFILE TOP -->
+
+        <div class="profile-top">
+
+            <div class="profile-avatar">
+
+                <i class="bi bi-person-fill"></i>
+
+            </div>
+
+
+            <div class="profile-name">
+
+                <h3>
+
+                    {% if admin_user.get_full_name %}
+                        {{ admin_user.get_full_name }}
+                    {% else %}
+                        {{ admin_user.username }}
+                    {% endif %}
+
+                </h3>
+
+                <p>
+                    @{{ admin_user.username }}
+                </p>
+
+                <span class="admin-badge">
+
+                    <i class="bi bi-shield-check"></i>
+
+                    Hotel Administrator
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROFILE BODY -->
+
+        <div class="profile-body">
+
+            <div class="profile-section-title">
+
+                Account Information
+
+            </div>
+
+
+            <div class="profile-info-grid">
+
+
+                <!-- USERNAME -->
+
+                <div class="profile-info-box">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-person"></i>
+
+                    </div>
+
+                    <small>
+                        Username
+                    </small>
+
+                    <strong>
+                        {{ admin_user.username }}
+                    </strong>
+
+                </div>
+
+
+                <!-- FIRST NAME -->
+
+                <div class="profile-info-box">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-person-vcard"></i>
+
+                    </div>
+
+                    <small>
+                        First Name
+                    </small>
+
+                    <strong>
+
+                        {% if admin_user.first_name %}
+                            {{ admin_user.first_name }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div class="profile-info-box">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-person-vcard-fill"></i>
+
+                    </div>
+
+                    <small>
+                        Last Name
+                    </small>
+
+                    <strong>
+
+                        {% if admin_user.last_name %}
+                            {{ admin_user.last_name }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="profile-info-box">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-envelope"></i>
+
+                    </div>
+
+                    <small>
+                        Email Address
+                    </small>
+
+                    <strong>
+
+                        {% if admin_user.email %}
+                            {{ admin_user.email }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
+
+                    </strong>
+
+                </div>
+
+
+                <!-- STAFF STATUS -->
+
+                <div class="profile-info-box">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <small>
+                        Account Type
+                    </small>
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                </div>
+
+
+                <!-- JOINED DATE -->
+
+                <div class="profile-info-box">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-calendar-check"></i>
+
+                    </div>
+
+                    <small>
+                        Account Created
+                    </small>
+
+                    <strong>
+                        {{ admin_user.date_joined|date:"d M Y" }}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="profile-actions">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="profile-btn profile-btn-dashboard"
+                >
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Dashboard
+
+                </a>
+
+
+                <a
+                    href="{% url 'dashboard_logout' %}"
+                    class="profile-btn profile-btn-logout"
+                >
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

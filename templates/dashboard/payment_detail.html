@@ -14,259 +14,672 @@ active
 
 {% block content %}
 
-<div class="container-fluid">
+<style>
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+/* =========================================================
+   PAYMENT DETAIL PAGE
+========================================================= */
 
-        <div>
+.payment-detail-page {
+    padding-bottom: 30px;
+}
 
-            <h3 class="fw-bold">
-                Payment #{{ payment.id }}
-            </h3>
 
-            <p class="text-muted mb-0">
-                Payment transaction details
-            </p>
+/* =========================================================
+   HEADER
+========================================================= */
 
-        </div>
+.payment-page-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #212529;
+}
 
-        <a
-            href="{% url 'manage_payments' %}"
-            class="btn btn-outline-dark"
-        >
-            <i class="bi bi-arrow-left"></i>
-            Back to Payments
-        </a>
+.payment-page-subtitle {
+    color: #6c757d;
+    font-size: 0.92rem;
+}
+
+.btn-back {
+    border-radius: 10px;
+    padding: 9px 16px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   GENERAL CARDS
+========================================================= */
+
+.detail-card {
+    background: #ffffff;
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.detail-card-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid #eeeeee;
+    background: #ffffff;
+}
+
+.detail-card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    color: #212529;
+}
+
+.detail-card-subtitle {
+    color: #868e96;
+    font-size: 0.8rem;
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   PAYMENT SUMMARY
+========================================================= */
+
+.payment-summary {
+    background: #212529;
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 25px;
+}
+
+.payment-summary-label {
+    color: #adb5bd;
+    font-size: 0.78rem;
+    margin-bottom: 5px;
+}
+
+.payment-summary-amount {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.payment-summary-id {
+    color: #ced4da;
+    font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   DETAIL ITEMS
+========================================================= */
+
+.detail-item {
+    padding: 4px 0;
+}
+
+.detail-label {
+    display: block;
+    color: #868e96;
+    font-size: 0.76rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.detail-value {
+    color: #212529;
+    font-size: 0.92rem;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+.detail-value.normal {
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.payment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: 20px;
+    padding: 7px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-completed {
+    background: #e9f8ef;
+    color: #157347;
+}
+
+.status-completed .status-dot {
+    background: #198754;
+}
+
+.status-pending {
+    background: #fff4d6;
+    color: #946200;
+}
+
+.status-pending .status-dot {
+    background: #ffc107;
+}
+
+.status-failed {
+    background: #fdeaea;
+    color: #b02a37;
+}
+
+.status-failed .status-dot {
+    background: #dc3545;
+}
+
+.status-refunded {
+    background: #e8f5fb;
+    color: #087990;
+}
+
+.status-refunded .status-dot {
+    background: #0dcaf0;
+}
+
+
+/* =========================================================
+   PAYMENT METHOD
+========================================================= */
+
+.method-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f6f7;
+    color: #343a40;
+    padding: 7px 11px;
+    border-radius: 9px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TRANSACTION
+========================================================= */
+
+.transaction-box {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: monospace;
+    font-size: 0.82rem;
+    word-break: break-all;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-label-custom {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 7px;
+}
+
+.payment-form-control {
+    min-height: 44px;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.payment-form-control:focus {
+    border-color: #212529;
+    box-shadow: 0 0 0 0.15rem rgba(33, 37, 41, 0.08);
+}
+
+.btn-update-payment {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   BOOKING CARD
+========================================================= */
+
+.booking-reference {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.booking-reference-label {
+    font-size: 0.74rem;
+    color: #868e96;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.booking-reference-number {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+
+/* =========================================================
+   BOOKING ITEMS
+========================================================= */
+
+.booking-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 13px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.booking-item:last-child {
+    border-bottom: 0;
+}
+
+.booking-item-label {
+    color: #868e96;
+    font-size: 0.82rem;
+}
+
+.booking-item-value {
+    text-align: right;
+    color: #212529;
+    font-size: 0.85rem;
+    font-weight: 600;
+    word-break: break-word;
+}
+
+
+/* =========================================================
+   BOOKING STATUS
+========================================================= */
+
+.booking-status {
+    display: inline-block;
+    background: #f1f3f5;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   BOOKING TIME
+========================================================= */
+
+.booking-time {
+    display: block;
+    margin-top: 3px;
+    color: #6c757d;
+    font-size: 0.74rem;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   NIGHTS BADGE
+========================================================= */
+
+.nights-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DELETE CARD
+========================================================= */
+
+.delete-card {
+    border: 1px solid #f1d0d3;
+    background: #fffafa;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.delete-title {
+    font-weight: 700;
+    color: #842029;
+}
+
+.delete-description {
+    color: #6c757d;
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+.btn-delete-payment {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 10px 15px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .payment-page-title {
+        font-size: 1.35rem;
+    }
+
+    .payment-page-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px;
+    }
+
+    .btn-back {
+        width: 100%;
+    }
+
+    .payment-summary-amount {
+        font-size: 1.6rem;
+    }
+
+    .detail-card-header {
+        padding: 16px;
+    }
+
+    .detail-card .card-body {
+        padding: 16px !important;
+    }
+
+    .booking-item {
+        align-items: flex-start;
+    }
+
+    .booking-item-value {
+        max-width: 58%;
+    }
+
+}
+
+</style>
+
+<div class="container-fluid payment-detail-page">
+
+<!-- =====================================================
+     PAGE HEADER
+====================================================== -->
+
+<div
+    class="payment-page-header d-flex justify-content-between align-items-center mb-4"
+>
+
+
+<div>
+
+    <h3 class="payment-page-title mb-1">
+
+        Payment #{{ payment.id }}
+
+    </h3>
+
+    <p class="payment-page-subtitle mb-0">
+
+        View and manage payment transaction details.
+
+    </p>
+
+</div>
+
+
+<a
+    href="{% url 'manage_payments' %}"
+    class="btn btn-outline-dark btn-back"
+>
+
+    <i class="bi bi-arrow-left me-1"></i>
+
+    Back to Payments
+
+</a>
+
+</div>
+
+<!-- =====================================================
+     MESSAGES
+====================================================== -->
+
+{% if messages %}
+
+{% for message in messages %}
+
+    <div
+        class="alert alert-{{ message.tags }} alert-dismissible fade show"
+        role="alert"
+    >
+
+        <i class="bi bi-info-circle me-2"></i>
+
+        {{ message }}
+
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+        ></button>
 
     </div>
 
+{% endfor %}
+
+{% endif %}
+
+<div class="row g-4">
+
+<!-- =====================================================
+     LEFT COLUMN
+====================================================== -->
+
+<div class="col-xl-8">
+
+<!-- =====================================================
+     PAYMENT SUMMARY
+====================================================== -->
+
+<div class="payment-summary">
+
+<div class="row align-items-center">
+
+    <div class="col-md-7">
+
+        <div class="payment-summary-label">
+            Payment Amount
+        </div>
+
+        <div class="payment-summary-amount">
+            Rs. {{ payment.amount }}
+        </div>
+
+        <div class="payment-summary-id mt-2">
+            Payment #{{ payment.id }}
+        </div>
+
+    </div>
+
+
+    <div class="col-md-5 text-md-end mt-3 mt-md-0">
+
+        {% if payment.status == 'completed' %}
+
+            <span class="payment-status status-completed">
+                <span class="status-dot"></span>
+                Completed
+            </span>
+
+        {% elif payment.status == 'pending' %}
+
+            <span class="payment-status status-pending">
+                <span class="status-dot"></span>
+                Pending
+            </span>
+
+        {% elif payment.status == 'failed' %}
+
+            <span class="payment-status status-failed">
+                <span class="status-dot"></span>
+                Failed
+            </span>
+
+        {% elif payment.status == 'refunded' %}
+
+            <span class="payment-status status-refunded">
+                <span class="status-dot"></span>
+                Refunded
+            </span>
+
+        {% else %}
+
+            <span class="payment-status status-pending">
+                <span class="status-dot"></span>
+                {{ payment.get_status_display }}
+            </span>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     PAYMENT INFORMATION
+====================================================== -->
+
+<div class="detail-card mb-4">
+
+<div class="detail-card-header">
+
+    <h5 class="detail-card-title">
+
+        <i class="bi bi-credit-card me-2"></i>
+
+        Payment Information
+
+    </h5>
+
+    <div class="detail-card-subtitle">
+
+        Complete transaction information
+
+    </div>
+
+</div>
+
+
+<div class="card-body p-4">
 
     <div class="row g-4">
 
 
-        <!-- =================================================
-             PAYMENT INFORMATION
-        ================================================== -->
+        <!-- PAYMENT ID -->
 
-        <div class="col-lg-8">
+        <div class="col-md-6">
 
-            <div class="card border-0 shadow-sm">
+            <div class="detail-item">
 
-                <div class="card-header bg-white py-3">
+                <span class="detail-label">
+                    Payment ID
+                </span>
 
-                    <h5 class="fw-bold mb-0">
-                        Payment Information
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row g-4">
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Payment ID
-                            </small>
-
-                            <h5>
-                                #{{ payment.id }}
-                            </h5>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Amount
-                            </small>
-
-                            <h5>
-                                Rs. {{ payment.amount }}
-                            </h5>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Payment Method
-                            </small>
-
-                            <p>
-                                {{ payment.get_method_display }}
-                            </p>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Status
-                            </small>
-
-                            <p>
-                                {{ payment.get_status_display }}
-                            </p>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Transaction ID
-                            </small>
-
-                            <p>
-                                {% if payment.transaction_id %}
-                                    {{ payment.transaction_id }}
-                                {% else %}
-                                    —
-                                {% endif %}
-                            </p>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Paid At
-                            </small>
-
-                            <p>
-
-                                {% if payment.paid_at %}
-                                    {{ payment.paid_at|date:"d M Y, h:i A" }}
-                                {% else %}
-                                    —
-                                {% endif %}
-
-                            </p>
-
-                        </div>
-
-
-                        <div class="col-md-6">
-
-                            <small class="text-muted">
-                                Created At
-                            </small>
-
-                            <p>
-                                {{ payment.created_at|date:"d M Y, h:i A" }}
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <span class="detail-value">
+                    #{{ payment.id }}
+                </span>
 
             </div>
 
-
-            <!-- =============================================
-                 UPDATE PAYMENT
-            ============================================== -->
-
-            <div class="card border-0 shadow-sm mt-4">
-
-                <div class="card-header bg-white py-3">
-
-                    <h5 class="fw-bold mb-0">
-                        Update Payment
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <form
-                        method="post"
-                        action="{% url 'update_payment' payment.id %}"
-                    >
-
-                        {% csrf_token %}
-
-                        <div class="row g-3">
-
-                            <div class="col-md-6">
-
-                                <label class="form-label">
-                                    Payment Method
-                                </label>
-
-                                <select
-                                    name="method"
-                                    class="form-select"
-                                    required
-                                >
-
-                                    {% for value, label in method_choices %}
-
-                                    <option
-                                        value="{{ value }}"
-                                        {% if payment.method == value %}
-                                            selected
-                                        {% endif %}
-                                    >
-                                        {{ label }}
-                                    </option>
-
-                                    {% endfor %}
-
-                                </select>
-
-                            </div>
+        </div>
 
 
-                            <div class="col-md-6">
+        <!-- AMOUNT -->
 
-                                <label class="form-label">
-                                    Payment Status
-                                </label>
+        <div class="col-md-6">
 
-                                <select
-                                    name="status"
-                                    class="form-select"
-                                    required
-                                >
+            <div class="detail-item">
 
-                                    {% for value, label in status_choices %}
+                <span class="detail-label">
+                    Amount
+                </span>
 
-                                    <option
-                                        value="{{ value }}"
-                                        {% if payment.status == value %}
-                                            selected
-                                        {% endif %}
-                                    >
-                                        {{ label }}
-                                    </option>
+                <span class="detail-value">
+                    Rs. {{ payment.amount }}
+                </span>
 
-                                    {% endfor %}
+            </div>
 
-                                </select>
-
-                            </div>
-
-                        </div>
+        </div>
 
 
-                        <button
-                            type="submit"
-                            class="btn btn-dark mt-4"
-                        >
-                            <i class="bi bi-check-circle"></i>
-                            Update Payment
-                        </button>
+        <!-- METHOD -->
 
-                    </form>
+        <div class="col-md-6">
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Payment Method
+                </span>
+
+                <div class="mt-1">
+
+                    <span class="method-badge">
+
+                        {% if payment.method == 'cash' %}
+
+                            <i class="bi bi-cash-stack"></i>
+
+                        {% elif payment.method == 'card' %}
+
+                            <i class="bi bi-credit-card"></i>
+
+                        {% elif payment.method == 'online' %}
+
+                            <i class="bi bi-globe2"></i>
+
+                        {% else %}
+
+                            <i class="bi bi-wallet2"></i>
+
+                        {% endif %}
+
+                        {{ payment.get_method_display }}
+
+                    </span>
 
                 </div>
 
@@ -275,136 +688,681 @@ active
         </div>
 
 
-        <!-- =================================================
-             BOOKING INFORMATION
-        ================================================== -->
+        <!-- STATUS -->
 
-        <div class="col-lg-4">
+        <div class="col-md-6">
 
-            <div class="card border-0 shadow-sm">
+            <div class="detail-item">
 
-                <div class="card-header bg-white py-3">
+                <span class="detail-label">
+                    Payment Status
+                </span>
 
-                    <h5 class="fw-bold mb-0">
-                        Booking Information
-                    </h5>
+                <div class="mt-1">
 
-                </div>
+                    {% if payment.status == 'completed' %}
 
-                <div class="card-body">
+                        <span class="payment-status status-completed">
+                            <span class="status-dot"></span>
+                            Completed
+                        </span>
 
-                    <p>
-                        <strong>
-                            Booking:
-                        </strong>
+                    {% elif payment.status == 'pending' %}
 
-                        #{{ payment.booking.id }}
-                    </p>
+                        <span class="payment-status status-pending">
+                            <span class="status-dot"></span>
+                            Pending
+                        </span>
 
-                    <p>
-                        <strong>
-                            Customer:
-                        </strong>
+                    {% elif payment.status == 'failed' %}
 
-                        {{ payment.booking.user.get_full_name|default:payment.booking.user.username }}
-                    </p>
+                        <span class="payment-status status-failed">
+                            <span class="status-dot"></span>
+                            Failed
+                        </span>
 
-                    <p>
-                        <strong>
-                            Email:
-                        </strong>
+                    {% elif payment.status == 'refunded' %}
 
-                        {{ payment.booking.user.email }}
-                    </p>
+                        <span class="payment-status status-refunded">
+                            <span class="status-dot"></span>
+                            Refunded
+                        </span>
 
-                    <p>
-                        <strong>
-                            Room:
-                        </strong>
+                    {% else %}
 
-                        {{ payment.booking.room.room_number }}
-                    </p>
+                        <span class="payment-status status-pending">
+                            <span class="status-dot"></span>
+                            {{ payment.get_status_display }}
+                        </span>
 
-                    <p>
-                        <strong>
-                            Room Name:
-                        </strong>
-
-                        {{ payment.booking.room.name }}
-                    </p>
-
-                    <p>
-                        <strong>
-                            Check In:
-                        </strong>
-
-                        {{ payment.booking.check_in|date:"d M Y" }}
-                    </p>
-
-                    <p>
-                        <strong>
-                            Check Out:
-                        </strong>
-
-                        {{ payment.booking.check_out|date:"d M Y" }}
-                    </p>
-
-                    <p class="mb-0">
-
-                        <strong>
-                            Guests:
-                        </strong>
-
-                        {{ payment.booking.guests }}
-
-                    </p>
+                    {% endif %}
 
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- =============================================
-                 DELETE
-            ============================================== -->
 
-            <div class="card border-0 shadow-sm mt-4">
+        <!-- TRANSACTION ID -->
 
-                <div class="card-body">
+        <div class="col-12">
 
-                    <h6 class="fw-bold">
-                        Delete Payment
-                    </h6>
+            <div class="detail-item">
 
-                    <p class="text-muted small">
-                        This action cannot be undone.
-                    </p>
+                <span class="detail-label">
+                    Transaction ID
+                </span>
 
-                    <form
-                        method="post"
-                        action="{% url 'delete_payment' payment.id %}"
-                        onsubmit="return confirm('Are you sure you want to delete this payment?');"
-                    >
+                {% if payment.transaction_id %}
 
-                        {% csrf_token %}
+                    <div class="transaction-box">
+                        {{ payment.transaction_id }}
+                    </div>
 
-                        <button
-                            type="submit"
-                            class="btn btn-danger w-100"
-                        >
-                            <i class="bi bi-trash"></i>
-                            Delete Payment
-                        </button>
+                {% else %}
 
-                    </form>
+                    <span class="detail-value normal">
+                        —
+                    </span>
 
-                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- PAID AT -->
+
+        <div class="col-md-6">
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Paid At
+                </span>
+
+                <span class="detail-value normal">
+
+                    {% if payment.paid_at %}
+
+                        {{ payment.paid_at|date:"d M Y, h:i A" }}
+
+                    {% else %}
+
+                        —
+
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CREATED AT -->
+
+        <div class="col-md-6">
+
+            <div class="detail-item">
+
+                <span class="detail-label">
+                    Created At
+                </span>
+
+                <span class="detail-value normal">
+
+                    {{ payment.created_at|date:"d M Y, h:i A" }}
+
+                </span>
 
             </div>
 
         </div>
 
     </div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     UPDATE PAYMENT
+====================================================== -->
+
+<div class="detail-card">
+
+<div class="detail-card-header">
+
+    <h5 class="detail-card-title">
+
+        <i class="bi bi-pencil-square me-2"></i>
+
+        Update Payment
+
+    </h5>
+
+    <div class="detail-card-subtitle">
+
+        Change the payment method or payment status.
+
+    </div>
+
+</div>
+
+
+<div class="card-body p-4">
+
+    <form
+        method="post"
+        action="{% url 'update_payment' payment.id %}"
+    >
+
+        {% csrf_token %}
+
+        <div class="row g-3">
+
+
+            <!-- PAYMENT METHOD -->
+
+            <div class="col-md-6">
+
+                <label
+                    for="paymentMethod"
+                    class="form-label-custom"
+                >
+                    Payment Method
+                </label>
+
+                <select
+                    id="paymentMethod"
+                    name="method"
+                    class="form-select payment-form-control"
+                    required
+                >
+
+                    {% for value, label in method_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if payment.method == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- PAYMENT STATUS -->
+
+            <div class="col-md-6">
+
+                <label
+                    for="paymentStatus"
+                    class="form-label-custom"
+                >
+                    Payment Status
+                </label>
+
+                <select
+                    id="paymentStatus"
+                    name="status"
+                    class="form-select payment-form-control"
+                    required
+                >
+
+                    {% for value, label in status_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if payment.status == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="mt-4">
+
+            <button
+                type="submit"
+                class="btn btn-dark btn-update-payment"
+            >
+
+                <i class="bi bi-check-circle me-1"></i>
+
+                Update Payment
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     RIGHT COLUMN
+====================================================== -->
+
+<div class="col-xl-4">
+
+<!-- =====================================================
+     BOOKING INFORMATION
+====================================================== -->
+
+<div class="detail-card">
+
+<div class="detail-card-header">
+
+    <h5 class="detail-card-title">
+
+        <i class="bi bi-calendar-check me-2"></i>
+
+        Booking Information
+
+    </h5>
+
+    <div class="detail-card-subtitle">
+
+        Booking associated with this payment
+
+    </div>
+
+</div>
+
+
+<div class="card-body p-4">
+
+
+    <!-- BOOKING REFERENCE -->
+
+    <div class="booking-reference">
+
+        <div class="booking-reference-label">
+            Booking Reference
+        </div>
+
+        <div class="booking-reference-number">
+            #{{ payment.booking.id }}
+        </div>
+
+    </div>
+
+
+    <!-- CUSTOMER -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Customer
+        </div>
+
+        <div class="booking-item-value">
+
+            {% if payment.booking.user.get_full_name %}
+
+                {{ payment.booking.user.get_full_name }}
+
+            {% else %}
+
+                {{ payment.booking.user.username }}
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- USERNAME -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Username
+        </div>
+
+        <div class="booking-item-value">
+
+            {{ payment.booking.user.username }}
+
+        </div>
+
+    </div>
+
+
+    <!-- EMAIL -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Email
+        </div>
+
+        <div class="booking-item-value">
+
+            {{ payment.booking.user.email|default:"—" }}
+
+        </div>
+
+    </div>
+
+
+    <!-- ROOM -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Room
+        </div>
+
+        <div class="booking-item-value">
+
+            {{ payment.booking.room.room_number }}
+
+        </div>
+
+    </div>
+
+
+    <!-- ROOM NAME -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Room Name
+        </div>
+
+        <div class="booking-item-value">
+
+            {{ payment.booking.room.name }}
+
+        </div>
+
+    </div>
+
+
+    <!-- CHECK IN -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Check In
+        </div>
+
+        <div class="booking-item-value">
+
+            {{ payment.booking.check_in|date:"d M Y" }}
+
+            {% if payment.booking.check_in_time %}
+
+                <span class="booking-time">
+
+                    <i class="bi bi-clock me-1"></i>
+
+                    {{ payment.booking.check_in_time|time:"g:i A" }}
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- CHECK OUT -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Check Out
+        </div>
+
+        <div class="booking-item-value">
+
+            {{ payment.booking.check_out|date:"d M Y" }}
+
+            {% if payment.booking.check_out_time %}
+
+                <span class="booking-time">
+
+                    <i class="bi bi-clock me-1"></i>
+
+                    {{ payment.booking.check_out_time|time:"g:i A" }}
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- NIGHTS -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Stay Duration
+        </div>
+
+        <div class="booking-item-value">
+
+            <span class="nights-badge">
+
+                <i class="bi bi-moon-stars"></i>
+
+                {{ payment.booking.total_nights }} Night{{ payment.booking.total_nights|pluralize }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- GUESTS -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Guests
+        </div>
+
+        <div class="booking-item-value">
+
+            <i class="bi bi-people me-1"></i>
+
+            {{ payment.booking.guests }}
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKING STATUS -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Booking Status
+        </div>
+
+        <div class="booking-item-value">
+
+            <span class="booking-status">
+
+                {{ payment.booking.get_status_display }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- BOOKING PAYMENT STATUS -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Booking Payment
+        </div>
+
+        <div class="booking-item-value">
+
+            <span class="booking-status">
+
+                {{ payment.booking.get_payment_status_display }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOTAL BOOKING -->
+
+    <div class="booking-item">
+
+        <div class="booking-item-label">
+            Booking Total
+        </div>
+
+        <div class="booking-item-value">
+
+            Rs. {{ payment.booking.total_amount }}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- =====================================================
+     VIEW BOOKING
+====================================================== -->
+
+<div class="detail-card mt-4">
+
+<div class="card-body p-4">
+
+    <h6 class="fw-bold mb-2">
+
+        <i class="bi bi-calendar2-check me-2"></i>
+
+        Booking Details
+
+    </h6>
+
+    <p class="text-muted small mb-3">
+
+        View the complete booking information associated
+        with this payment.
+
+    </p>
+
+    <a
+        href="{% url 'dashboard_booking_detail' payment.booking.id %}"
+        class="btn btn-outline-dark w-100"
+    >
+
+        <i class="bi bi-eye me-1"></i>
+
+        View Booking
+
+    </a>
+
+</div>
+
+
+</div>
+
+<!-- =====================================================
+     DELETE PAYMENT
+====================================================== -->
+
+<div class="delete-card mt-4">
+
+
+<div class="card-body p-4">
+
+    <h6 class="delete-title mb-2">
+
+        <i class="bi bi-exclamation-triangle me-2"></i>
+
+        Delete Payment
+
+    </h6>
+
+    <p class="delete-description mb-3">
+
+        Permanently delete this payment record.
+        This action cannot be undone.
+
+    </p>
+
+
+    <form
+        method="post"
+        action="{% url 'delete_payment' payment.id %}"
+        onsubmit="return confirm(
+            'Are you sure you want to permanently delete Payment #{{ payment.id }}?'
+        );"
+    >
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="btn btn-danger btn-delete-payment w-100"
+        >
+
+            <i class="bi bi-trash3 me-1"></i>
+
+            Delete Payment
+
+        </button>
+
+    </form>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 

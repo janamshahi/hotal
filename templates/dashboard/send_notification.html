@@ -1,0 +1,539 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+    Send Notification | GrandStay Hotel
+{% endblock %}
+
+{% block navbar_title %}
+    Send Notification
+{% endblock %}
+
+{% block notifications_active %}
+    active
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .notification-page {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .page-header {
+        margin-bottom: 25px;
+    }
+
+    .page-header h1 {
+        font-size: 25px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        color: #1f2937;
+    }
+
+    .page-header p {
+        margin: 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    /* =====================================================
+       CARD
+    ===================================================== */
+
+    .notification-card {
+        background: #ffffff;
+        border-radius: 18px;
+        border: 1px solid #e5e7eb;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+    }
+
+    .card-header-custom {
+        padding: 22px 25px;
+        border-bottom: 1px solid #eef0f2;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .header-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: #f4f1d4;
+        color: #a99a24;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 21px;
+    }
+
+    .card-header-custom h5 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .card-header-custom p {
+        margin: 3px 0 0;
+        font-size: 12px;
+        color: #8a8f98;
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .card-body-custom {
+        padding: 28px 25px;
+    }
+
+    .form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 46px;
+        border-radius: 10px;
+        border: 1px solid #dfe3e8;
+        font-size: 13px;
+        box-shadow: none;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #b8a62a;
+        box-shadow: 0 0 0 3px rgba(184, 166, 42, 0.10);
+    }
+
+    textarea.form-control {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .recipient-help {
+        margin-top: 7px;
+        font-size: 11px;
+        color: #8b929c;
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 25px;
+        padding-top: 22px;
+        border-top: 1px solid #eef0f2;
+    }
+
+    .btn-cancel {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 10px;
+        background: #f3f4f6;
+        color: #4b5563;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid #e5e7eb;
+    }
+
+    .btn-cancel:hover {
+        background: #e5e7eb;
+        color: #1f2937;
+    }
+
+    .btn-send {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        min-height: 44px;
+        padding: 0 20px;
+        border-radius: 10px;
+        background: #b8a62a;
+        color: #ffffff;
+        border: none;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s ease;
+    }
+
+    .btn-send:hover {
+        background: #9e8e20;
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================================
+       TYPE GROUP
+    ===================================================== */
+
+    optgroup {
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 767px) {
+
+        .page-header h1 {
+            font-size: 21px;
+        }
+
+        .card-body-custom {
+            padding: 20px 16px;
+        }
+
+        .card-header-custom {
+            padding: 18px 16px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-cancel,
+        .btn-send {
+            width: 100%;
+        }
+    }
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="notification-page">
+
+    <!-- =================================================
+         HEADER
+    ================================================= -->
+
+    <div class="page-header">
+
+        <h1>
+            Send Notification
+        </h1>
+
+        <p>
+            Send hotel announcements, offers and updates
+            to your customers.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         CARD
+    ================================================= -->
+
+    <div class="notification-card">
+
+        <div class="card-header-custom">
+
+            <div class="header-icon">
+
+                <i class="bi bi-send-fill"></i>
+
+            </div>
+
+            <div>
+
+                <h5>
+                    Create Notification
+                </h5>
+
+                <p>
+                    Choose a recipient and notification type.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="card-body-custom">
+
+            <form
+                method="POST"
+                action="{% url 'send_notification' %}"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- =========================================
+                     RECIPIENT
+                ========================================== -->
+
+                <div class="mb-4">
+
+                    <label
+                        for="recipient"
+                        class="form-label"
+                    >
+                        Send To
+                    </label>
+
+                    <select
+                        name="recipient"
+                        id="recipient"
+                        class="form-select"
+                        required
+                    >
+
+                        <option
+                            value=""
+                            selected
+                            disabled
+                        >
+                            Select recipient
+                        </option>
+
+                        <option value="all">
+                            All Customers
+                        </option>
+
+                        {% for customer in customers %}
+
+                            <option
+                                value="{{ customer.id }}"
+                            >
+
+                                {{ customer.get_full_name|default:customer.username }}
+
+                                {% if customer.email %}
+                                    — {{ customer.email }}
+                                {% endif %}
+
+                            </option>
+
+                        {% empty %}
+
+                            <option disabled>
+                                No customers available
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <div class="recipient-help">
+
+                        Select one customer or send the
+                        notification to all active customers.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     NOTIFICATION TYPE
+                ========================================== -->
+
+                <div class="mb-4">
+
+                    <label
+                        for="notification_type"
+                        class="form-label"
+                    >
+                        Notification Type
+                    </label>
+
+                    <select
+                        name="notification_type"
+                        id="notification_type"
+                        class="form-select"
+                        required
+                    >
+
+                        <optgroup label="Hotel Communication">
+
+                            <option
+                                value="general"
+                                selected
+                            >
+                                General
+                            </option>
+
+                            <option value="announcement">
+                                Hotel Announcement
+                            </option>
+
+                        </optgroup>
+
+
+                        <optgroup label="Hotel Offers">
+
+                            <option value="offer">
+                                Hotel Offer
+                            </option>
+
+                            <option value="room_offer">
+                                Room Offer
+                            </option>
+
+                            <option value="special_deal">
+                                Special Deal
+                            </option>
+
+                        </optgroup>
+
+
+                        <optgroup label="Booking & Service">
+
+                            <option value="booking">
+                                Booking
+                            </option>
+
+                            <option value="payment">
+                                Payment
+                            </option>
+
+                            <option value="checkout">
+                                Checkout
+                            </option>
+
+                            <option value="review">
+                                Review
+                            </option>
+
+                        </optgroup>
+
+                    </select>
+
+                    <div class="recipient-help">
+
+                        Choose the category that best describes
+                        your notification.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     TITLE
+                ========================================== -->
+
+                <div class="mb-4">
+
+                    <label
+                        for="title"
+                        class="form-label"
+                    >
+                        Notification Title
+                    </label>
+
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        class="form-control"
+                        maxlength="200"
+                        placeholder="Example: Weekend Hotel Offer"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =========================================
+                     MESSAGE
+                ========================================== -->
+
+                <div class="mb-4">
+
+                    <label
+                        for="message"
+                        class="form-label"
+                    >
+                        Notification Message
+                    </label>
+
+                    <textarea
+                        name="message"
+                        id="message"
+                        class="form-control"
+                        placeholder="Write your notification message here..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- =========================================
+                     ACTIONS
+                ========================================== -->
+
+                <div class="form-actions">
+
+                    <a
+                        href="{% url 'admin_notifications' %}"
+                        class="btn-cancel"
+                    >
+
+                        <i class="bi bi-arrow-left"></i>
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="btn-send"
+                    >
+
+                        <i class="bi bi-send-fill"></i>
+
+                        Send Notification
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

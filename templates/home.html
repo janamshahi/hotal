@@ -1,1107 +1,1329 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <!-- =====================================================
-         BASIC META
-    ====================================================== -->
 
-    <meta charset="UTF-8">
+<!-- =====================================================
+     BASIC META
+====================================================== -->
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 
-    <meta
-        name="description"
-        content="GrandStay Hotel - Experience comfort, luxury and elegance.">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>
-        {% if hotel %}
-            {{ hotel.name }}
+<meta
+    name="description"
+    content="GrandStay Hotel - Comfortable rooms, modern facilities and exceptional hospitality."
+>
+
+<title>
+    {% if hotel %}
+        {{ hotel.name }}
+    {% else %}
+        GrandStay Hotel
+    {% endif %}
+</title>
+
+
+<!-- =====================================================
+     BOOTSTRAP
+====================================================== -->
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     BOOTSTRAP ICONS
+====================================================== -->
+
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     GOOGLE FONT
+====================================================== -->
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+
+<style>
+
+    /* =====================================================
+       GLOBAL
+    ====================================================== */
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Poppins", sans-serif;
+        background: #f8f9fa;
+        color: #252525;
+        overflow-x: hidden;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    .section-padding {
+        padding: 85px 0;
+    }
+
+
+    /* =====================================================
+       SECTION TITLE
+    ====================================================== */
+
+    .section-title {
+        text-align: center;
+        max-width: 750px;
+        margin: 0 auto 50px;
+    }
+
+    .section-title span {
+        color: #b38b59;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+    }
+
+    .section-title h2 {
+        font-size: 38px;
+        font-weight: 700;
+        margin: 8px 0 15px;
+    }
+
+    .section-title p {
+        color: #777;
+        font-size: 14px;
+        line-height: 1.8;
+        margin: 0;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ====================================================== */
+
+    .navbar {
+        background: rgba(255, 255, 255, 0.97);
+        padding: 13px 0;
+        transition: 0.3s ease;
+        z-index: 1000;
+    }
+
+    .navbar.scrolled {
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #b38b59 !important;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .navbar-logo {
+        width: 42px;
+        height: 42px;
+        object-fit: cover;
+        border-radius: 9px;
+    }
+
+    .navbar-brand i {
+        font-size: 29px;
+    }
+
+    .navbar-toggler {
+        border: none;
+        box-shadow: none !important;
+    }
+
+    .nav-link {
+        position: relative;
+        color: #333 !important;
+        font-size: 13px;
+        font-weight: 500;
+        margin: 0 7px;
+        padding: 10px 5px !important;
+        transition: 0.3s;
+    }
+
+    .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        bottom: 3px;
+        width: 0;
+        height: 2px;
+        background: #b38b59;
+        transition: 0.3s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: #b38b59 !important;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        width: calc(100% - 10px);
+    }
+
+
+    /* =====================================================
+       LOGIN / REGISTER
+    ====================================================== */
+
+    .btn-login,
+    .btn-register {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        border-radius: 25px;
+        padding: 8px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.3s;
+        white-space: nowrap;
+    }
+
+    .btn-login {
+        border: 1px solid #b38b59;
+        color: #b38b59;
+    }
+
+    .btn-login:hover {
+        background: #b38b59;
+        color: #fff;
+    }
+
+    .btn-register {
+        border: 1px solid #b38b59;
+        background: #b38b59;
+        color: #fff;
+    }
+
+    .btn-register:hover {
+        background: #8f6c43;
+        border-color: #8f6c43;
+        color: #fff;
+    }
+
+
+    /* =====================================================
+       CUSTOMER DROPDOWN
+    ====================================================== */
+
+    .customer-dropdown .dropdown-toggle {
+        border: 1px solid #b38b59;
+        border-radius: 25px;
+        color: #b38b59;
+        padding: 8px 15px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .customer-dropdown .dropdown-toggle:hover,
+    .customer-dropdown .dropdown-toggle:focus {
+        background: #b38b59;
+        color: #fff;
+    }
+
+    .customer-dropdown .dropdown-menu {
+        min-width: 250px;
+        padding: 10px;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.13);
+    }
+
+    .customer-dropdown .dropdown-item {
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+    }
+
+    .customer-dropdown .dropdown-item:hover {
+        background: #f4ede4;
+        color: #b38b59;
+    }
+
+    .customer-dropdown .dropdown-item i {
+        width: 23px;
+    }
+
+
+    /* =====================================================
+       NOTIFICATION BELL
+    ====================================================== */
+
+    .notification-link {
+        position: relative;
+
+        width: 40px;
+        height: 40px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid #e4d3bd;
+        border-radius: 50%;
+
+        background: #fff;
+        color: #b38b59;
+
+        font-size: 18px;
+
+        transition: 0.3s;
+    }
+
+    .notification-link:hover {
+        background: #b38b59;
+        border-color: #b38b59;
+        color: #fff;
+
+        transform: translateY(-2px);
+    }
+
+    .notification-badge {
+        position: absolute;
+
+        top: -5px;
+        right: -5px;
+
+        min-width: 19px;
+        height: 19px;
+
+        padding: 0 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #dc3545;
+        color: #fff;
+
+        border: 2px solid #fff;
+        border-radius: 50%;
+
+        font-size: 9px;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+
+    /* =====================================================
+       HERO
+    ====================================================== */
+
+    .hero {
+        min-height: 680px;
+
+        display: flex;
+        align-items: center;
+
+        position: relative;
+
+        {% if hotel and hotel.hero_image %}
+
+            background:
+                linear-gradient(
+                    rgba(20, 15, 10, 0.55),
+                    rgba(20, 15, 10, 0.55)
+                ),
+                url("{{ hotel.hero_image.url }}");
+
         {% else %}
-            GrandStay Hotel
+
+            background:
+                linear-gradient(
+                    rgba(20, 15, 10, 0.55),
+                    rgba(20, 15, 10, 0.55)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=85");
+
         {% endif %}
-    </title>
+
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    .hero-content {
+        max-width: 760px;
+        color: #fff;
+    }
+
+    .hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        margin-bottom: 17px;
+
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+
+    .hero-label::before {
+        content: "";
+        width: 38px;
+        height: 2px;
+        background: #d2aa7b;
+    }
+
+    .hero-content h1 {
+        font-size: 58px;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        max-width: 650px;
+
+        color: #f2f2f2;
+        font-size: 16px;
+        line-height: 1.9;
+
+        margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
 
 
-    <!-- =====================================================
-         BOOTSTRAP 5
-    ====================================================== -->
+    /* =====================================================
+       MAIN BUTTONS
+    ====================================================== */
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    .btn-main {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
 
+        background: #b38b59;
+        border: 1px solid #b38b59;
+        color: #fff;
 
-    <!-- =====================================================
-         BOOTSTRAP ICONS
-    ====================================================== -->
+        border-radius: 28px;
+        padding: 12px 24px;
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        rel="stylesheet">
+        font-size: 13px;
+        font-weight: 600;
 
+        transition: 0.3s;
+    }
 
-    <!-- =====================================================
-         GOOGLE FONT
-    ====================================================== -->
+    .btn-main:hover {
+        background: #8f6c43;
+        border-color: #8f6c43;
+        color: #fff;
+        transform: translateY(-2px);
+    }
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    .btn-outline-main {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
 
+        border: 1px solid rgba(255,255,255,0.85);
+        color: #fff;
 
-    <!-- =====================================================
-         PAGE CSS
-    ====================================================== -->
+        border-radius: 28px;
+        padding: 12px 24px;
 
-    <style>
+        font-size: 13px;
+        font-weight: 600;
 
-        /* =====================================================
-           GLOBAL
-        ====================================================== */
+        transition: 0.3s;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #f8f9fa;
-            color: #222;
-            overflow-x: hidden;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        img {
-            max-width: 100%;
-        }
-
-        .section-padding {
-            padding: 90px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 55px;
-        }
-
-        .section-title span {
-            color: #b38b59;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .section-title h2 {
-            font-size: 38px;
-            font-weight: 700;
-            margin-top: 8px;
-            margin-bottom: 15px;
-        }
-
-        .section-title p {
-            max-width: 650px;
-            margin: auto;
-            color: #777;
-            line-height: 1.8;
-        }
+    .btn-outline-main:hover {
+        background: #fff;
+        color: #333;
+    }
 
 
-        /* =====================================================
-           NAVBAR
-        ====================================================== */
+    /* =====================================================
+       BOOKING SEARCH
+    ====================================================== */
 
-        .navbar {
-            background: #ffffff;
-            padding: 15px 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
-        }
+    .booking-wrapper {
+        position: relative;
+        margin-top: -55px;
+        z-index: 20;
+    }
 
-        .navbar.scrolled {
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
-        }
+    .booking-box {
+        background: #fff;
 
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
-            color: #b38b59 !important;
-        }
+        padding: 25px;
 
-        .navbar-brand i {
-            font-size: 30px;
-        }
+        border-radius: 15px;
 
-        .navbar-logo {
-            width: 42px;
-            height: 42px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+        box-shadow:
+            0 15px 45px rgba(0,0,0,0.12);
+    }
 
-        .navbar-toggler {
-            border: none;
-            box-shadow: none !important;
+    .booking-box label {
+        display: block;
+
+        color: #333;
+        font-size: 12px;
+        font-weight: 600;
+
+        margin-bottom: 7px;
+    }
+
+    .booking-box .form-control,
+    .booking-box .form-select {
+        height: 48px;
+
+        border: 1px solid #ddd;
+        border-radius: 8px;
+
+        font-size: 13px;
+    }
+
+    .booking-box .form-control:focus,
+    .booking-box .form-select:focus {
+        border-color: #b38b59;
+
+        box-shadow:
+            0 0 0 0.2rem rgba(179,139,89,0.12);
+    }
+
+    .search-btn {
+        width: 100%;
+        height: 48px;
+
+        border: none;
+        border-radius: 8px;
+
+        background: #b38b59;
+        color: #fff;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+    .search-btn:hover {
+        background: #8f6c43;
+    }
+
+
+    /* =====================================================
+       ROOMS
+    ====================================================== */
+
+    .room-card {
+        height: 100%;
+
+        background: #fff;
+
+        border-radius: 14px;
+        overflow: hidden;
+
+        box-shadow:
+            0 5px 25px rgba(0,0,0,0.07);
+
+        transition: 0.35s;
+    }
+
+    .room-card:hover {
+        transform: translateY(-7px);
+
+        box-shadow:
+            0 15px 40px rgba(0,0,0,0.13);
+    }
+
+    .room-image {
+        position: relative;
+
+        height: 235px;
+
+        overflow: hidden;
+
+        background: #eee;
+    }
+
+    .room-image img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+
+        transition: 0.5s;
+    }
+
+    .room-card:hover .room-image img {
+        transform: scale(1.06);
+    }
+
+    .room-badge {
+        position: absolute;
+
+        top: 14px;
+        left: 14px;
+
+        background: #b38b59;
+        color: #fff;
+
+        border-radius: 20px;
+
+        padding: 6px 12px;
+
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .room-number-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+
+        margin-top: 8px;
+
+        padding: 5px 10px;
+
+        border-radius: 20px;
+
+        background: #f4ede4;
+        color: #8f6c43;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        border: 1px solid #eadbc8;
+    }
+
+    .room-body {
+        padding: 23px;
+    }
+
+    .room-category {
+        color: #b38b59;
+
+        font-size: 11px;
+        font-weight: 700;
+
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .room-body h4 {
+        margin: 7px 0 0;
+
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .room-description {
+        min-height: 44px;
+
+        color: #777;
+
+        font-size: 12px;
+        line-height: 1.7;
+
+        margin-top: 12px;
+    }
+
+    .room-info {
+        display: flex;
+        flex-wrap: wrap;
+
+        gap: 9px 13px;
+
+        margin: 17px 0;
+
+        color: #777;
+
+        font-size: 11px;
+    }
+
+    .room-info span {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .room-info i {
+        color: #b38b59;
+    }
+
+    .room-bottom {
+        border-top: 1px solid #eee;
+        padding-top: 16px;
+    }
+
+    .room-price {
+        color: #b38b59;
+
+        font-size: 19px;
+        font-weight: 700;
+    }
+
+    .room-price small {
+        color: #888;
+
+        font-size: 10px;
+        font-weight: 400;
+    }
+
+    .view-room-btn {
+        display: inline-flex;
+        align-items: center;
+
+        background: #b38b59;
+        color: #fff;
+
+        border-radius: 22px;
+
+        padding: 8px 14px;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        transition: 0.3s;
+    }
+
+    .view-room-btn:hover {
+        background: #8f6c43;
+        color: #fff;
+    }
+
+
+    /* =====================================================
+       SERVICES
+    ====================================================== */
+
+    .services-section {
+        background: #f3f1ed;
+    }
+
+    .service-card {
+        height: 100%;
+
+        padding: 30px 22px;
+
+        background: #fff;
+
+        border-radius: 14px;
+
+        text-align: center;
+
+        box-shadow:
+            0 5px 25px rgba(0,0,0,0.05);
+
+        transition: 0.3s;
+    }
+
+    .service-card:hover {
+        transform: translateY(-6px);
+
+        box-shadow:
+            0 13px 35px rgba(0,0,0,0.10);
+    }
+
+    .service-icon {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin: 0 auto 18px;
+
+        border-radius: 50%;
+
+        background: #f2e7d7;
+        color: #b38b59;
+
+        font-size: 26px;
+    }
+
+    .service-card h4 {
+        font-size: 17px;
+        font-weight: 600;
+
+        margin-bottom: 10px;
+    }
+
+    .service-card p {
+        color: #777;
+
+        font-size: 12px;
+        line-height: 1.7;
+
+        margin: 0;
+    }
+
+
+    /* =====================================================
+       ABOUT
+    ====================================================== */
+
+    .about-image-wrapper {
+        position: relative;
+    }
+
+    .about-image {
+        width: 100%;
+        height: 480px;
+
+        object-fit: cover;
+
+        border-radius: 15px;
+    }
+
+    .experience-box {
+        position: absolute;
+
+        right: 20px;
+        bottom: 20px;
+
+        background: #b38b59;
+        color: #fff;
+
+        padding: 18px 25px;
+
+        border-radius: 12px;
+
+        text-align: center;
+
+        box-shadow:
+            0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .experience-box strong {
+        display: block;
+
+        font-size: 30px;
+        line-height: 1;
+    }
+
+    .experience-box span {
+        font-size: 11px;
+    }
+
+    .about-content {
+        padding-left: 20px;
+    }
+
+    .small-heading {
+        color: #b38b59;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        letter-spacing: 2px;
+    }
+
+    .about-content h2 {
+        margin: 12px 0 18px;
+
+        font-size: 36px;
+        font-weight: 700;
+
+        line-height: 1.3;
+    }
+
+    .about-content p {
+        color: #666;
+
+        font-size: 13px;
+        line-height: 1.9;
+    }
+
+    .feature-list {
+        list-style: none;
+
+        padding: 0;
+        margin: 23px 0;
+    }
+
+    .feature-list li {
+        color: #555;
+
+        font-size: 13px;
+
+        margin-bottom: 11px;
+    }
+
+    .feature-list i {
+        color: #b38b59;
+
+        margin-right: 8px;
+    }
+
+
+    /* =====================================================
+       STATISTICS
+    ====================================================== */
+
+    .stats-section {
+        padding: 65px 0;
+
+        background: #282828;
+        color: #fff;
+    }
+
+    .stat-box {
+        text-align: center;
+    }
+
+    .stat-box i {
+        color: #d2aa7b;
+
+        font-size: 30px;
+
+        margin-bottom: 10px;
+    }
+
+    .stat-box h3 {
+        font-size: 32px;
+        font-weight: 700;
+
+        margin-bottom: 4px;
+    }
+
+    .stat-box p {
+        color: #aaa;
+
+        font-size: 12px;
+
+        margin: 0;
+    }
+
+
+    /* =====================================================
+       REVIEWS
+    ====================================================== */
+
+    .review-card {
+        height: 100%;
+
+        padding: 27px;
+
+        background: #fff;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 5px 25px rgba(0,0,0,0.06);
+
+        transition: 0.3s;
+    }
+
+    .review-card:hover {
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 12px 35px rgba(0,0,0,0.10);
+    }
+
+    .stars {
+        color: #f2b01e;
+
+        letter-spacing: 2px;
+
+        margin-bottom: 14px;
+    }
+
+    .review-card p {
+        color: #666;
+
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .review-user {
+        display: flex;
+        align-items: center;
+
+        gap: 11px;
+
+        margin-top: 20px;
+    }
+
+    .review-avatar {
+        width: 45px;
+        height: 45px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        border-radius: 50%;
+
+        background: #b38b59;
+        color: #fff;
+
+        font-size: 18px;
+    }
+
+    .review-avatar img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+    .review-user strong {
+        font-size: 13px;
+    }
+
+    .review-user small {
+        color: #888;
+
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       CONTACT
+    ====================================================== */
+
+    .contact-section {
+        background: #f3f1ed;
+    }
+
+    .contact-info-box {
+        margin-bottom: 22px;
+    }
+
+    .contact-icon {
+        width: 47px;
+        height: 47px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-right: 10px;
+
+        border-radius: 50%;
+
+        background: #b38b59;
+        color: #fff;
+
+        vertical-align: middle;
+    }
+
+    .contact-info-box strong {
+        font-size: 14px;
+    }
+
+    .contact-info-box p {
+        margin: 5px 0 0 59px;
+
+        color: #777;
+
+        font-size: 12px;
+    }
+
+    .contact-form {
+        padding: 30px;
+
+        background: #fff;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 5px 25px rgba(0,0,0,0.06);
+    }
+
+    .contact-form .form-control {
+        min-height: 48px;
+
+        border: 1px solid #ddd;
+        border-radius: 8px;
+
+        font-size: 12px;
+    }
+
+    .contact-form textarea {
+        min-height: 130px !important;
+
+        resize: vertical;
+    }
+
+    .contact-form .form-control:focus {
+        border-color: #b38b59;
+
+        box-shadow:
+            0 0 0 0.2rem rgba(179,139,89,0.12);
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ====================================================== */
+
+    footer {
+        padding: 60px 0 20px;
+
+        background: #202020;
+        color: #fff;
+    }
+
+    footer h5 {
+        margin-bottom: 18px;
+
+        font-size: 16px;
+    }
+
+    footer p,
+    footer a {
+        color: #999;
+
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    footer a:hover {
+        color: #d2aa7b;
+    }
+
+    .footer-links {
+        list-style: none;
+
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 8px;
+    }
+
+    .social-links {
+        display: flex;
+
+        gap: 8px;
+
+        margin-top: 18px;
+    }
+
+    .social-links a {
+        width: 36px;
+        height: 36px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #303030;
+        color: #fff;
+
+        transition: 0.3s;
+    }
+
+    .social-links a:hover {
+        background: #b38b59;
+        color: #fff;
+    }
+
+    .copyright {
+        border-top: 1px solid #333;
+
+        margin-top: 40px;
+        padding-top: 18px;
+
+        text-align: center;
+
+        color: #777;
+
+        font-size: 11px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ====================================================== */
+
+    @media (max-width: 991px) {
+
+        .navbar-nav {
+            padding: 12px 0;
         }
 
         .nav-link {
-            color: #333 !important;
-            font-size: 14px;
-            font-weight: 500;
-            margin: 0 8px;
-            position: relative;
-            transition: 0.3s;
+            margin: 3px 0;
         }
-
-        .nav-link::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 2px;
-            background: #b38b59;
-            transition: 0.3s;
-        }
-
-        .nav-link:hover {
-            color: #b38b59 !important;
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-
-        .nav-link.active {
-            color: #b38b59 !important;
-        }
-
-
-        /* =====================================================
-           LOGIN / REGISTER BUTTONS
-        ====================================================== */
-
-        .btn-login {
-            border: 1px solid #b38b59;
-            color: #b38b59;
-            border-radius: 25px;
-            padding: 8px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: 0.3s;
-            white-space: nowrap;
-        }
-
-        .btn-login:hover {
-            background: #b38b59;
-            color: #ffffff;
-        }
-
-        .btn-register {
-            background: #b38b59;
-            border: 1px solid #b38b59;
-            color: #ffffff;
-            border-radius: 25px;
-            padding: 8px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: 0.3s;
-            white-space: nowrap;
-        }
-
-        .btn-register:hover {
-            background: #8f6c43;
-            border-color: #8f6c43;
-            color: #ffffff;
-        }
-
-
-        /* =====================================================
-           CUSTOMER DROPDOWN
-        ====================================================== */
-
-        .customer-dropdown .dropdown-toggle {
-            border: 1px solid #b38b59;
-            color: #b38b59;
-            border-radius: 25px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .customer-dropdown .dropdown-toggle:hover,
-        .customer-dropdown .dropdown-toggle:focus {
-            background: #b38b59;
-            color: #ffffff;
-        }
-
-        .customer-dropdown .dropdown-menu {
-            border: none;
-            border-radius: 12px;
-            padding: 10px;
-            min-width: 230px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-        }
-
-        .customer-dropdown .dropdown-item {
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-        }
-
-        .customer-dropdown .dropdown-item:hover {
-            background: #f3eee8;
-            color: #b38b59;
-        }
-
-        .customer-dropdown .dropdown-item i {
-            width: 22px;
-        }
-
-
-        /* =====================================================
-           HERO
-        ====================================================== */
 
         .hero {
-            min-height: 700px;
-            display: flex;
-            align-items: center;
-            position: relative;
+            min-height: 600px;
 
-            {% if hotel and hotel.hero_image %}
-
-                background:
-                    linear-gradient(
-                        rgba(0, 0, 0, 0.52),
-                        rgba(0, 0, 0, 0.52)
-                    ),
-                    url("{{ hotel.hero_image.url }}");
-
-            {% else %}
-
-                background:
-                    linear-gradient(
-                        rgba(0, 0, 0, 0.52),
-                        rgba(0, 0, 0, 0.52)
-                    ),
-                    url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=85");
-
-            {% endif %}
-
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        .hero-content {
-            max-width: 750px;
-            color: #ffffff;
-        }
-
-        .hero-content .small-title {
-            display: inline-block;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
+            background-attachment: scroll;
         }
 
         .hero-content h1 {
-            font-size: 64px;
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 20px;
+            font-size: 46px;
         }
-
-        .hero-content p {
-            font-size: 18px;
-            line-height: 1.8;
-            color: #f1f1f1;
-            max-width: 650px;
-            margin-bottom: 30px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-
-        /* =====================================================
-           MAIN BUTTONS
-        ====================================================== */
-
-        .btn-main {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: #b38b59;
-            color: #ffffff;
-            padding: 13px 28px;
-            border-radius: 30px;
-            border: 1px solid #b38b59;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-main:hover {
-            background: #8f6c43;
-            border-color: #8f6c43;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-main {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: #ffffff;
-            padding: 13px 28px;
-            border-radius: 30px;
-            border: 1px solid #ffffff;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-outline-main:hover {
-            background: #ffffff;
-            color: #333333;
-        }
-
-
-        /* =====================================================
-           BOOKING SEARCH
-        ====================================================== */
 
         .booking-wrapper {
-            position: relative;
-            margin-top: -65px;
-            z-index: 10;
-        }
-
-        .booking-box {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
-        }
-
-        .booking-box label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        .booking-box .form-control,
-        .booking-box .form-select {
-            height: 50px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-        }
-
-        .booking-box .form-control:focus,
-        .booking-box .form-select:focus {
-            border-color: #b38b59;
-            box-shadow: 0 0 0 0.2rem rgba(179, 139, 89, 0.15);
-        }
-
-        .search-btn {
-            width: 100%;
-            height: 50px;
-            border: none;
-            border-radius: 8px;
-            background: #b38b59;
-            color: #ffffff;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .search-btn:hover {
-            background: #8f6c43;
-        }
-
-
-        /* =====================================================
-           ROOM CARDS
-        ====================================================== */
-
-        .room-card {
-            height: 100%;
-            background: #ffffff;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.07);
-            transition: 0.35s;
-        }
-
-        .room-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.13);
-        }
-
-        .room-image {
-            height: 245px;
-            overflow: hidden;
-            position: relative;
-            background: #eee;
-        }
-
-        .room-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.5s;
-        }
-
-        .room-card:hover .room-image img {
-            transform: scale(1.08);
-        }
-
-        .room-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #b38b59;
-            color: #ffffff;
-            padding: 6px 13px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .room-body {
-            padding: 25px;
-        }
-
-        .room-category {
-            color: #b38b59;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .room-body h4 {
-            font-size: 21px;
-            font-weight: 600;
-            margin-top: 8px;
-            margin-bottom: 10px;
-        }
-
-        .room-description {
-            color: #777;
-            font-size: 13px;
-            line-height: 1.7;
-            min-height: 45px;
-        }
-
-        .room-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 18px 0;
-            color: #777;
-            font-size: 12px;
-        }
-
-        .room-info span {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .room-info i {
-            color: #b38b59;
-        }
-
-        .room-bottom {
-            border-top: 1px solid #eee;
-            padding-top: 18px;
-        }
-
-        .room-price {
-            color: #b38b59;
-            font-size: 21px;
-            font-weight: 700;
-        }
-
-        .room-price small {
-            color: #888;
-            font-size: 11px;
-            font-weight: 400;
-        }
-
-        .view-room-btn {
-            background: #b38b59;
-            color: #ffffff;
-            border-radius: 25px;
-            padding: 8px 17px;
-            font-size: 12px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .view-room-btn:hover {
-            background: #8f6c43;
-            color: #ffffff;
-        }
-
-
-        /* =====================================================
-           SERVICES
-        ====================================================== */
-
-        .services-section {
-            background: #f3f1ed;
-        }
-
-        .service-card {
-            height: 100%;
-            background: #ffffff;
-            padding: 35px 25px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-            transition: 0.35s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10);
-        }
-
-        .service-icon {
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: auto auto 20px;
-            border-radius: 50%;
-            background: #f2e7d7;
-            color: #b38b59;
-            font-size: 28px;
-        }
-
-        .service-card h4 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .service-card p {
-            color: #777;
-            font-size: 13px;
-            line-height: 1.7;
-        }
-
-
-        /* =====================================================
-           ABOUT
-        ====================================================== */
-
-        .about-image-wrapper {
-            position: relative;
-        }
-
-        .about-image {
-            width: 100%;
-            height: 520px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-
-        .experience-box {
-            position: absolute;
-            bottom: 25px;
-            right: -20px;
-            background: #b38b59;
-            color: #ffffff;
-            padding: 22px 28px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .experience-box strong {
-            display: block;
-            font-size: 32px;
-            line-height: 1;
-        }
-
-        .experience-box span {
-            font-size: 12px;
-        }
-
-        .about-content {
-            padding-left: 25px;
-        }
-
-        .about-content .small-heading {
-            color: #b38b59;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 2px;
-        }
-
-        .about-content h2 {
-            font-size: 39px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin: 12px 0 20px;
-        }
-
-        .about-content p {
-            color: #666;
-            line-height: 1.9;
-            font-size: 14px;
-        }
-
-        .feature-list {
-            list-style: none;
-            padding: 0;
             margin-top: 25px;
         }
 
-        .feature-list li {
-            margin-bottom: 13px;
-            color: #555;
+        .about-content {
+            padding-left: 0;
+            margin-top: 20px;
+        }
+
+    }
+
+
+    @media (max-width: 767px) {
+
+        .section-padding {
+            padding: 65px 0;
+        }
+
+        .section-title {
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+        }
+
+        .hero {
+            min-height: 580px;
+        }
+
+        .hero-content h1 {
+            font-size: 37px;
+        }
+
+        .hero-content p {
             font-size: 14px;
         }
 
-        .feature-list i {
-            color: #b38b59;
-            margin-right: 8px;
+        .hero-buttons {
+            flex-direction: column;
+            align-items: flex-start;
         }
 
-
-        /* =====================================================
-           STATISTICS
-        ====================================================== */
-
-        .stats-section {
-            background: #282828;
-            padding: 70px 0;
-            color: #ffffff;
+        .booking-box {
+            padding: 20px;
         }
 
-        .stat-box {
-            text-align: center;
+        .about-image {
+            height: 360px;
         }
 
-        .stat-box i {
-            color: #d2aa7b;
-            font-size: 34px;
-            margin-bottom: 12px;
+        .about-content h2 {
+            font-size: 29px;
         }
 
-        .stat-box h3 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 5px;
+        .experience-box {
+            right: 15px;
+            bottom: 15px;
         }
 
-        .stat-box p {
-            color: #aaa;
-            font-size: 13px;
-            margin: 0;
-        }
+    }
 
 
-        /* =====================================================
-           REVIEWS
-        ====================================================== */
+    @media (max-width: 575px) {
 
-        .review-card {
-            height: 100%;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
-            transition: 0.3s;
-        }
-
-        .review-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.10);
-        }
-
-        .stars {
-            color: #f2b01e;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-        }
-
-        .review-card p {
-            color: #666;
-            line-height: 1.8;
-            font-size: 14px;
-        }
-
-        .review-user {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 22px;
-        }
-
-        .review-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #b38b59;
-            color: #ffffff;
+        .navbar-brand {
             font-size: 19px;
-            overflow: hidden;
-            flex-shrink: 0;
         }
 
-        .review-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .navbar-logo {
+            width: 38px;
+            height: 38px;
         }
 
-        .review-user strong {
-            font-size: 14px;
+        .hero-content h1 {
+            font-size: 31px;
         }
 
-        .review-user small {
-            color: #888;
-            font-size: 11px;
+        .hero-label {
+            font-size: 10px;
+            letter-spacing: 2px;
         }
 
-
-        /* =====================================================
-           CONTACT
-        ====================================================== */
-
-        .contact-section {
-            background: #f3f1ed;
-        }
-
-        .contact-info-box {
-            margin-bottom: 25px;
-        }
-
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #b38b59;
-            color: #ffffff;
-            border-radius: 50%;
-            margin-right: 12px;
-            vertical-align: middle;
-        }
-
-        .contact-info-box strong {
-            font-size: 15px;
-        }
-
-        .contact-info-box p {
-            margin-left: 64px;
-            margin-top: -2px;
-            color: #777;
+        .hero-content p {
             font-size: 13px;
+        }
+
+        .room-image {
+            height: 215px;
+        }
+
+        .room-body {
+            padding: 20px;
         }
 
         .contact-form {
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+            padding: 22px;
         }
 
-        .contact-form .form-control {
-            min-height: 50px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 13px;
-        }
-
-        .contact-form textarea {
-            min-height: 140px !important;
-            resize: vertical;
-        }
-
-        .contact-form .form-control:focus {
-            border-color: #b38b59;
-            box-shadow: 0 0 0 0.2rem rgba(179, 139, 89, 0.12);
-        }
-
-
-        /* =====================================================
-           FOOTER
-        ====================================================== */
-
-        footer {
-            background: #202020;
-            color: #ffffff;
-            padding: 65px 0 20px;
-        }
-
-        footer h5 {
-            font-size: 17px;
-            margin-bottom: 20px;
-        }
-
-        footer p,
-        footer a {
-            color: #999;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        footer a:hover {
-            color: #d2aa7b;
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 9px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 8px;
-        }
-
-        .social-links a {
+        .notification-link {
             width: 38px;
             height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #303030;
-            color: #ffffff;
-            border-radius: 50%;
-            transition: 0.3s;
         }
 
-        .social-links a:hover {
-            background: #b38b59;
-            color: #ffffff;
-        }
+    }
 
-        .copyright {
-            border-top: 1px solid #333;
-            margin-top: 45px;
-            padding-top: 20px;
-            text-align: center;
-            color: #777;
-            font-size: 12px;
-        }
+</style>
 
-
-        /* =====================================================
-           RESPONSIVE
-        ====================================================== */
-
-        @media (max-width: 1199px) {
-
-            .hero-content h1 {
-                font-size: 55px;
-            }
-
-            .about-content h2 {
-                font-size: 34px;
-            }
-
-        }
-
-
-        @media (max-width: 991px) {
-
-            .navbar-nav {
-                padding: 15px 0;
-            }
-
-            .nav-link {
-                margin: 5px 0;
-            }
-
-            .navbar .d-flex {
-                padding-bottom: 15px;
-            }
-
-            .hero {
-                min-height: 620px;
-                background-attachment: scroll;
-            }
-
-            .hero-content h1 {
-                font-size: 45px;
-            }
-
-            .booking-wrapper {
-                margin-top: 25px;
-            }
-
-            .about-content {
-                padding-left: 0;
-                margin-top: 30px;
-            }
-
-            .experience-box {
-                right: 20px;
-            }
-
-            .customer-dropdown {
-                width: 100%;
-            }
-
-            .customer-dropdown .dropdown-toggle {
-                width: 100%;
-                text-align: left;
-            }
-
-        }
-
-
-        @media (max-width: 767px) {
-
-            .section-padding {
-                padding: 65px 0;
-            }
-
-            .section-title {
-                margin-bottom: 35px;
-            }
-
-            .section-title h2 {
-                font-size: 30px;
-            }
-
-            .hero {
-                min-height: 600px;
-            }
-
-            .hero-content h1 {
-                font-size: 38px;
-            }
-
-            .hero-content p {
-                font-size: 15px;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .booking-box {
-                padding: 22px;
-            }
-
-            .about-image {
-                height: 380px;
-            }
-
-            .experience-box {
-                right: 15px;
-                bottom: 15px;
-            }
-
-            .about-content h2 {
-                font-size: 30px;
-            }
-
-            .contact-form {
-                padding: 25px;
-            }
-
-        }
-
-
-        @media (max-width: 575px) {
-
-            .navbar-brand {
-                font-size: 20px;
-            }
-
-            .navbar-brand i {
-                font-size: 25px;
-            }
-
-            .hero-content h1 {
-                font-size: 32px;
-            }
-
-            .hero-content .small-title {
-                font-size: 11px;
-                letter-spacing: 2px;
-            }
-
-            .hero-content p {
-                font-size: 14px;
-            }
-
-            .about-image {
-                height: 300px;
-            }
-
-            .experience-box {
-                padding: 15px 20px;
-            }
-
-            .experience-box strong {
-                font-size: 25px;
-            }
-
-            .room-image {
-                height: 220px;
-            }
-
-            .room-body {
-                padding: 20px;
-            }
-
-        }
-
-    </style>
 
 </head>
 
-
 <body>
-
 
 <!-- =========================================================
      NAVBAR
@@ -1109,174 +1331,201 @@
 
 <nav
     class="navbar navbar-expand-lg sticky-top"
-    id="mainNavbar">
+    id="mainNavbar"
+>
 
-    <div class="container">
+
+<div class="container">
+
+
+    <!-- =================================================
+         BRAND
+    ================================================== -->
+
+    <a
+        class="navbar-brand"
+        href="{% url 'home' %}"
+    >
+
+        {% if hotel and hotel.logo %}
+
+            <img
+                src="{{ hotel.logo.url }}"
+                alt="{{ hotel.name }}"
+                class="navbar-logo"
+            >
+
+        {% else %}
+
+            <i class="bi bi-building"></i>
+
+        {% endif %}
+
+
+        {% if hotel %}
+
+            {{ hotel.name }}
+
+        {% else %}
+
+            GrandStay Hotel
+
+        {% endif %}
+
+    </a>
+
+
+    <!-- =================================================
+         MOBILE TOGGLE
+    ================================================== -->
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarMenu"
+        aria-controls="navbarMenu"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+
+        <span class="navbar-toggler-icon"></span>
+
+    </button>
+
+
+    <!-- =================================================
+         NAVIGATION
+    ================================================== -->
+
+    <div
+        class="collapse navbar-collapse"
+        id="navbarMenu"
+    >
+
+        <ul class="navbar-nav mx-auto">
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link active"
+                    href="#home"
+                >
+                    Home
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="#rooms"
+                >
+                    Rooms
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="#services"
+                >
+                    Services
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="#about"
+                >
+                    About
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="#reviews"
+                >
+                    Reviews
+                </a>
+
+            </li>
+
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="#contact"
+                >
+                    Contact
+                </a>
+
+            </li>
+
+        </ul>
 
 
         <!-- =================================================
-             BRAND
+             AUTHENTICATED CUSTOMER
         ================================================== -->
 
-        <a
-            class="navbar-brand"
-            href="{% url 'home' %}">
+        {% if user.is_authenticated %}
 
-            {% if hotel and hotel.logo %}
+            <div class="d-flex align-items-center gap-2">
 
-                <img
-                    src="{{ hotel.logo.url }}"
-                    alt="{{ hotel.name }}"
-                    class="navbar-logo">
 
-            {% else %}
+                <!-- NOTIFICATION BELL -->
 
-                <i class="bi bi-building"></i>
+                <a
+                    href="{% url 'notification_list' %}"
+                    class="notification-link"
+                    aria-label="Notifications"
+                    title="Notifications"
+                >
 
-            {% endif %}
+                    <i class="bi bi-bell"></i>
 
 
-            {% if hotel %}
+                    {% if unread_notifications > 0 %}
 
-                {{ hotel.name }}
+                        <span class="notification-badge">
 
-            {% else %}
+                            {{ unread_notifications }}
 
-                GrandStay Hotel
+                        </span>
 
-            {% endif %}
+                    {% endif %}
 
-        </a>
+                </a>
 
 
-        <!-- =================================================
-             MOBILE TOGGLE
-        ================================================== -->
-
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarMenu"
-            aria-controls="navbarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
-
-            <span class="navbar-toggler-icon"></span>
-
-        </button>
-
-
-        <!-- =================================================
-             NAVIGATION
-        ================================================== -->
-
-        <div
-            class="collapse navbar-collapse"
-            id="navbarMenu">
-
-
-            <ul class="navbar-nav mx-auto">
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link active"
-                        href="#home">
-
-                        Home
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="#rooms">
-
-                        Rooms
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="#services">
-
-                        Services
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="#about">
-
-                        About
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="#reviews">
-
-                        Reviews
-
-                    </a>
-
-                </li>
-
-
-                <li class="nav-item">
-
-                    <a
-                        class="nav-link"
-                        href="#contact">
-
-                        Contact
-
-                    </a>
-
-                </li>
-
-
-            </ul>
-
-
-            <!-- =================================================
-                 CUSTOMER / GUEST
-            ================================================== -->
-
-            {% if user.is_authenticated %}
-
+                <!-- CUSTOMER DROPDOWN -->
 
                 <div class="dropdown customer-dropdown">
-
 
                     <button
                         class="btn dropdown-toggle"
                         type="button"
                         data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                        aria-expanded="false"
+                    >
 
                         <i class="bi bi-person-circle me-1"></i>
+
 
                         {% if user.first_name %}
 
@@ -1291,8 +1540,7 @@
                     </button>
 
 
-                    <ul
-                        class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end">
 
 
                         <li>
@@ -1300,10 +1548,15 @@
                             <h6 class="dropdown-header">
 
                                 Welcome,
+
                                 {% if user.first_name %}
+
                                     {{ user.first_name }}
+
                                 {% else %}
+
                                     {{ user.username }}
+
                                 {% endif %}
 
                             </h6>
@@ -1324,11 +1577,43 @@
 
                             <a
                                 class="dropdown-item"
-                                href="{% url 'profile' %}">
+                                href="{% url 'profile' %}"
+                            >
 
                                 <i class="bi bi-person"></i>
 
                                 My Profile
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- NOTIFICATIONS -->
+
+                        <li>
+
+                            <a
+                                class="dropdown-item"
+                                href="{% url 'notification_list' %}"
+                            >
+
+                                <i class="bi bi-bell"></i>
+
+                                Notifications
+
+
+                                {% if unread_notifications > 0 %}
+
+                                    <span
+                                        class="badge bg-danger ms-2"
+                                    >
+
+                                        {{ unread_notifications }}
+
+                                    </span>
+
+                                {% endif %}
 
                             </a>
 
@@ -1341,7 +1626,8 @@
 
                             <a
                                 class="dropdown-item"
-                                href="{% url 'my_bookings' %}">
+                                href="{% url 'my_bookings' %}"
+                            >
 
                                 <i class="bi bi-calendar-check"></i>
 
@@ -1358,7 +1644,8 @@
 
                             <a
                                 class="dropdown-item"
-                                href="{% url 'my_reviews' %}">
+                                href="{% url 'my_reviews' %}"
+                            >
 
                                 <i class="bi bi-star"></i>
 
@@ -1375,7 +1662,8 @@
 
                             <a
                                 class="dropdown-item"
-                                href="{% url 'payment_history' %}">
+                                href="{% url 'payment_history' %}"
+                            >
 
                                 <i class="bi bi-credit-card"></i>
 
@@ -1399,7 +1687,8 @@
 
                             <a
                                 class="dropdown-item text-danger"
-                                href="{% url 'logout' %}">
+                                href="{% url 'logout' %}"
+                            >
 
                                 <i class="bi bi-box-arrow-right"></i>
 
@@ -1409,54 +1698,55 @@
 
                         </li>
 
-
                     </ul>
 
                 </div>
 
-
-            {% else %}
-
-
-                <!-- GUEST BUTTONS -->
-
-                <div class="d-flex gap-2 align-items-center">
+            </div>
 
 
-                    <a
-                        href="{% url 'login' %}"
-                        class="btn btn-login">
-
-                        <i class="bi bi-box-arrow-in-right"></i>
-
-                        Login
-
-                    </a>
+        {% else %}
 
 
-                    <a
-                        href="{% url 'register' %}"
-                        class="btn btn-register">
+            <!-- =================================================
+                 GUEST USER
+            ================================================== -->
 
-                        <i class="bi bi-person-plus"></i>
+            <div class="d-flex gap-2 align-items-center">
 
-                        Register
+                <a
+                    href="{% url 'login' %}"
+                    class="btn-login"
+                >
 
-                    </a>
+                    <i class="bi bi-box-arrow-in-right"></i>
+
+                    Login
+
+                </a>
 
 
-                </div>
+                <a
+                    href="{% url 'register' %}"
+                    class="btn-register"
+                >
+
+                    <i class="bi bi-person-plus"></i>
+
+                    Register
+
+                </a>
+
+            </div>
 
 
-            {% endif %}
-
-
-        </div>
+        {% endif %}
 
     </div>
 
-</nav>
+</div>
 
+</nav>
 
 <!-- =========================================================
      HERO
@@ -1464,98 +1754,95 @@
 
 <section
     class="hero"
-    id="home">
+    id="home"
+>
 
 
-    <div class="container">
+<div class="container">
+
+    <div class="hero-content">
+
+        <span class="hero-label">
+
+            {% if hotel %}
+
+                {{ hotel.name }}
+
+            {% else %}
+
+                Welcome to GrandStay
+
+            {% endif %}
+
+        </span>
 
 
-        <div class="hero-content">
+        <h1>
+
+            {% if hotel and hotel.tagline %}
+
+                {{ hotel.tagline }}
+
+            {% else %}
+
+                Experience Comfort,
+                Luxury & Elegance
+
+            {% endif %}
+
+        </h1>
 
 
-            <span class="small-title">
+        <p>
 
-                {% if hotel %}
+            {% if hotel and hotel.description %}
 
-                    {{ hotel.name }}
+                {{ hotel.description|truncatewords:45 }}
 
-                {% else %}
+            {% else %}
 
-                    Welcome to GrandStay
+                Discover a peaceful and luxurious stay
+                with elegant rooms, modern facilities
+                and warm hospitality designed around
+                your comfort.
 
-                {% endif %}
+            {% endif %}
 
-            </span>
-
-
-            <h1>
-
-                {% if hotel %}
-
-                    {{ hotel.tagline }}
-
-                {% else %}
-
-                    Experience Comfort,
-                    Luxury & Elegance
-
-                {% endif %}
-
-            </h1>
+        </p>
 
 
-            <p>
+        <div class="hero-buttons">
 
-                {% if hotel and hotel.description %}
+            <a
+                href="#rooms"
+                class="btn-main"
+            >
 
-                    {{ hotel.description|truncatewords:45 }}
+                Explore Rooms
 
-                {% else %}
+                <i class="bi bi-arrow-right"></i>
 
-                    Discover a peaceful and luxurious stay
-                    at GrandStay Hotel. Enjoy elegant rooms,
-                    modern facilities and warm hospitality
-                    designed to make your stay unforgettable.
-
-                {% endif %}
-
-            </p>
+            </a>
 
 
-            <div class="hero-buttons">
+            <a
+                href="#contact"
+                class="btn-outline-main"
+            >
 
+                Contact Us
 
-                <a
-                    href="#rooms"
-                    class="btn-main">
+                <i class="bi bi-telephone"></i>
 
-                    Explore Rooms
-
-                    <i class="bi bi-arrow-right"></i>
-
-                </a>
-
-
-                <a
-                    href="#contact"
-                    class="btn-outline-main">
-
-                    Contact Us
-
-                    <i class="bi bi-telephone"></i>
-
-                </a>
-
-
-            </div>
-
+            </a>
 
         </div>
 
     </div>
 
-</section>
+</div>
 
+</section>
 
 <!-- =========================================================
      BOOKING SEARCH
@@ -1563,495 +1850,484 @@
 
 <div class="container booking-wrapper">
 
+<div class="booking-box">
 
-    <div class="booking-box">
+    <form
+        method="GET"
+        action="{% url 'room_list' %}"
+    >
 
+        <div class="row g-3 align-items-end">
 
-        <form
-            method="GET"
-            action="{% url 'room_list' %}">
 
+            <!-- CHECK IN -->
 
-            <div class="row g-3 align-items-end">
+            <div class="col-lg-3 col-md-6">
 
+                <label for="checkIn">
+                    Check In
+                </label>
 
-                <!-- CHECK IN -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <label for="checkIn">
-
-                        Check In
-
-                    </label>
-
-                    <input
-                        type="date"
-                        name="check_in"
-                        id="checkIn"
-                        class="form-control"
-                        required>
-
-                </div>
-
-
-                <!-- CHECK OUT -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <label for="checkOut">
-
-                        Check Out
-
-                    </label>
-
-                    <input
-                        type="date"
-                        name="check_out"
-                        id="checkOut"
-                        class="form-control"
-                        required>
-
-                </div>
-
-
-                <!-- GUESTS -->
-
-                <div class="col-lg-2 col-md-6">
-
-                    <label for="guests">
-
-                        Guests
-
-                    </label>
-
-                    <select
-                        name="guests"
-                        id="guests"
-                        class="form-select">
-
-
-                        <option value="1">
-
-                            1 Guest
-
-                        </option>
-
-
-                        <option
-                            value="2"
-                            selected>
-
-                            2 Guests
-
-                        </option>
-
-
-                        <option value="3">
-
-                            3 Guests
-
-                        </option>
-
-
-                        <option value="4">
-
-                            4 Guests
-
-                        </option>
-
-
-                        <option value="5">
-
-                            5 Guests
-
-                        </option>
-
-
-                        <option value="6">
-
-                            6 Guests
-
-                        </option>
-
-
-                    </select>
-
-                </div>
-
-
-                <!-- ROOM CATEGORY -->
-
-                <div class="col-lg-2 col-md-6">
-
-                    <label for="category">
-
-                        Room Type
-
-                    </label>
-
-
-                    <select
-                        name="category"
-                        id="category"
-                        class="form-select">
-
-
-                        <option value="">
-
-                            All Rooms
-
-                        </option>
-
-
-                        {% for category in categories %}
-
-                            <option
-                                value="{{ category.id }}">
-
-                                {{ category.name }}
-
-                            </option>
-
-                        {% endfor %}
-
-
-                    </select>
-
-                </div>
-
-
-                <!-- SEARCH -->
-
-                <div class="col-lg-2">
-
-                    <button
-                        type="submit"
-                        class="search-btn">
-
-                        <i class="bi bi-search me-1"></i>
-
-                        Search
-
-                    </button>
-
-                </div>
-
+                <input
+                    type="date"
+                    name="check_in"
+                    id="checkIn"
+                    class="form-control"
+                    required
+                >
 
             </div>
 
-        </form>
+
+            <!-- CHECK OUT -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label for="checkOut">
+                    Check Out
+                </label>
+
+                <input
+                    type="date"
+                    name="check_out"
+                    id="checkOut"
+                    class="form-control"
+                    required
+                >
+
+            </div>
+
+
+            <!-- GUESTS -->
+
+            <div class="col-lg-2 col-md-6">
+
+                <label for="guests">
+                    Guests
+                </label>
+
+                <select
+                    name="guests"
+                    id="guests"
+                    class="form-select"
+                >
+
+                    <option value="1">
+                        1 Guest
+                    </option>
+
+                    <option value="2" selected>
+                        2 Guests
+                    </option>
+
+                    <option value="3">
+                        3 Guests
+                    </option>
+
+                    <option value="4">
+                        4 Guests
+                    </option>
+
+                    <option value="5">
+                        5 Guests
+                    </option>
+
+                    <option value="6">
+                        6 Guests
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ROOM CATEGORY -->
+
+            <div class="col-lg-2 col-md-6">
+
+                <label for="category">
+                    Room Type
+                </label>
+
+                <select
+                    name="category"
+                    id="category"
+                    class="form-select"
+                >
+
+                    <option value="">
+                        All Rooms
+                    </option>
+
+                    {% for category in categories %}
+
+                        <option value="{{ category.id }}">
+
+                            {{ category.name }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- SEARCH -->
+
+            <div class="col-lg-2">
+
+                <button
+                    type="submit"
+                    class="search-btn"
+                >
+
+                    <i class="bi bi-search me-1"></i>
+
+                    Search
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+     ROOMS
+========================================================= -->
+
+<section
+    class="section-padding"
+    id="rooms"
+>
+
+
+<div class="container">
+
+
+    <div class="section-title">
+
+        <span>
+            Accommodation
+        </span>
+
+        <h2>
+            Our Rooms
+        </h2>
+
+        <p>
+            Comfortable, elegant and thoughtfully designed
+            rooms for business trips, family holidays and
+            relaxing stays.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        {% for room in rooms %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="room-card">
+
+
+                    <!-- ROOM IMAGE -->
+
+                    <div class="room-image">
+
+                        {% if room.image %}
+
+                            <img
+                                src="{{ room.image.url }}"
+                                alt="{{ room.name }}"
+                                loading="lazy"
+                            >
+
+                        {% else %}
+
+                            <img
+                                src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=85"
+                                alt="{{ room.name }}"
+                                loading="lazy"
+                            >
+
+                        {% endif %}
+
+
+                        {% if room.is_featured %}
+
+                            <span class="room-badge">
+
+                                Featured
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- ROOM CONTENT -->
+
+                    <div class="room-body">
+
+
+                        <span class="room-category">
+
+                            {{ room.category.name }}
+
+                        </span>
+
+
+                        <h4>
+
+                            {{ room.name }}
+
+                        </h4>
+
+
+                        <!-- ROOM NUMBER -->
+
+                        <span class="room-number-badge">
+
+                            <i class="bi bi-door-open-fill"></i>
+
+                            Room No. {{ room.room_number }}
+
+                        </span>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <p class="room-description">
+
+                            {% if room.description %}
+
+                                {{ room.description|truncatewords:18 }}
+
+                            {% else %}
+
+                                Comfortable accommodation
+                                with modern facilities.
+
+                            {% endif %}
+
+                        </p>
+
+
+                        <!-- ROOM DETAILS -->
+
+                        <div class="room-info">
+
+                            <span>
+
+                                <i class="bi bi-people"></i>
+
+                                {{ room.capacity }} Guests
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-aspect-ratio"></i>
+
+                                {{ room.size }} m²
+
+                            </span>
+
+
+                            <span>
+
+                                <i class="bi bi-bed"></i>
+
+                                {{ room.bed_type }}
+
+                            </span>
+
+
+                            {% if room.has_wifi %}
+
+                                <span>
+
+                                    <i class="bi bi-wifi"></i>
+
+                                    Wi-Fi
+
+                                </span>
+
+                            {% endif %}
+
+
+                            {% if room.has_ac %}
+
+                                <span>
+
+                                    <i class="bi bi-snow"></i>
+
+                                    AC
+
+                                </span>
+
+                            {% endif %}
+
+
+                            {% if room.has_tv %}
+
+                                <span>
+
+                                    <i class="bi bi-tv"></i>
+
+                                    TV
+
+                                </span>
+
+                            {% endif %}
+
+
+                            {% if room.has_breakfast %}
+
+                                <span>
+
+                                    <i class="bi bi-cup-hot"></i>
+
+                                    Breakfast
+
+                                </span>
+
+                            {% endif %}
+
+
+                            {% if room.has_balcony %}
+
+                                <span>
+
+                                    <i class="bi bi-house-door"></i>
+
+                                    Balcony
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- PRICE -->
+
+                        <div
+                            class="room-bottom
+                                   d-flex
+                                   justify-content-between
+                                   align-items-center"
+                        >
+
+                            <div class="room-price">
+
+                                Rs. {{ room.price }}
+
+                                <small>
+                                    / night
+                                </small>
+
+                            </div>
+
+
+                            <a
+                                href="{% url 'room_detail' room.id %}"
+                                class="view-room-btn"
+                            >
+
+                                View Room
+
+                                <i class="bi bi-arrow-right ms-1"></i>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        {% empty %}
+
+            <div class="col-12">
+
+                <div class="text-center py-5">
+
+                    <i
+                        class="bi bi-building"
+                        style="
+                            font-size:55px;
+                            color:#b38b59;
+                        "
+                    ></i>
+
+                    <h4 class="mt-3">
+
+                        No Rooms Available
+
+                    </h4>
+
+                    <p class="text-muted">
+
+                        Please check again later.
+
+                    </p>
+
+
+                    <a
+                        href="{% url 'room_list' %}"
+                        class="btn-main"
+                    >
+
+                        Browse Rooms
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="text-center mt-5">
+
+        <a
+            href="{% url 'room_list' %}"
+            class="btn-main"
+        >
+
+            View All Rooms
+
+            <i class="bi bi-arrow-right"></i>
+
+        </a>
 
     </div>
 
 </div>
 
 
-<!-- =========================================================
-     ROOMS SECTION
-========================================================= -->
-
-<section
-    class="section-padding"
-    id="rooms">
-
-
-    <div class="container">
-
-
-        <div class="section-title">
-
-            <span>
-                Accommodation
-            </span>
-
-            <h2>
-                Our Rooms
-            </h2>
-
-            <p>
-
-                Choose from our comfortable and elegant
-                rooms designed for both relaxation and
-                convenience.
-
-            </p>
-
-        </div>
-
-
-        <div class="row g-4">
-
-
-            {% for room in rooms %}
-
-
-                <div class="col-lg-4 col-md-6">
-
-
-                    <div class="room-card">
-
-
-                        <!-- ROOM IMAGE -->
-
-                        <div class="room-image">
-
-
-                            {% if room.image %}
-
-                                <img
-                                    src="{{ room.image.url }}"
-                                    alt="{{ room.name }}"
-                                    loading="lazy">
-
-                            {% else %}
-
-                                <img
-                                    src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=85"
-                                    alt="{{ room.name }}"
-                                    loading="lazy">
-
-                            {% endif %}
-
-
-                            {% if room.is_featured %}
-
-                                <span class="room-badge">
-
-                                    Featured
-
-                                </span>
-
-                            {% endif %}
-
-
-                        </div>
-
-
-                        <!-- ROOM BODY -->
-
-                        <div class="room-body">
-
-
-                            <span class="room-category">
-
-                                {{ room.category.name }}
-
-                            </span>
-
-
-                            <h4>
-
-                                {{ room.name }}
-
-                            </h4>
-
-
-                            <p class="room-description">
-
-                                {% if room.description %}
-
-                                    {{ room.description|truncatewords:18 }}
-
-                                {% else %}
-
-                                    Comfortable and elegant
-                                    accommodation with modern
-                                    facilities.
-
-                                {% endif %}
-
-                            </p>
-
-
-                            <!-- ROOM INFORMATION -->
-
-                            <div class="room-info">
-
-
-                                <span>
-
-                                    <i class="bi bi-people"></i>
-
-                                    {{ room.capacity }}
-                                    Guests
-
-                                </span>
-
-
-                                <span>
-
-                                    <i class="bi bi-aspect-ratio"></i>
-
-                                    {{ room.size }} m²
-
-                                </span>
-
-
-                                <span>
-
-                                    <i class="bi bi-bed"></i>
-
-                                    {{ room.bed_type }}
-
-                                </span>
-
-
-                                {% if room.has_wifi %}
-
-                                    <span>
-
-                                        <i class="bi bi-wifi"></i>
-
-                                        Wi-Fi
-
-                                    </span>
-
-                                {% endif %}
-
-
-                                {% if room.has_ac %}
-
-                                    <span>
-
-                                        <i class="bi bi-snow"></i>
-
-                                        AC
-
-                                    </span>
-
-                                {% endif %}
-
-
-                                {% if room.has_tv %}
-
-                                    <span>
-
-                                        <i class="bi bi-tv"></i>
-
-                                        TV
-
-                                    </span>
-
-                                {% endif %}
-
-
-                            </div>
-
-
-                            <!-- PRICE -->
-
-                            <div
-                                class="room-bottom d-flex justify-content-between align-items-center">
-
-
-                                <div class="room-price">
-
-                                    Rs. {{ room.price }}
-
-                                    <small>
-                                        / night
-                                    </small>
-
-                                </div>
-
-
-                                <a
-                                    href="{% url 'room_detail' room.id %}"
-                                    class="view-room-btn">
-
-                                    View Room
-
-                                    <i class="bi bi-arrow-right ms-1"></i>
-
-                                </a>
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            {% empty %}
-
-
-                <div class="col-12">
-
-
-                    <div class="text-center py-5">
-
-
-                        <i
-                            class="bi bi-building"
-                            style="
-                                font-size:60px;
-                                color:#b38b59;
-                            ">
-                        </i>
-
-
-                        <h4 class="mt-3">
-
-                            No Rooms Available
-
-                        </h4>
-
-
-                        <p class="text-muted">
-
-                            Please check again later.
-
-                        </p>
-
-
-                        <a
-                            href="{% url 'room_list' %}"
-                            class="btn-main">
-
-                            Browse Rooms
-
-                        </a>
-
-
-                    </div>
-
-                </div>
-
-
-            {% endfor %}
-
-
-        </div>
-
-
-        <!-- VIEW ALL ROOMS -->
-
-        <div class="text-center mt-5">
-
-
-            <a
-                href="{% url 'room_list' %}"
-                class="btn-main">
-
-                View All Rooms
-
-                <i class="bi bi-arrow-right"></i>
-
-            </a>
-
-
-        </div>
-
-
-    </div>
-
 </section>
-
 
 <!-- =========================================================
      SERVICES
@@ -2059,180 +2335,175 @@
 
 <section
     class="section-padding services-section"
-    id="services">
+    id="services"
+>
 
 
-    <div class="container">
+<div class="container">
 
 
-        <div class="section-title">
+    <div class="section-title">
 
-            <span>
-                Hotel Facilities
-            </span>
+        <span>
+            Hotel Facilities
+        </span>
 
-            <h2>
-                Our Services
-            </h2>
+        <h2>
+            Our Services
+        </h2>
 
-            <p>
-
-                Everything you need for a comfortable
-                and enjoyable stay.
-
-            </p>
-
-        </div>
-
-
-        <div class="row g-4">
-
-
-            {% for service in services %}
-
-
-                <div class="col-lg-3 col-md-6">
-
-
-                    <div class="service-card">
-
-
-                        <div class="service-icon">
-
-                            <i class="{{ service.icon }}"></i>
-
-                        </div>
-
-
-                        <h4>
-
-                            {{ service.name }}
-
-                        </h4>
-
-
-                        <p>
-
-                            {{ service.description }}
-
-                        </p>
-
-
-                    </div>
-
-                </div>
-
-
-            {% empty %}
-
-
-                <!-- DEFAULT SERVICE -->
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <div class="service-icon">
-
-                            <i class="bi bi-wifi"></i>
-
-                        </div>
-
-                        <h4>
-                            Free Wi-Fi
-                        </h4>
-
-                        <p>
-                            High-speed internet access
-                            throughout the hotel.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <div class="service-icon">
-
-                            <i class="bi bi-cup-hot"></i>
-
-                        </div>
-
-                        <h4>
-                            Restaurant
-                        </h4>
-
-                        <p>
-                            Delicious meals and beverages
-                            prepared for our guests.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <div class="service-icon">
-
-                            <i class="bi bi-car-front"></i>
-
-                        </div>
-
-                        <h4>
-                            Free Parking
-                        </h4>
-
-                        <p>
-                            Safe and convenient parking
-                            for hotel guests.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-lg-3 col-md-6">
-
-                    <div class="service-card">
-
-                        <div class="service-icon">
-
-                            <i class="bi bi-headset"></i>
-
-                        </div>
-
-                        <h4>
-                            24/7 Support
-                        </h4>
-
-                        <p>
-                            Our team is available whenever
-                            you need assistance.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-            {% endfor %}
-
-
-        </div>
+        <p>
+            Enjoy modern facilities and convenient services
+            designed to make your stay comfortable.
+        </p>
 
     </div>
 
-</section>
 
+    <div class="row g-4">
+
+        {% for service in services %}
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+
+                        <i class="{{ service.icon }}"></i>
+
+                    </div>
+
+                    <h4>
+
+                        {{ service.name }}
+
+                    </h4>
+
+                    <p>
+
+                        {{ service.description }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+
+            <!-- DEFAULT SERVICE 1 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-wifi"></i>
+
+                    </div>
+
+                    <h4>
+                        Free Wi-Fi
+                    </h4>
+
+                    <p>
+                        High-speed internet access
+                        throughout the hotel.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DEFAULT SERVICE 2 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-cup-hot"></i>
+
+                    </div>
+
+                    <h4>
+                        Restaurant
+                    </h4>
+
+                    <p>
+                        Delicious meals and beverages
+                        prepared for our guests.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DEFAULT SERVICE 3 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-car-front"></i>
+
+                    </div>
+
+                    <h4>
+                        Free Parking
+                    </h4>
+
+                    <p>
+                        Safe and convenient parking
+                        for hotel guests.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DEFAULT SERVICE 4 -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="service-card">
+
+                    <div class="service-icon">
+
+                        <i class="bi bi-headset"></i>
+
+                    </div>
+
+                    <h4>
+                        24/7 Support
+                    </h4>
+
+                    <p>
+                        Our team is available whenever
+                        you need assistance.
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+</section>
 
 <!-- =========================================================
      ABOUT
@@ -2240,322 +2511,43 @@
 
 <section
     class="section-padding"
-    id="about">
+    id="about"
+>
 
 
-    <div class="container">
+<div class="container">
 
+    <div class="row align-items-center g-5">
 
-        <div class="row align-items-center g-5">
 
+        <!-- IMAGE -->
 
-            <!-- ABOUT IMAGE -->
+        <div class="col-lg-6">
 
-            <div class="col-lg-6">
+            <div class="about-image-wrapper">
 
+                {% if hotel and hotel.hero_image %}
 
-                <div class="about-image-wrapper">
+                    <img
+                        src="{{ hotel.hero_image.url }}"
+                        alt="{{ hotel.name }}"
+                        class="about-image"
+                    >
 
+                {% else %}
 
-                    {% if hotel and hotel.hero_image %}
+                    <img
+                        src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1000&q=85"
+                        alt="GrandStay Hotel"
+                        class="about-image"
+                    >
 
-                        <img
-                            src="{{ hotel.hero_image.url }}"
-                            alt="{{ hotel.name }}"
-                            class="about-image">
+                {% endif %}
 
-                    {% else %}
 
-                        <img
-                            src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1000&q=85"
-                            alt="GrandStay Hotel"
-                            class="about-image">
+                <div class="experience-box">
 
-                    {% endif %}
-
-
-                    <div class="experience-box">
-
-
-                        <strong>
-
-                            {% if hotel %}
-
-                                {{ hotel.years_experience }}+
-
-                            {% else %}
-
-                                15+
-
-                            {% endif %}
-
-                        </strong>
-
-
-                        <span>
-
-                            Years Experience
-
-                        </span>
-
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- ABOUT CONTENT -->
-
-            <div class="col-lg-6">
-
-
-                <div class="about-content">
-
-
-                    <span class="small-heading">
-
-                        ABOUT
-
-                        {% if hotel %}
-
-                            {{ hotel.name|upper }}
-
-                        {% else %}
-
-                            GRANDSTAY
-
-                        {% endif %}
-
-                    </span>
-
-
-                    <h2>
-
-                        A Place Where
-                        Comfort Meets Luxury
-
-                    </h2>
-
-
-                    {% if hotel and hotel.description %}
-
-
-                        <p>
-
-                            {{ hotel.description }}
-
-                        </p>
-
-
-                    {% else %}
-
-
-                        <p>
-
-                            GrandStay Hotel is designed to provide
-                            guests with a relaxing, comfortable and
-                            memorable experience. From elegant rooms
-                            to modern facilities, every detail is
-                            designed with our guests in mind.
-
-                        </p>
-
-
-                        <p>
-
-                            Whether you are travelling for business,
-                            leisure or a family vacation, GrandStay
-                            offers the perfect environment for your
-                            stay.
-
-                        </p>
-
-
-                    {% endif %}
-
-
-                    <ul class="feature-list">
-
-
-                        <li>
-
-                            <i class="bi bi-check-circle-fill"></i>
-
-                            Comfortable and luxurious rooms
-
-                        </li>
-
-
-                        <li>
-
-                            <i class="bi bi-check-circle-fill"></i>
-
-                            Professional hospitality
-
-                        </li>
-
-
-                        <li>
-
-                            <i class="bi bi-check-circle-fill"></i>
-
-                            Modern hotel facilities
-
-                        </li>
-
-
-                        <li>
-
-                            <i class="bi bi-check-circle-fill"></i>
-
-                            Convenient location
-
-                        </li>
-
-
-                        <li>
-
-                            <i class="bi bi-check-circle-fill"></i>
-
-                            24/7 guest support
-
-                        </li>
-
-
-                    </ul>
-
-
-                    <a
-                        href="#contact"
-                        class="btn-main mt-2">
-
-                        Contact Us
-
-                        <i class="bi bi-arrow-right"></i>
-
-                    </a>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     STATISTICS
-========================================================= -->
-
-<section class="stats-section">
-
-
-    <div class="container">
-
-
-        <div class="row g-4">
-
-
-            <!-- HAPPY GUESTS -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="stat-box">
-
-                    <i class="bi bi-people"></i>
-
-                    <h3>
-                        5,000+
-                    </h3>
-
-                    <p>
-                        Happy Guests
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- ROOMS -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="stat-box">
-
-                    <i class="bi bi-building"></i>
-
-                    <h3>
-
-                        {% if total_rooms %}
-
-                            {{ total_rooms }}+
-
-                        {% else %}
-
-                            80+
-
-                        {% endif %}
-
-                    </h3>
-
-                    <p>
-                        Hotel Rooms
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- CATEGORIES -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="stat-box">
-
-                    <i class="bi bi-door-open"></i>
-
-                    <h3>
-
-                        {% if total_categories %}
-
-                            {{ total_categories }}+
-
-                        {% else %}
-
-                            10+
-
-                        {% endif %}
-
-                    </h3>
-
-                    <p>
-                        Room Categories
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- EXPERIENCE -->
-
-            <div class="col-lg-3 col-md-6">
-
-                <div class="stat-box">
-
-                    <i class="bi bi-award"></i>
-
-                    <h3>
+                    <strong>
 
                         {% if hotel %}
 
@@ -2567,23 +2559,273 @@
 
                         {% endif %}
 
-                    </h3>
+                    </strong>
 
-                    <p>
+                    <span>
                         Years Experience
-                    </p>
+                    </span>
 
                 </div>
 
             </div>
 
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="col-lg-6">
+
+            <div class="about-content">
+
+                <span class="small-heading">
+
+                    ABOUT
+
+                    {% if hotel %}
+
+                        {{ hotel.name|upper }}
+
+                    {% else %}
+
+                        GRANDSTAY
+
+                    {% endif %}
+
+                </span>
+
+
+                <h2>
+
+                    A Place Where
+                    Comfort Meets Luxury
+
+                </h2>
+
+
+                {% if hotel and hotel.description %}
+
+                    <p>
+
+                        {{ hotel.description }}
+
+                    </p>
+
+                {% else %}
+
+                    <p>
+
+                        GrandStay Hotel provides a relaxing,
+                        comfortable and memorable experience.
+                        From elegant rooms to modern facilities,
+                        every detail is designed around our guests.
+
+                    </p>
+
+                    <p>
+
+                        Whether you are travelling for business,
+                        leisure or a family vacation, our hotel
+                        provides a welcoming environment for your stay.
+
+                    </p>
+
+                {% endif %}
+
+
+                <ul class="feature-list">
+
+                    <li>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Comfortable and luxurious rooms
+
+                    </li>
+
+
+                    <li>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Professional hospitality
+
+                    </li>
+
+
+                    <li>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Modern hotel facilities
+
+                    </li>
+
+
+                    <li>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Convenient location
+
+                    </li>
+
+
+                    <li>
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        24/7 guest support
+
+                    </li>
+
+                </ul>
+
+
+                <a
+                    href="#contact"
+                    class="btn-main"
+                >
+
+                    Contact Us
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </a>
+
+            </div>
 
         </div>
 
     </div>
 
+</div>
+
 </section>
 
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
+
+<section class="stats-section">
+
+
+<div class="container">
+
+    <div class="row g-4">
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-box">
+
+                <i class="bi bi-people"></i>
+
+                <h3>
+                    5,000+
+                </h3>
+
+                <p>
+                    Happy Guests
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-box">
+
+                <i class="bi bi-building"></i>
+
+                <h3>
+
+                    {% if total_rooms %}
+
+                        {{ total_rooms }}+
+
+                    {% else %}
+
+                        80+
+
+                    {% endif %}
+
+                </h3>
+
+                <p>
+                    Hotel Rooms
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-box">
+
+                <i class="bi bi-door-open"></i>
+
+                <h3>
+
+                    {% if total_categories %}
+
+                        {{ total_categories }}+
+
+                    {% else %}
+
+                        10+
+
+                    {% endif %}
+
+                </h3>
+
+                <p>
+                    Room Categories
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="stat-box">
+
+                <i class="bi bi-award"></i>
+
+                <h3>
+
+                    {% if hotel %}
+
+                        {{ hotel.years_experience }}+
+
+                    {% else %}
+
+                        15+
+
+                    {% endif %}
+
+                </h3>
+
+                <p>
+                    Years Experience
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
 
 <!-- =========================================================
      REVIEWS
@@ -2591,350 +2833,279 @@
 
 <section
     class="section-padding"
-    id="reviews">
+    id="reviews"
+>
 
 
-    <div class="container">
+<div class="container">
 
 
-        <div class="section-title">
+    <div class="section-title">
 
-            <span>
-                Guest Reviews
-            </span>
+        <span>
+            Guest Reviews
+        </span>
 
-            <h2>
-                What Our Guests Say
-            </h2>
+        <h2>
+            What Our Guests Say
+        </h2>
 
-            <p>
+        <p>
+            Experiences and feedback shared by
+            our valued hotel guests.
+        </p>
 
-                Discover experiences shared by
-                our hotel guests.
-
-            </p>
-
-        </div>
+    </div>
 
 
-        <div class="row g-4">
+    <div class="row g-4">
 
 
-            {% if reviews %}
+        {% if reviews %}
 
 
-                {% for review in reviews|slice:":3" %}
+            {% for review in reviews|slice:":3" %}
+
+                <div class="col-lg-4 col-md-6">
+
+                    <div class="review-card">
+
+                        <div class="stars">
+
+                            {% if review.rating >= 1 %}★{% endif %}
+                            {% if review.rating >= 2 %}★{% endif %}
+                            {% if review.rating >= 3 %}★{% endif %}
+                            {% if review.rating >= 4 %}★{% endif %}
+                            {% if review.rating >= 5 %}★{% endif %}
+
+                        </div>
 
 
-                    <div class="col-lg-4 col-md-6">
+                        <p>
+
+                            "{{ review.comment|truncatewords:35 }}"
+
+                        </p>
 
 
-                        <div class="review-card">
+                        <div class="review-user">
 
+                            <div class="review-avatar">
 
-                            <!-- STARS -->
+                                {% if review.user.customer_profile.profile_image %}
 
-                            <div class="stars">
+                                    <img
+                                        src="{{ review.user.customer_profile.profile_image.url }}"
+                                        alt="{{ review.user.username }}"
+                                    >
 
+                                {% else %}
 
-                                {% if review.rating >= 1 %}
-                                    ★
+                                    <i class="bi bi-person"></i>
+
                                 {% endif %}
-
-
-                                {% if review.rating >= 2 %}
-                                    ★
-                                {% endif %}
-
-
-                                {% if review.rating >= 3 %}
-                                    ★
-                                {% endif %}
-
-
-                                {% if review.rating >= 4 %}
-                                    ★
-                                {% endif %}
-
-
-                                {% if review.rating >= 5 %}
-                                    ★
-                                {% endif %}
-
 
                             </div>
 
 
-                            <!-- REVIEW -->
+                            <div>
 
-                            <p>
+                                <strong>
 
-                                "{{ review.comment|truncatewords:35 }}"
+                                    {% if review.user.get_full_name %}
 
-                            </p>
-
-
-                            <!-- REVIEW USER -->
-
-                            <div class="review-user">
-
-
-                                <div class="review-avatar">
-
-
-                                    {% if review.user.customer_profile.profile_image %}
-
-
-                                        <img
-                                            src="{{ review.user.customer_profile.profile_image.url }}"
-                                            alt="{{ review.user.username }}">
-
+                                        {{ review.user.get_full_name }}
 
                                     {% else %}
 
-
-                                        <i class="bi bi-person"></i>
-
+                                        {{ review.user.username }}
 
                                     {% endif %}
 
-
-                                </div>
-
-
-                                <div>
-
-
-                                    <strong>
-
-                                        {% if review.user.get_full_name %}
-
-                                            {{ review.user.get_full_name }}
-
-                                        {% else %}
-
-                                            {{ review.user.username }}
-
-                                        {% endif %}
-
-                                    </strong>
-
-
-                                    <small class="d-block">
-
-                                        {{ review.room.name }}
-
-                                    </small>
-
-
-                                </div>
-
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-
-                {% endfor %}
-
-
-            {% else %}
-
-
-                <!-- FALLBACK REVIEW 1 -->
-
-                <div class="col-lg-4 col-md-6">
-
-                    <div class="review-card">
-
-
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-
-                        <p>
-
-                            "Beautiful hotel with very comfortable
-                            rooms. The staff were friendly and
-                            professional. I really enjoyed my stay."
-
-                        </p>
-
-
-                        <div class="review-user">
-
-
-                            <div class="review-avatar">
-
-                                <i class="bi bi-person"></i>
-
-                            </div>
-
-
-                            <div>
-
-                                <strong>
-                                    Rahul Sharma
                                 </strong>
 
+
                                 <small class="d-block">
-                                    Hotel Guest
+
+                                    {{ review.room.name }}
+
                                 </small>
 
                             </div>
 
-
                         </div>
-
 
                     </div>
 
                 </div>
 
-
-                <!-- FALLBACK REVIEW 2 -->
-
-                <div class="col-lg-4 col-md-6">
-
-                    <div class="review-card">
+            {% endfor %}
 
 
-                        <div class="stars">
-                            ★★★★★
-                        </div>
+        {% else %}
 
 
-                        <p>
+            <!-- DEFAULT REVIEW 1 -->
 
-                            "The rooms were clean, spacious and
-                            modern. The service was excellent and
-                            the environment was peaceful."
+            <div class="col-lg-4 col-md-6">
 
-                        </p>
+                <div class="review-card">
 
+                    <div class="stars">
+                        ★★★★★
+                    </div>
 
-                        <div class="review-user">
+                    <p>
 
+                        "Beautiful hotel with very comfortable
+                        rooms. The staff were friendly and
+                        professional. I really enjoyed my stay."
 
-                            <div class="review-avatar">
+                    </p>
 
-                                <i class="bi bi-person"></i>
+                    <div class="review-user">
 
-                            </div>
+                        <div class="review-avatar">
 
-
-                            <div>
-
-                                <strong>
-                                    Priya Thapa
-                                </strong>
-
-                                <small class="d-block">
-                                    Hotel Guest
-                                </small>
-
-                            </div>
-
+                            <i class="bi bi-person"></i>
 
                         </div>
 
+                        <div>
+
+                            <strong>
+                                Rahul Sharma
+                            </strong>
+
+                            <small class="d-block">
+                                Hotel Guest
+                            </small>
+
+                        </div>
 
                     </div>
 
                 </div>
-
-
-                <!-- FALLBACK REVIEW 3 -->
-
-                <div class="col-lg-4 col-md-6">
-
-                    <div class="review-card">
-
-
-                        <div class="stars">
-                            ★★★★★
-                        </div>
-
-
-                        <p>
-
-                            "Excellent hospitality and a wonderful
-                            place to stay with family. I would
-                            definitely visit again."
-
-                        </p>
-
-
-                        <div class="review-user">
-
-
-                            <div class="review-avatar">
-
-                                <i class="bi bi-person"></i>
-
-                            </div>
-
-
-                            <div>
-
-                                <strong>
-                                    Suman Joshi
-                                </strong>
-
-                                <small class="d-block">
-                                    Hotel Guest
-                                </small>
-
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-
-            {% endif %}
-
-
-        </div>
-
-
-        <!-- MY REVIEWS -->
-
-        {% if user.is_authenticated %}
-
-
-            <div class="text-center mt-5">
-
-
-                <a
-                    href="{% url 'my_reviews' %}"
-                    class="btn-main">
-
-                    View My Reviews
-
-                    <i class="bi bi-star"></i>
-
-                </a>
-
 
             </div>
 
 
-        {% endif %}
+            <!-- DEFAULT REVIEW 2 -->
 
+            <div class="col-lg-4 col-md-6">
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+
+                        "The rooms were clean, spacious and
+                        modern. The service was excellent and
+                        the environment was peaceful."
+
+                    </p>
+
+                    <div class="review-user">
+
+                        <div class="review-avatar">
+
+                            <i class="bi bi-person"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Priya Thapa
+                            </strong>
+
+                            <small class="d-block">
+                                Hotel Guest
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DEFAULT REVIEW 3 -->
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="review-card">
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+
+                        "Excellent hospitality and a wonderful
+                        place to stay with family. I would
+                        definitely visit again."
+
+                    </p>
+
+                    <div class="review-user">
+
+                        <div class="review-avatar">
+
+                            <i class="bi bi-person"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Suman Joshi
+                            </strong>
+
+                            <small class="d-block">
+                                Hotel Guest
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endif %}
 
     </div>
 
-</section>
 
+    {% if user.is_authenticated %}
+
+        <div class="text-center mt-5">
+
+            <a
+                href="{% url 'my_reviews' %}"
+                class="btn-main"
+            >
+
+                View My Reviews
+
+                <i class="bi bi-star"></i>
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</section>
 
 <!-- =========================================================
      CONTACT
@@ -2942,618 +3113,52 @@
 
 <section
     class="section-padding contact-section"
-    id="contact">
+    id="contact"
+>
 
 
-    <div class="container">
+<div class="container">
 
 
-        <div class="section-title">
+    <div class="section-title">
 
-            <span>
-                Get In Touch
-            </span>
+        <span>
+            Get In Touch
+        </span>
 
-            <h2>
-                Contact Us
-            </h2>
+        <h2>
+            Contact Us
+        </h2>
 
-            <p>
-
-                Have a question or need help?
-                Feel free to contact us.
-
-            </p>
-
-        </div>
-
-
-        <div class="row g-5">
-
-
-            <!-- CONTACT INFORMATION -->
-
-            <div class="col-lg-5">
-
-
-                <!-- LOCATION -->
-
-                <div class="contact-info-box">
-
-
-                    <span class="contact-icon">
-
-                        <i class="bi bi-geo-alt"></i>
-
-                    </span>
-
-
-                    <strong>
-                        Location
-                    </strong>
-
-
-                    <p>
-
-                        {% if hotel and hotel.address %}
-
-                            {{ hotel.address }}
-
-                        {% else %}
-
-                            Dhangadhi, Kailali, Nepal
-
-                        {% endif %}
-
-                    </p>
-
-
-                </div>
-
-
-                <!-- PHONE -->
-
-                <div class="contact-info-box">
-
-
-                    <span class="contact-icon">
-
-                        <i class="bi bi-telephone"></i>
-
-                    </span>
-
-
-                    <strong>
-                        Phone
-                    </strong>
-
-
-                    <p>
-
-                        {% if hotel and hotel.phone %}
-
-                            {{ hotel.phone }}
-
-                        {% else %}
-
-                            +977 9800000000
-
-                        {% endif %}
-
-                    </p>
-
-
-                </div>
-
-
-                <!-- EMAIL -->
-
-                <div class="contact-info-box">
-
-
-                    <span class="contact-icon">
-
-                        <i class="bi bi-envelope"></i>
-
-                    </span>
-
-
-                    <strong>
-                        Email
-                    </strong>
-
-
-                    <p>
-
-                        {% if hotel and hotel.email %}
-
-                            {{ hotel.email }}
-
-                        {% else %}
-
-                            info@grandstayhotel.com
-
-                        {% endif %}
-
-                    </p>
-
-
-                </div>
-
-
-                <!-- RECEPTION -->
-
-                <div class="contact-info-box">
-
-
-                    <span class="contact-icon">
-
-                        <i class="bi bi-clock"></i>
-
-                    </span>
-
-
-                    <strong>
-                        Reception
-                    </strong>
-
-
-                    <p>
-                        Open 24 Hours
-                    </p>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- CONTACT FORM -->
-
-            <div class="col-lg-7">
-
-
-                <div class="contact-form">
-
-
-                    <form id="contactForm">
-
-
-                        <div class="row g-3">
-
-
-                            <!-- NAME -->
-
-                            <div class="col-md-6">
-
-
-                                <label
-                                    class="form-label small fw-semibold">
-
-                                    Your Name
-
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    id="contactName"
-                                    class="form-control"
-                                    placeholder="Your Name"
-                                    required>
-
-
-                            </div>
-
-
-                            <!-- EMAIL -->
-
-                            <div class="col-md-6">
-
-
-                                <label
-                                    class="form-label small fw-semibold">
-
-                                    Your Email
-
-                                </label>
-
-
-                                <input
-                                    type="email"
-                                    id="contactEmail"
-                                    class="form-control"
-                                    placeholder="Your Email"
-                                    required>
-
-
-                            </div>
-
-
-                            <!-- SUBJECT -->
-
-                            <div class="col-12">
-
-
-                                <label
-                                    class="form-label small fw-semibold">
-
-                                    Subject
-
-                                </label>
-
-
-                                <input
-                                    type="text"
-                                    id="contactSubject"
-                                    class="form-control"
-                                    placeholder="Subject"
-                                    required>
-
-
-                            </div>
-
-
-                            <!-- MESSAGE -->
-
-                            <div class="col-12">
-
-
-                                <label
-                                    class="form-label small fw-semibold">
-
-                                    Message
-
-                                </label>
-
-
-                                <textarea
-                                    id="contactMessage"
-                                    class="form-control"
-                                    placeholder="Your Message"
-                                    required></textarea>
-
-
-                            </div>
-
-
-                            <!-- SUBMIT -->
-
-                            <div class="col-12">
-
-
-                                <button
-                                    type="submit"
-                                    class="btn-main">
-
-                                    Send Message
-
-                                    <i class="bi bi-send"></i>
-
-                                </button>
-
-
-                            </div>
-
-
-                        </div>
-
-
-                    </form>
-
-
-                </div>
-
-            </div>
-
-
-        </div>
+        <p>
+            Have a question or need assistance?
+            Our team is here to help.
+        </p>
 
     </div>
 
-</section>
+
+    <div class="row g-5">
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
+        <!-- CONTACT INFORMATION -->
 
-<footer>
+        <div class="col-lg-5">
 
 
-    <div class="container">
+            <div class="contact-info-box">
 
+                <span class="contact-icon">
 
-        <div class="row g-5">
+                    <i class="bi bi-geo-alt"></i>
 
+                </span>
 
-            <!-- BRAND -->
-
-            <div class="col-lg-4">
-
-
-                <h5>
-
-
-                    <i class="bi bi-building"></i>
-
-
-                    {% if hotel %}
-
-                        {{ hotel.name }}
-
-                    {% else %}
-
-                        GrandStay Hotel
-
-                    {% endif %}
-
-
-                </h5>
-
+                <strong>
+                    Location
+                </strong>
 
                 <p>
-
-
-                    {% if hotel and hotel.tagline %}
-
-                        {{ hotel.tagline }}.
-
-
-                    {% else %}
-
-                        Experience Comfort, Luxury &
-                        Elegance at GrandStay Hotel.
-                        Your comfort is our priority.
-
-
-                    {% endif %}
-
-
-                </p>
-
-
-                <!-- SOCIAL -->
-
-                <div class="social-links">
-
-
-                    <a
-                        href="#"
-                        aria-label="Facebook">
-
-                        <i class="bi bi-facebook"></i>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        aria-label="Instagram">
-
-                        <i class="bi bi-instagram"></i>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        aria-label="Twitter">
-
-                        <i class="bi bi-twitter-x"></i>
-
-                    </a>
-
-
-                    <a
-                        href="#"
-                        aria-label="YouTube">
-
-                        <i class="bi bi-youtube"></i>
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- QUICK LINKS -->
-
-            <div class="col-lg-2">
-
-
-                <h5>
-                    Quick Links
-                </h5>
-
-
-                <ul class="footer-links">
-
-
-                    <li>
-
-                        <a href="#home">
-                            Home
-                        </a>
-
-                    </li>
-
-
-                    <li>
-
-                        <a href="#rooms">
-                            Rooms
-                        </a>
-
-                    </li>
-
-
-                    <li>
-
-                        <a href="#services">
-                            Services
-                        </a>
-
-                    </li>
-
-
-                    <li>
-
-                        <a href="#about">
-                            About
-                        </a>
-
-                    </li>
-
-
-                    <li>
-
-                        <a href="#reviews">
-                            Reviews
-                        </a>
-
-                    </li>
-
-
-                    <li>
-
-                        <a href="#contact">
-                            Contact
-                        </a>
-
-                    </li>
-
-
-                </ul>
-
-
-            </div>
-
-
-            <!-- CUSTOMER LINKS -->
-
-            <div class="col-lg-3">
-
-
-                <h5>
-                    Customer
-                </h5>
-
-
-                <ul class="footer-links">
-
-
-                    <li>
-
-                        <a href="{% url 'room_list' %}">
-
-                            Browse Rooms
-
-                        </a>
-
-                    </li>
-
-
-                    {% if user.is_authenticated %}
-
-
-                        <li>
-
-                            <a href="{% url 'my_bookings' %}">
-
-                                My Bookings
-
-                            </a>
-
-                        </li>
-
-
-                        <li>
-
-                            <a href="{% url 'my_reviews' %}">
-
-                                My Reviews
-
-                            </a>
-
-                        </li>
-
-
-                        <li>
-
-                            <a href="{% url 'payment_history' %}">
-
-                                Payment History
-
-                            </a>
-
-                        </li>
-
-
-                        <li>
-
-                            <a href="{% url 'profile' %}">
-
-                                My Profile
-
-                            </a>
-
-                        </li>
-
-
-                    {% else %}
-
-
-                        <li>
-
-                            <a href="{% url 'login' %}">
-
-                                Customer Login
-
-                            </a>
-
-                        </li>
-
-
-                        <li>
-
-                            <a href="{% url 'register' %}">
-
-                                Create Account
-
-                            </a>
-
-                        </li>
-
-
-                    {% endif %}
-
-
-                </ul>
-
-
-            </div>
-
-
-            <!-- CONTACT -->
-
-            <div class="col-lg-3">
-
-
-                <h5>
-                    Contact
-                </h5>
-
-
-                <p>
-
-
-                    <i class="bi bi-geo-alt me-2"></i>
-
 
                     {% if hotel and hotel.address %}
 
@@ -3565,15 +3170,24 @@
 
                     {% endif %}
 
-
                 </p>
 
+            </div>
+
+
+            <div class="contact-info-box">
+
+                <span class="contact-icon">
+
+                    <i class="bi bi-telephone"></i>
+
+                </span>
+
+                <strong>
+                    Phone
+                </strong>
 
                 <p>
-
-
-                    <i class="bi bi-telephone me-2"></i>
-
 
                     {% if hotel and hotel.phone %}
 
@@ -3585,15 +3199,24 @@
 
                     {% endif %}
 
-
                 </p>
 
+            </div>
+
+
+            <div class="contact-info-box">
+
+                <span class="contact-icon">
+
+                    <i class="bi bi-envelope"></i>
+
+                </span>
+
+                <strong>
+                    Email
+                </strong>
 
                 <p>
-
-
-                    <i class="bi bi-envelope me-2"></i>
-
 
                     {% if hotel and hotel.email %}
 
@@ -3605,54 +3228,508 @@
 
                     {% endif %}
 
-
                 </p>
-
 
             </div>
 
 
-        </div>
+            <div class="contact-info-box">
 
+                <span class="contact-icon">
 
-        <!-- COPYRIGHT -->
+                    <i class="bi bi-clock"></i>
 
-        <div class="copyright">
+                </span>
 
+                <strong>
+                    Reception
+                </strong>
 
-            © 2026
+                <p>
+                    Open 24 Hours
+                </p>
 
-
-            {% if hotel %}
-
-                {{ hotel.name }}
-
-            {% else %}
-
-                GrandStay Hotel
-
-            {% endif %}
-
-
-            . All Rights Reserved.
-
+            </div>
 
         </div>
 
+
+        <!-- CONTACT FORM -->
+
+        <div class="col-lg-7">
+
+            <div class="contact-form">
+
+                <form id="contactForm">
+
+                    <div class="row g-3">
+
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label small fw-semibold"
+                            >
+
+                                Your Name
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="contactName"
+                                class="form-control"
+                                placeholder="Your Name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label
+                                class="form-label small fw-semibold"
+                            >
+
+                                Your Email
+
+                            </label>
+
+                            <input
+                                type="email"
+                                id="contactEmail"
+                                class="form-control"
+                                placeholder="Your Email"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <label
+                                class="form-label small fw-semibold"
+                            >
+
+                                Subject
+
+                            </label>
+
+                            <input
+                                type="text"
+                                id="contactSubject"
+                                class="form-control"
+                                placeholder="Subject"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <label
+                                class="form-label small fw-semibold"
+                            >
+
+                                Message
+
+                            </label>
+
+                            <textarea
+                                id="contactMessage"
+                                class="form-control"
+                                placeholder="Write your message..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="col-12">
+
+                            <button
+                                type="submit"
+                                class="btn-main"
+                            >
+
+                                Send Message
+
+                                <i class="bi bi-send"></i>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
 
     </div>
 
-</footer>
+</div>
 
+
+</section>
 
 <!-- =========================================================
-     BOOTSTRAP JAVASCRIPT
+     FOOTER
+========================================================= -->
+
+<footer>
+
+<div class="container">
+
+    <div class="row g-5">
+
+
+        <!-- BRAND -->
+
+        <div class="col-lg-4">
+
+            <h5>
+
+                <i class="bi bi-building me-1"></i>
+
+                {% if hotel %}
+
+                    {{ hotel.name }}
+
+                {% else %}
+
+                    GrandStay Hotel
+
+                {% endif %}
+
+            </h5>
+
+
+            <p>
+
+                {% if hotel and hotel.tagline %}
+
+                    {{ hotel.tagline }}.
+
+                {% else %}
+
+                    Experience comfort, luxury and
+                    exceptional hospitality.
+
+                {% endif %}
+
+            </p>
+
+
+            <div class="social-links">
+
+                <a
+                    href="#"
+                    aria-label="Facebook"
+                >
+
+                    <i class="bi bi-facebook"></i>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="Instagram"
+                >
+
+                    <i class="bi bi-instagram"></i>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="Twitter"
+                >
+
+                    <i class="bi bi-twitter-x"></i>
+
+                </a>
+
+
+                <a
+                    href="#"
+                    aria-label="YouTube"
+                >
+
+                    <i class="bi bi-youtube"></i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- QUICK LINKS -->
+
+        <div class="col-lg-2">
+
+            <h5>
+                Quick Links
+            </h5>
+
+            <ul class="footer-links">
+
+                <li>
+                    <a href="#home">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#rooms">
+                        Rooms
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#services">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#about">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#reviews">
+                        Reviews
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- CUSTOMER -->
+
+        <div class="col-lg-3">
+
+            <h5>
+                Customer
+            </h5>
+
+            <ul class="footer-links">
+
+                <li>
+
+                    <a href="{% url 'room_list' %}">
+
+                        Browse Rooms
+
+                    </a>
+
+                </li>
+
+
+                {% if user.is_authenticated %}
+
+
+                    <li>
+
+                        <a href="{% url 'notification_list' %}">
+
+                            Notifications
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="{% url 'my_bookings' %}">
+
+                            My Bookings
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="{% url 'my_reviews' %}">
+
+                            My Reviews
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="{% url 'payment_history' %}">
+
+                            Payment History
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="{% url 'profile' %}">
+
+                            My Profile
+
+                        </a>
+
+                    </li>
+
+
+                {% else %}
+
+
+                    <li>
+
+                        <a href="{% url 'login' %}">
+
+                            Customer Login
+
+                        </a>
+
+                    </li>
+
+
+                    <li>
+
+                        <a href="{% url 'register' %}">
+
+                            Create Account
+
+                        </a>
+
+                    </li>
+
+
+                {% endif %}
+
+            </ul>
+
+        </div>
+
+
+        <!-- CONTACT -->
+
+        <div class="col-lg-3">
+
+            <h5>
+                Contact
+            </h5>
+
+
+            <p>
+
+                <i class="bi bi-geo-alt me-2"></i>
+
+                {% if hotel and hotel.address %}
+
+                    {{ hotel.address }}
+
+                {% else %}
+
+                    Dhangadhi, Kailali, Nepal
+
+                {% endif %}
+
+            </p>
+
+
+            <p>
+
+                <i class="bi bi-telephone me-2"></i>
+
+                {% if hotel and hotel.phone %}
+
+                    {{ hotel.phone }}
+
+                {% else %}
+
+                    +977 9800000000
+
+                {% endif %}
+
+            </p>
+
+
+            <p>
+
+                <i class="bi bi-envelope me-2"></i>
+
+                {% if hotel and hotel.email %}
+
+                    {{ hotel.email }}
+
+                {% else %}
+
+                    info@grandstayhotel.com
+
+                {% endif %}
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- COPYRIGHT -->
+
+    <div class="copyright">
+
+        © 2026
+
+        {% if hotel %}
+
+            {{ hotel.name }}
+
+        {% else %}
+
+            GrandStay Hotel
+
+        {% endif %}
+
+        . All Rights Reserved.
+
+    </div>
+
+</div>
+
+
+</footer>
+
+<!-- =========================================================
+     BOOTSTRAP JS
 ========================================================= -->
 
 <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
 
 <!-- =========================================================
      CUSTOM JAVASCRIPT
@@ -3660,9 +3737,8 @@
 
 <script>
 
-
     /* =====================================================
-       NAVBAR SHADOW ON SCROLL
+       NAVBAR SHADOW
     ====================================================== */
 
     window.addEventListener(
@@ -3672,7 +3748,11 @@
             const navbar =
                 document.getElementById("mainNavbar");
 
-            if (window.scrollY > 50) {
+            if (!navbar) {
+                return;
+            }
+
+            if (window.scrollY > 40) {
 
                 navbar.classList.add("scrolled");
 
@@ -3699,40 +3779,19 @@
 
     if (checkIn && checkOut) {
 
-
-        /*
-         * Get today's date.
-         */
-
         const today =
             new Date()
                 .toISOString()
                 .split("T")[0];
 
 
-        /*
-         * Check-in cannot be before today.
-         */
-
         checkIn.min = today;
-
-
-        /*
-         * Check-out cannot be before today.
-         */
-
         checkOut.min = today;
 
-
-        /*
-         * When check-in changes,
-         * update minimum checkout date.
-         */
 
         checkIn.addEventListener(
             "change",
             function () {
-
 
                 if (this.value) {
 
@@ -3740,10 +3799,6 @@
 
                 }
 
-
-                /*
-                 * Clear invalid checkout.
-                 */
 
                 if (
                     checkOut.value &&
@@ -3758,28 +3813,20 @@
         );
 
 
-        /*
-         * Validate checkout.
-         */
-
         checkOut.addEventListener(
             "change",
             function () {
-
 
                 if (
                     checkIn.value &&
                     this.value <= checkIn.value
                 ) {
 
-
                     alert(
                         "Check-out date must be after check-in date."
                     );
 
-
                     this.value = "";
-
 
                 }
 
@@ -3799,11 +3846,9 @@
 
     if (contactForm) {
 
-
         contactForm.addEventListener(
             "submit",
             function (event) {
-
 
                 event.preventDefault();
 
@@ -3815,7 +3860,6 @@
 
                 contactForm.reset();
 
-
             }
         );
 
@@ -3823,21 +3867,17 @@
 
 
     /* =====================================================
-       CLOSE MOBILE NAVBAR AFTER CLICK
+       MOBILE NAVBAR CLOSE
     ====================================================== */
 
     document
-        .querySelectorAll(
-            ".navbar-nav .nav-link"
-        )
+        .querySelectorAll(".navbar-nav .nav-link")
         .forEach(
             function (link) {
-
 
                 link.addEventListener(
                     "click",
                     function () {
-
 
                         const menu =
                             document.getElementById(
@@ -3849,7 +3889,6 @@
                             menu &&
                             menu.classList.contains("show")
                         ) {
-
 
                             const collapse =
                                 bootstrap.Collapse
@@ -3864,17 +3903,13 @@
 
                         }
 
-
                     }
                 );
-
 
             }
         );
 
-
 </script>
-
 
 </body>
 

@@ -1,35 +1,37 @@
 {% extends "dashboard/base.html" %}
 
-
 {% block title %}
 
-    {% if edit_mode %}
-        Edit Room | GrandStay Hotel
-    {% else %}
-        Add Room | GrandStay Hotel
-    {% endif %}
+{% if edit_mode %}
+    Edit Room | GrandStay Hotel
+{% else %}
+    Add Room | GrandStay Hotel
+{% endif %}
 
 {% endblock %}
-
 
 {% block navbar_title %}
 
-    {% if edit_mode %}
-        Edit Room
-    {% else %}
-        Add New Room
-    {% endif %}
+
+{% if edit_mode %}
+    Edit Room
+{% else %}
+    Add New Room
+{% endif %}
 
 {% endblock %}
-
 
 {% block content %}
 
 <style>
 
+    /* =====================================================
+       FORM CARD
+    ===================================================== */
+
     .form-card {
 
-        background: white;
+        background: #ffffff;
 
         border: 1px solid #e8eaf0;
 
@@ -40,11 +42,17 @@
     }
 
 
+    /* =====================================================
+       SECTION TITLE
+    ===================================================== */
+
     .section-title {
 
         font-size: 15px;
 
         font-weight: 600;
+
+        color: #172033;
 
         padding-bottom: 12px;
 
@@ -55,6 +63,10 @@
     }
 
 
+    /* =====================================================
+       FORM LABEL
+    ===================================================== */
+
     .form-label {
 
         font-size: 12px;
@@ -63,8 +75,14 @@
 
         color: #374151;
 
+        margin-bottom: 7px;
+
     }
 
+
+    /* =====================================================
+       INPUTS
+    ===================================================== */
 
     .form-control,
     .form-select {
@@ -77,6 +95,17 @@
 
         font-size: 12px;
 
+        color: #374151;
+
+        box-shadow: none;
+
+    }
+
+
+    .form-control::placeholder {
+
+        color: #a0a7b2;
+
     }
 
 
@@ -86,14 +115,81 @@
         border-color: #b8a62a;
 
         box-shadow:
-            0 0 0 3px rgba(184,166,42,0.10);
+            0 0 0 3px rgba(184, 166, 42, 0.10);
 
     }
 
 
     textarea.form-control {
 
-        min-height: 100px;
+        min-height: 110px;
+
+        resize: vertical;
+
+    }
+
+
+    /* =====================================================
+       FILE INPUT
+    ===================================================== */
+
+    input[type="file"].form-control {
+
+        padding: 9px 12px;
+
+    }
+
+
+    /* =====================================================
+       CHECKBOX
+    ===================================================== */
+
+    .form-check {
+
+        padding: 9px 10px;
+
+        border: 1px solid #edf0f3;
+
+        border-radius: 9px;
+
+        background: #fafafa;
+
+        transition: .2s ease;
+
+    }
+
+
+    .form-check:hover {
+
+        background: #f7f6e9;
+
+        border-color: #ddd69c;
+
+    }
+
+
+    .form-check-input {
+
+        margin-top: 2px;
+
+    }
+
+
+    .form-check-input:checked {
+
+        background-color: #b8a62a;
+
+        border-color: #b8a62a;
+
+    }
+
+
+    .form-check-input:focus {
+
+        border-color: #b8a62a;
+
+        box-shadow:
+            0 0 0 3px rgba(184, 166, 42, 0.10);
 
     }
 
@@ -104,14 +200,37 @@
 
         color: #4b5563;
 
+        cursor: pointer;
+
     }
 
+
+    /* =====================================================
+       CURRENT IMAGE MESSAGE
+    ===================================================== */
+
+    .current-image-text {
+
+        display: block;
+
+        margin-top: 7px;
+
+        font-size: 10px;
+
+        color: #8b93a3;
+
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
 
     .save-btn {
 
         background: #172033;
 
-        color: white;
+        color: #ffffff;
 
         border: none;
 
@@ -123,6 +242,8 @@
 
         font-weight: 600;
 
+        transition: .2s ease;
+
     }
 
 
@@ -130,12 +251,16 @@
 
         background: #b8a62a;
 
-        color: white;
+        color: #ffffff;
+
+        transform: translateY(-1px);
 
     }
 
 
     .cancel-btn {
+
+        display: inline-block;
 
         background: #f1f3f5;
 
@@ -151,86 +276,174 @@
 
         text-decoration: none;
 
+        transition: .2s ease;
+
+    }
+
+
+    .cancel-btn:hover {
+
+        background: #e5e7eb;
+
+        color: #111827;
+
+    }
+
+
+    /* =====================================================
+       ERROR MESSAGE
+    ===================================================== */
+
+    .form-error {
+
+        background: #fff1f2;
+
+        color: #b91c1c;
+
+        border: 1px solid #fecdd3;
+
+        border-radius: 9px;
+
+        padding: 11px 14px;
+
+        font-size: 12px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 768px) {
+
+        .form-card {
+
+            padding: 20px;
+
+            border-radius: 13px;
+
+        }
+
+
+        .section-title {
+
+            font-size: 14px;
+
+        }
+
+
+        .save-btn,
+        .cancel-btn {
+
+            width: 100%;
+
+            text-align: center;
+
+            margin: 5px 0 !important;
+
+        }
+
     }
 
 </style>
 
-
 <div class="form-card">
 
 
-    <div class="section-title">
+<!-- =====================================================
+     SECTION HEADER
+===================================================== -->
 
-        <i class="bi bi-door-open me-2"></i>
+<div class="section-title">
 
-        {% if edit_mode %}
+    <i class="bi bi-door-open me-2"></i>
 
-            Edit Room Information
+    {% if edit_mode %}
 
-        {% else %}
+        Edit Room Information
 
-            New Room Information
+    {% else %}
 
-        {% endif %}
-
-    </div>
-
-
-
-    {% if messages %}
-
-        {% for message in messages %}
-
-            <div class="alert alert-danger small border-0">
-
-                {{ message }}
-
-            </div>
-
-        {% endfor %}
+        New Room Information
 
     {% endif %}
 
+</div>
 
 
-    <form
-        method="POST"
-        enctype="multipart/form-data"
-    >
+<!-- =====================================================
+     MESSAGES
+===================================================== -->
 
-        {% csrf_token %}
+{% if messages %}
 
+    {% for message in messages %}
 
-        <div class="row g-4">
+        <div class="form-error">
 
+            <i class="bi bi-exclamation-circle me-2"></i>
 
-            <!-- CATEGORY -->
+            {{ message }}
 
-            <div class="col-md-6">
+        </div>
 
-                <label class="form-label">
-                    Room Category *
-                </label>
+    {% endfor %}
 
-                <select
-                    name="category"
-                    class="form-select"
-                    required
-                >
-
-                    <option value="">
-                        Select Category
-                    </option>
+{% endif %}
 
 
-                    {% for category in categories %}
+<!-- =====================================================
+     FORM
+===================================================== -->
+
+<form
+    method="POST"
+    enctype="multipart/form-data"
+>
+
+    {% csrf_token %}
+
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             CATEGORY
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Room Category *
+            </label>
+
+            <select
+                name="category"
+                class="form-select"
+                required
+            >
+
+                <option value="">
+                    Select Category
+                </option>
+
+
+                {% for category in categories %}
 
                     <option
                         value="{{ category.id }}"
+
                         {% if room and room.category_id == category.id %}
+
                             selected
+
                         {% elif form_data.category == category.id|stringformat:"s" %}
+
                             selected
+
                         {% endif %}
                     >
 
@@ -238,453 +451,521 @@
 
                     </option>
 
-                    {% endfor %}
+                {% endfor %}
 
-                </select>
-
-            </div>
-
-
-
-            <!-- ROOM NUMBER -->
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                    Room Number *
-                </label>
-
-                <input
-                    type="text"
-                    name="room_number"
-                    class="form-control"
-                    value="{% if room %}{{ room.room_number }}{% else %}{{ form_data.room_number|default:'' }}{% endif %}"
-                    placeholder="Example: 101"
-                    required
-                >
-
-            </div>
-
-
-
-            <!-- NAME -->
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                    Room Name *
-                </label>
-
-                <input
-                    type="text"
-                    name="name"
-                    class="form-control"
-                    value="{% if room %}{{ room.name }}{% else %}{{ form_data.name|default:'' }}{% endif %}"
-                    placeholder="Example: Deluxe King Room"
-                    required
-                >
-
-            </div>
-
-
-
-            <!-- PRICE -->
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                    Price Per Night *
-                </label>
-
-                <input
-                    type="number"
-                    step="0.01"
-                    name="price"
-                    class="form-control"
-                    value="{% if room %}{{ room.price }}{% else %}{{ form_data.price|default:'' }}{% endif %}"
-                    placeholder="Example: 5000"
-                    required
-                >
-
-            </div>
-
-
-
-            <!-- CAPACITY -->
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                    Capacity
-                </label>
-
-                <input
-                    type="number"
-                    name="capacity"
-                    class="form-control"
-                    min="1"
-                    value="{% if room %}{{ room.capacity }}{% else %}{{ form_data.capacity|default:'2' }}{% endif %}"
-                >
-
-            </div>
-
-
-
-            <!-- SIZE -->
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                    Size (m²)
-                </label>
-
-                <input
-                    type="number"
-                    name="size"
-                    class="form-control"
-                    min="1"
-                    value="{% if room %}{{ room.size }}{% else %}{{ form_data.size|default:'30' }}{% endif %}"
-                >
-
-            </div>
-
-
-
-            <!-- FLOOR -->
-
-            <div class="col-md-4">
-
-                <label class="form-label">
-                    Floor
-                </label>
-
-                <input
-                    type="number"
-                    name="floor"
-                    class="form-control"
-                    min="1"
-                    value="{% if room %}{{ room.floor }}{% else %}{{ form_data.floor|default:'1' }}{% endif %}"
-                >
-
-            </div>
-
-
-
-            <!-- BED -->
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                    Bed Type
-                </label>
-
-                <input
-                    type="text"
-                    name="bed_type"
-                    class="form-control"
-                    value="{% if room %}{{ room.bed_type }}{% else %}{{ form_data.bed_type|default:'Double Bed' }}{% endif %}"
-                >
-
-            </div>
-
-
-
-            <!-- STATUS -->
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                    Status
-                </label>
-
-                <select
-                    name="status"
-                    class="form-select"
-                >
-
-                    <option
-                        value="available"
-                        {% if room.status == 'available' or not room %}
-                            selected
-                        {% endif %}
-                    >
-                        Available
-                    </option>
-
-                    <option
-                        value="maintenance"
-                        {% if room.status == 'maintenance' %}
-                            selected
-                        {% endif %}
-                    >
-                        Maintenance
-                    </option>
-
-                    <option
-                        value="inactive"
-                        {% if room.status == 'inactive' %}
-                            selected
-                        {% endif %}
-                    >
-                        Inactive
-                    </option>
-
-                </select>
-
-            </div>
-
-
-
-            <!-- DESCRIPTION -->
-
-            <div class="col-12">
-
-                <label class="form-label">
-                    Description
-                </label>
-
-                <textarea
-                    name="description"
-                    class="form-control"
-                    placeholder="Describe the room..."
-                >{% if room %}{{ room.description }}{% else %}{{ form_data.description|default:'' }}{% endif %}</textarea>
-
-            </div>
-
-
-
-            <!-- IMAGE -->
-
-            <div class="col-md-6">
-
-                <label class="form-label">
-                    Room Image
-                </label>
-
-                <input
-                    type="file"
-                    name="image"
-                    class="form-control"
-                    accept="image/*"
-                >
-
-                {% if room.image %}
-
-                    <small class="text-muted">
-                        Current image will remain if no new image is selected.
-                    </small>
-
-                {% endif %}
-
-            </div>
-
-
-
-            <!-- FEATURES -->
-
-            <div class="col-md-6">
-
-                <label class="form-label d-block">
-                    Room Features
-                </label>
-
-
-                <div class="row g-2">
-
-
-                    <div class="col-6">
-
-                        <div class="form-check">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="has_wifi"
-                                id="wifi"
-                                {% if room.has_wifi or not room %}
-                                    checked
-                                {% endif %}
-                            >
-
-                            <label
-                                class="form-check-label"
-                                for="wifi"
-                            >
-                                Wi-Fi
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-6">
-
-                        <div class="form-check">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="has_ac"
-                                id="ac"
-                                {% if room.has_ac or not room %}
-                                    checked
-                                {% endif %}
-                            >
-
-                            <label
-                                class="form-check-label"
-                                for="ac"
-                            >
-                                Air Conditioning
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-6">
-
-                        <div class="form-check">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="has_tv"
-                                id="tv"
-                                {% if room.has_tv or not room %}
-                                    checked
-                                {% endif %}
-                            >
-
-                            <label
-                                class="form-check-label"
-                                for="tv"
-                            >
-                                Television
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-6">
-
-                        <div class="form-check">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="has_breakfast"
-                                id="breakfast"
-                            >
-
-                            <label
-                                class="form-check-label"
-                                for="breakfast"
-                            >
-                                Breakfast
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-6">
-
-                        <div class="form-check">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="has_balcony"
-                                id="balcony"
-                            >
-
-                            <label
-                                class="form-check-label"
-                                for="balcony"
-                            >
-                                Balcony
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="col-6">
-
-                        <div class="form-check">
-
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="is_featured"
-                                id="featured"
-                                {% if room.is_featured %}
-                                    checked
-                                {% endif %}
-                            >
-
-                            <label
-                                class="form-check-label"
-                                for="featured"
-                            >
-                                Featured Room
-                            </label>
-
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-
-            <!-- BUTTONS -->
-
-            <div class="col-12 pt-3">
-
-
-                <a
-                    href="{% url 'manage_rooms' %}"
-                    class="cancel-btn me-2"
-                >
-
-                    Cancel
-
-                </a>
-
-
-                <button
-                    type="submit"
-                    class="save-btn"
-                >
-
-                    <i class="bi bi-check-lg me-1"></i>
-
-                    {% if edit_mode %}
-                        Update Room
-                    {% else %}
-                        Save Room
-                    {% endif %}
-
-                </button>
-
-
-            </div>
-
+            </select>
 
         </div>
 
-    </form>
+
+        <!-- =================================================
+             ROOM NUMBER
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Room Number *
+            </label>
+
+            <input
+                type="text"
+                name="room_number"
+                class="form-control"
+                value="{% if room %}{{ room.room_number }}{% else %}{{ form_data.room_number|default:'' }}{% endif %}"
+                placeholder="Example: 101"
+                required
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             ROOM NAME
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Room Name *
+            </label>
+
+            <input
+                type="text"
+                name="name"
+                class="form-control"
+                value="{% if room %}{{ room.name }}{% else %}{{ form_data.name|default:'' }}{% endif %}"
+                placeholder="Example: Deluxe King Room"
+                required
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             PRICE
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Price Per Night *
+            </label>
+
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                name="price"
+                class="form-control"
+                value="{% if room %}{{ room.price }}{% else %}{{ form_data.price|default:'' }}{% endif %}"
+                placeholder="Example: 5000"
+                required
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             CAPACITY
+        ================================================== -->
+
+        <div class="col-md-4">
+
+            <label class="form-label">
+                Capacity
+            </label>
+
+            <input
+                type="number"
+                name="capacity"
+                class="form-control"
+                min="1"
+                value="{% if room %}{{ room.capacity }}{% else %}{{ form_data.capacity|default:'2' }}{% endif %}"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             SIZE
+        ================================================== -->
+
+        <div class="col-md-4">
+
+            <label class="form-label">
+                Size (m²)
+            </label>
+
+            <input
+                type="number"
+                name="size"
+                class="form-control"
+                min="1"
+                value="{% if room %}{{ room.size }}{% else %}{{ form_data.size|default:'30' }}{% endif %}"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             FLOOR
+        ================================================== -->
+
+        <div class="col-md-4">
+
+            <label class="form-label">
+                Floor
+            </label>
+
+            <input
+                type="number"
+                name="floor"
+                class="form-control"
+                min="1"
+                value="{% if room %}{{ room.floor }}{% else %}{{ form_data.floor|default:'1' }}{% endif %}"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             BED TYPE
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Bed Type
+            </label>
+
+            <input
+                type="text"
+                name="bed_type"
+                class="form-control"
+                value="{% if room %}{{ room.bed_type }}{% else %}{{ form_data.bed_type|default:'Double Bed' }}{% endif %}"
+                placeholder="Example: King Bed"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             STATUS
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Status
+            </label>
+
+            <select
+                name="status"
+                class="form-select"
+            >
+
+                <option
+                    value="available"
+                    {% if room and room.status == "available" %}
+                        selected
+                    {% elif not room %}
+                        selected
+                    {% endif %}
+                >
+                    Available
+                </option>
+
+                <option
+                    value="maintenance"
+                    {% if room and room.status == "maintenance" %}
+                        selected
+                    {% endif %}
+                >
+                    Maintenance
+                </option>
+
+                <option
+                    value="inactive"
+                    {% if room and room.status == "inactive" %}
+                        selected
+                    {% endif %}
+                >
+                    Inactive
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             DESCRIPTION
+        ================================================== -->
+
+        <div class="col-12">
+
+            <label class="form-label">
+                Description
+            </label>
+
+            <textarea
+                name="description"
+                class="form-control"
+                placeholder="Describe the room..."
+            >{% if room %}{{ room.description }}{% else %}{{ form_data.description|default:'' }}{% endif %}</textarea>
+
+        </div>
+
+
+        <!-- =================================================
+             IMAGE
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label">
+                Room Image
+            </label>
+
+            <input
+                type="file"
+                name="image"
+                class="form-control"
+                accept="image/*"
+            >
+
+            {% if room and room.image %}
+
+                <span class="current-image-text">
+
+                    <i class="bi bi-info-circle me-1"></i>
+
+                    Current image will remain if no new image is selected.
+
+                </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================================
+             FEATURES
+        ================================================== -->
+
+        <div class="col-md-6">
+
+            <label class="form-label d-block">
+                Room Features
+            </label>
+
+
+            <div class="row g-2">
+
+
+                <!-- WIFI -->
+
+                <div class="col-6">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="has_wifi"
+                            id="wifi"
+
+                            {% if room %}
+
+                                {% if room.has_wifi %}
+                                    checked
+                                {% endif %}
+
+                            {% else %}
+
+                                checked
+
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="wifi"
+                        >
+                            Wi-Fi
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AC -->
+
+                <div class="col-6">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="has_ac"
+                            id="ac"
+
+                            {% if room %}
+
+                                {% if room.has_ac %}
+                                    checked
+                                {% endif %}
+
+                            {% else %}
+
+                                checked
+
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="ac"
+                        >
+                            Air Conditioning
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TV -->
+
+                <div class="col-6">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="has_tv"
+                            id="tv"
+
+                            {% if room %}
+
+                                {% if room.has_tv %}
+                                    checked
+                                {% endif %}
+
+                            {% else %}
+
+                                checked
+
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="tv"
+                        >
+                            Television
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BREAKFAST -->
+
+                <div class="col-6">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="has_breakfast"
+                            id="breakfast"
+
+                            {% if room and room.has_breakfast %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="breakfast"
+                        >
+                            Breakfast
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BALCONY -->
+
+                <div class="col-6">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="has_balcony"
+                            id="balcony"
+
+                            {% if room and room.has_balcony %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="balcony"
+                        >
+                            Balcony
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FEATURED -->
+
+                <div class="col-6">
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="is_featured"
+                            id="featured"
+
+                            {% if room and room.is_featured %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <label
+                            class="form-check-label"
+                            for="featured"
+                        >
+                            Featured Room
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BUTTONS
+        ================================================== -->
+
+        <div class="col-12 pt-3">
+
+            <a
+                href="{% url 'manage_rooms' %}"
+                class="cancel-btn me-2"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="save-btn"
+            >
+
+                <i class="bi bi-check-lg me-1"></i>
+
+                {% if edit_mode %}
+
+                    Update Room
+
+                {% else %}
+
+                    Save Room
+
+                {% endif %}
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</form>
 
 </div>
 

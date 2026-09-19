@@ -128,7 +128,9 @@
         }
 
 
-        /* Scrollbar */
+        /* =====================================================
+           SIDEBAR SCROLLBAR
+        ===================================================== */
 
         .sidebar::-webkit-scrollbar {
 
@@ -260,6 +262,10 @@
         }
 
 
+        /* =====================================================
+           MENU LINK
+        ===================================================== */
+
         .menu-link {
 
             display: flex;
@@ -329,6 +335,59 @@
             background: #a99a24;
 
             color: #ffffff;
+
+        }
+
+
+        /* =====================================================
+           NOTIFICATION MENU
+        ===================================================== */
+
+        .notification-menu-link {
+
+            justify-content: flex-start;
+
+        }
+
+
+        .notification-badge {
+
+            margin-left: auto;
+
+            min-width: 21px;
+
+            height: 21px;
+
+            padding: 0 6px;
+
+            border-radius: 50px;
+
+            background: #ef4444;
+
+            color: #ffffff;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            line-height: 1;
+
+            box-shadow: 0 2px 8px rgba(239,68,68,0.25);
+
+        }
+
+
+        .notification-menu-link.active .notification-badge {
+
+            background: #ffffff;
+
+            color: #a99a24;
 
         }
 
@@ -675,6 +734,34 @@
             }
 
 
+            /* Notification badge on collapsed sidebar */
+
+            .notification-menu-link {
+
+                position: relative;
+
+            }
+
+
+            .notification-badge {
+
+                position: absolute;
+
+                top: 4px;
+
+                right: 4px;
+
+                min-width: 17px;
+
+                height: 17px;
+
+                padding: 0 4px;
+
+                font-size: 8px;
+
+            }
+
+
             .main-content {
 
                 margin-left: 75px;
@@ -768,6 +855,23 @@
             .sidebar.mobile-open .menu-link i {
 
                 margin: 0;
+
+            }
+
+
+            .sidebar.mobile-open .notification-badge {
+
+                position: static;
+
+                margin-left: auto;
+
+                min-width: 21px;
+
+                height: 21px;
+
+                padding: 0 6px;
+
+                font-size: 10px;
 
             }
 
@@ -982,69 +1086,117 @@
         </a>
 
 
-      <a
-    href="{% url 'manage_categories' %}"
-    class="menu-link {% block categories_active %}{% endblock %}">
+        <!-- ROOM CATEGORIES -->
 
-    <i class="bi bi-tags"></i>
+        <a
+            href="{% url 'manage_categories' %}"
+            class="menu-link {% block categories_active %}{% endblock %}"
+        >
 
-    <span>
-        Room Categorie
-    </span>
+            <i class="bi bi-tags"></i>
 
-</a>
+            <span>
+                Room Categories
+            </span>
+
+        </a>
 
 
         <!-- BOOKINGS -->
 
-   <a
-    href="{% url 'manage_bookings' %}"
-    class="menu-link {% block bookings_active %}{% endblock %}"
->
+        <a
+            href="{% url 'manage_bookings' %}"
+            class="menu-link {% block bookings_active %}{% endblock %}"
+        >
 
-    <i class="bi bi-calendar-check"></i>
+            <i class="bi bi-calendar-check"></i>
 
-    <span>
-        Bookings
-    </span>
+            <span>
+                Bookings
+            </span>
 
-</a>
+        </a>
 
 
         <!-- CUSTOMERS -->
 
-<a 
-    href="{% url 'manage_customers' %}" 
-    class="menu-link {% block customers_active %}{% endblock %}"
->
-    <i class="bi bi-people"></i>
+        <a
+            href="{% url 'manage_customers' %}"
+            class="menu-link {% block customers_active %}{% endblock %}"
+        >
 
-    <span>
-        Customers
-    </span>
-</a>
+            <i class="bi bi-people"></i>
+
+            <span>
+                Customers
+            </span>
+
+        </a>
 
 
         <!-- PAYMENTS -->
 
-   <a
-    href="{% url 'manage_payments' %}"
-    class="menu-link {% block payments_active %}{% endblock %}"
->
-    <i class="bi bi-credit-card"></i>
-    <span>Payments</span>
-</a>
+        <a
+            href="{% url 'manage_payments' %}"
+            class="menu-link {% block payments_active %}{% endblock %}"
+        >
+
+            <i class="bi bi-credit-card"></i>
+
+            <span>
+                Payments
+            </span>
+
+        </a>
 
 
         <!-- REVIEWS -->
 
-   <a
-    href="{% url 'manage_reviews' %}"
-    class="menu-link {% block reviews_active %}{% endblock %}"
->
-    <i class="bi bi-star"></i>
-    <span>Reviews</span>
-</a>
+        <a
+            href="{% url 'manage_reviews' %}"
+            class="menu-link {% block reviews_active %}{% endblock %}"
+        >
+
+            <i class="bi bi-star"></i>
+
+            <span>
+                Reviews
+            </span>
+
+        </a>
+
+
+        <!-- =================================================
+             NOTIFICATIONS
+        ================================================== -->
+
+        <a
+            href="{% url 'admin_notifications' %}"
+            class="menu-link notification-menu-link {% block notifications_active %}{% endblock %}"
+        >
+
+            <i class="bi bi-bell-fill"></i>
+
+            <span>
+                Notifications
+            </span>
+
+
+            {% if unread_notifications > 0 %}
+
+                <span class="notification-badge">
+
+                    {% if unread_notifications > 99 %}
+                        99+
+                    {% else %}
+                        {{ unread_notifications }}
+                    {% endif %}
+
+                </span>
+
+            {% endif %}
+
+        </a>
 
 
 
@@ -1059,34 +1211,29 @@
 
         <!-- REPORTS -->
 
-        <a
-            href="#"
-            class="menu-link {% block reports_active %}{% endblock %}"
-        >
+<a
+    href="{% url 'reports' %}"
+    class="menu-link {% block reports_active %}{% endblock %}"
+>
+    <i class="bi bi-bar-chart"></i>
 
-            <i class="bi bi-bar-chart"></i>
-
-            <span>
-                Reports
-            </span>
-
-        </a>
+    <span>
+        Reports
+    </span>
+</a>
 
 
         <!-- ANALYTICS -->
+<a
+    href="{% url 'analytics' %}"
+    class="menu-link {% block analytics_active %}{% endblock %}"
+>
+    <i class="bi bi-graph-up-arrow"></i>
 
-        <a
-            href="#"
-            class="menu-link {% block analytics_active %}{% endblock %}"
-        >
-
-            <i class="bi bi-graph-up-arrow"></i>
-
-            <span>
-                Analytics
-            </span>
-
-        </a>
+    <span>
+        Analytics
+    </span>
+</a>
 
 
 
@@ -1101,36 +1248,16 @@
 
         <!-- PROFILE -->
 
-        <a
-            href="#"
-            class="menu-link {% block profile_active %}{% endblock %}"
-        >
+<a
+    href="{% url 'admin_profile' %}"
+    class="menu-link {% block profile_active %}{% endblock %}"
+>
+    <i class="bi bi-person-circle"></i>
 
-            <i class="bi bi-person-circle"></i>
-
-            <span>
-                Profile
-            </span>
-
-        </a>
-
-
-        <!-- VISIT WEBSITE -->
-
-        <a
-            href="{% url 'home' %}"
-            class="menu-link"
-            target="_blank"
-        >
-
-            <i class="bi bi-globe"></i>
-
-            <span>
-                Visit Website
-            </span>
-
-        </a>
-
+    <span>
+        Profile
+    </span>
+</a>
 
         <!-- LOGOUT -->
 
@@ -1203,64 +1330,127 @@
         </div>
 
 
+<!-- =================================================
+     ADMIN PROFILE DROPDOWN
+================================================== -->
 
-        <!-- =================================================
-             ADMIN PROFILE
-        ================================================== -->
+<div class="admin-profile-wrapper">
 
-        <div class="admin-profile">
+    <!-- PROFILE BUTTON -->
+
+    <button
+        type="button"
+        class="admin-profile"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+    >
+
+        <!-- AVATAR -->
+
+        <div class="admin-avatar">
+
+            {% if request.user.first_name %}
+
+                {{ request.user.first_name|first|upper }}
+
+            {% else %}
+
+                {{ request.user.username|first|upper }}
+
+            {% endif %}
+
+        </div>
 
 
-            <!-- AVATAR -->
+        <!-- ADMIN INFO -->
 
-            <div class="admin-avatar">
+        <div class="admin-info">
 
-                {% if request.user.first_name %}
+            <div class="admin-name">
 
-                    {{ request.user.first_name|first|upper }}
+                {% if request.user.get_full_name %}
+
+                    {{ request.user.get_full_name }}
 
                 {% else %}
 
-                    {{ request.user.username|first|upper }}
+                    {{ request.user.username }}
 
                 {% endif %}
 
             </div>
 
 
-            <!-- ADMIN INFO -->
+            <div class="admin-role">
 
-            <div class="admin-info">
-
-                <div class="admin-name">
-
-                    {% if request.user.get_full_name %}
-
-                        {{ request.user.get_full_name }}
-
-                    {% else %}
-
-                        {{ request.user.username }}
-
-                    {% endif %}
-
-                </div>
-
-
-                <div class="admin-role">
-
-                    Hotel Administrator
-
-                </div>
+                Hotel Administrator
 
             </div>
-
 
         </div>
 
 
-    </nav>
+        <!-- DROPDOWN ICON -->
 
+        <i class="bi bi-chevron-down admin-dropdown-icon"></i>
+
+    </button>
+
+
+    <!-- DROPDOWN MENU -->
+
+    <ul class="dropdown-menu admin-dropdown-menu">
+
+        <!-- PROFILE -->
+
+        <li>
+
+            <a
+                class="dropdown-item"
+                href="{% url 'admin_profile' %}"
+            >
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>
+                    My Profile
+                </span>
+
+            </a>
+
+        </li>
+
+
+        <!-- DIVIDER -->
+
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+
+
+        <!-- LOGOUT -->
+
+        <li>
+
+            <a
+                class="dropdown-item logout-item"
+                href="{% url 'dashboard_logout' %}"
+            >
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</div>
+</nav>
 
 
     <!-- =====================================================
@@ -1378,11 +1568,9 @@
         document.getElementById('sidebarOverlay');
 
 
-    /*
-    =========================================================
+    /* =========================================================
        OPEN / CLOSE MOBILE SIDEBAR
-    =========================================================
-    */
+    ========================================================= */
 
     if (toggleButton) {
 
@@ -1390,9 +1578,13 @@
             'click',
             function () {
 
-                sidebar.classList.toggle('mobile-open');
+                sidebar.classList.toggle(
+                    'mobile-open'
+                );
 
-                overlay.classList.toggle('show');
+                overlay.classList.toggle(
+                    'show'
+                );
 
             }
         );
@@ -1400,11 +1592,9 @@
     }
 
 
-    /*
-    =========================================================
+    /* =========================================================
        CLOSE SIDEBAR WHEN OVERLAY IS CLICKED
-    =========================================================
-    */
+    ========================================================= */
 
     if (overlay) {
 
@@ -1426,11 +1616,9 @@
     }
 
 
-    /*
-    =========================================================
-       CLOSE SIDEBAR AFTER CLICKING A MENU ITEM
-    =========================================================
-    */
+    /* =========================================================
+       CLOSE SIDEBAR AFTER CLICKING MENU ITEM
+    ========================================================= */
 
     const menuLinks =
         document.querySelectorAll(
@@ -1464,11 +1652,9 @@
     );
 
 
-    /*
-    =========================================================
+    /* =========================================================
        RESET MOBILE SIDEBAR WHEN WINDOW RESIZES
-    =========================================================
-    */
+    ========================================================= */
 
     window.addEventListener(
         'resize',

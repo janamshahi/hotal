@@ -12,57 +12,114 @@
         content="width=device-width, initial-scale=1"
     >
 
-    <title>Book {{ room.name }} | GrandStay Hotel</title>
+    <title>
+        Book {{ room.name }} | GrandStay Hotel
+    </title>
+
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
 
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
         rel="stylesheet"
     >
+
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
 
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
+
     <style>
 
+        /* =====================================================
+           GLOBAL
+        ====================================================== */
+
         * {
-            font-family: Poppins, sans-serif;
+            font-family: "Poppins", sans-serif;
+            box-sizing: border-box;
         }
+
 
         body {
             background: #f7f7f2;
+            color: #333;
         }
+
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
 
         .navbar {
             background: white;
-            box-shadow: 0 3px 15px rgba(0,0,0,.08);
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
         }
+
+
+        .navbar-brand {
+            color: #333;
+            font-size: 22px;
+        }
+
+
+        .navbar-brand:hover {
+            color: #9e9c2e;
+        }
+
+
+        /* =====================================================
+           BOOKING CARD
+        ====================================================== */
 
         .booking-card {
             background: white;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 10px 35px rgba(0,0,0,.08);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
         }
+
+
+        /* =====================================================
+           ROOM PREVIEW
+        ====================================================== */
 
         .room-preview {
             border-radius: 18px;
             overflow: hidden;
             background: white;
-            box-shadow: 0 10px 35px rgba(0,0,0,.08);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
         }
+
 
         .room-preview img {
             width: 100%;
             height: 280px;
             object-fit: cover;
         }
+
+
+        /* =====================================================
+           MAIN BUTTON
+        ====================================================== */
 
         .btn-main {
             background: #b8b63b;
@@ -71,17 +128,608 @@
             padding: 13px;
             border-radius: 10px;
             font-weight: 600;
+            transition: 0.2s ease;
         }
+
 
         .btn-main:hover {
             background: #9e9c2e;
             color: white;
         }
 
+
+        .btn-main:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           TOTAL BOX
+        ====================================================== */
+
         .total-box {
             background: #f7f7f2;
             border-radius: 12px;
             padding: 18px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ====================================================== */
+
+        .form-control,
+        .form-select {
+            min-height: 48px;
+            border-radius: 10px;
+        }
+
+
+        textarea.form-control {
+            min-height: auto;
+        }
+
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #b8b63b;
+            box-shadow: 0 0 0 0.2rem rgba(184, 182, 59, 0.15);
+        }
+
+
+        /* =====================================================
+           DATE / TIME HELP
+        ====================================================== */
+
+        .date-help {
+            font-size: 11px;
+        }
+
+
+        .time-help {
+            font-size: 10px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+
+        /* =====================================================
+           PRICE
+        ====================================================== */
+
+        .price-display {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           AVAILABILITY BOX
+        ====================================================== */
+
+        .availability-box {
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: none;
+            font-size: 13px;
+        }
+
+
+        .availability-box.show {
+            display: block;
+        }
+
+
+        /* =====================================================
+           TIME CARD
+        ====================================================== */
+
+        .time-card {
+            background: #fafaf5;
+            border: 1px solid #e7e7d8;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+
+        .time-card-label {
+            font-size: 10px;
+            color: #888;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            margin-bottom: 6px;
+        }
+
+
+        .time-card .form-control {
+            background: white;
+        }
+
+
+        /* =====================================================
+           STAY SUMMARY
+        ====================================================== */
+
+        .stay-summary {
+            background: #f8f8ef;
+            border: 1px solid #e7e7d8;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+
+        .stay-summary-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #777;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 9px;
+        }
+
+
+        .stay-summary-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: 11px;
+            padding: 5px 0;
+        }
+
+
+        .stay-summary-item span:first-child {
+            color: #888;
+        }
+
+
+        .stay-summary-item strong {
+            color: #444;
+            text-align: right;
+        }
+
+
+        /* =====================================================
+           SMALL CUSTOM CALENDAR
+        ====================================================== */
+
+        .calendar-wrapper {
+            margin-top: 0;
+            max-width: 430px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .calendar-card {
+            background: #fff;
+            border: 1px solid #e4e4d5;
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+        }
+
+
+        /* =====================================================
+           CALENDAR HEADER
+        ====================================================== */
+
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+
+        .calendar-month-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+
+        .calendar-nav-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 7px;
+            background: #f1f1e5;
+            color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s ease;
+            font-size: 12px;
+        }
+
+
+        .calendar-nav-btn:hover {
+            background: #b8b63b;
+            color: white;
+        }
+
+
+        .calendar-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           WEEKDAYS
+        ====================================================== */
+
+        .calendar-weekdays,
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+        }
+
+
+        .calendar-weekdays {
+            margin-bottom: 3px;
+        }
+
+
+        .calendar-weekday {
+            text-align: center;
+            font-size: 9px;
+            font-weight: 600;
+            color: #777;
+            padding: 3px 0;
+        }
+
+
+        /* =====================================================
+           CALENDAR DAY
+        ====================================================== */
+
+        .calendar-day {
+            width: 100%;
+            min-height: 35px;
+            border: none;
+            border-radius: 7px;
+            background: #fafafa;
+            color: #333;
+            font-size: 10px;
+            font-weight: 500;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s ease;
+            padding: 2px;
+        }
+
+
+        .calendar-day:hover:not(.empty):not(.disabled):not(.booked) {
+            background: #efefcf;
+            transform: translateY(-1px);
+        }
+
+
+        .calendar-day.empty {
+            background: transparent;
+            cursor: default;
+        }
+
+
+        /* =====================================================
+           AVAILABLE
+        ====================================================== */
+
+        .calendar-day.available {
+            background: #f1f7e9;
+            color: #456126;
+            cursor: pointer;
+        }
+
+
+        .calendar-day.available::after {
+            content: "✓";
+            font-size: 7px;
+            font-weight: 700;
+            position: absolute;
+            bottom: 1px;
+            color: #648d35;
+        }
+
+
+        /* =====================================================
+           BOOKED
+        ====================================================== */
+
+        .calendar-day.booked {
+            background: #fcebea;
+            color: #b42318;
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
+
+
+        .calendar-day.booked::after {
+            content: "×";
+            font-size: 8px;
+            font-weight: 700;
+            position: absolute;
+            bottom: 1px;
+            color: #c7352d;
+        }
+
+
+        /* =====================================================
+           PAST
+        ====================================================== */
+
+        .calendar-day.past {
+            background: #f5f5f5;
+            color: #b5b5b5;
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           TODAY
+        ====================================================== */
+
+        .calendar-day.today {
+            box-shadow: inset 0 0 0 1.5px #b8b63b;
+        }
+
+
+        /* =====================================================
+           SELECTED
+        ====================================================== */
+
+        .calendar-day.selected {
+            background: #b8b63b !important;
+            color: white !important;
+            font-weight: 700;
+        }
+
+
+        .calendar-day.selected::after {
+            color: white;
+        }
+
+
+        .calendar-day.check-in-selected {
+            background: #b8b63b !important;
+            color: white !important;
+        }
+
+
+        .calendar-day.check-out-selected {
+            background: #8f8d29 !important;
+            color: white !important;
+        }
+
+
+        /* =====================================================
+           RANGE
+        ====================================================== */
+
+        .calendar-day.in-range {
+            background: #f0f0d4;
+            color: #555;
+        }
+
+
+        /* =====================================================
+           CALENDAR STATUS
+        ====================================================== */
+
+        .calendar-status {
+            min-height: 20px;
+            font-size: 10px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+
+        .calendar-status strong {
+            color: #333;
+        }
+
+
+        /* =====================================================
+           LEGEND
+        ====================================================== */
+
+        .calendar-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 9px;
+            padding-top: 9px;
+            border-top: 1px solid #eeeeee;
+            font-size: 9px;
+            color: #666;
+        }
+
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+
+        .legend-box {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+
+        .legend-available {
+            background: #f1f7e9;
+            border: 1px solid #d5e5bd;
+        }
+
+
+        .legend-booked {
+            background: #fcebea;
+            border: 1px solid #f2c2be;
+        }
+
+
+        .legend-selected {
+            background: #b8b63b;
+        }
+
+
+        .legend-past {
+            background: #f5f5f5;
+            border: 1px solid #e2e2e2;
+        }
+
+
+        /* =====================================================
+           CALENDAR LOADING
+        ====================================================== */
+
+        .calendar-loading {
+            text-align: center;
+            padding: 25px 5px;
+            color: #777;
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           CALENDAR ERROR
+        ====================================================== */
+
+        .calendar-error {
+            background: #fff4f3;
+            border: 1px solid #f3c4c0;
+            color: #a5221b;
+            padding: 9px;
+            border-radius: 7px;
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           DATE INPUT
+        ====================================================== */
+
+        .date-input-wrapper {
+            position: relative;
+        }
+
+
+        .date-input-wrapper .calendar-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #777;
+        }
+
+
+        .date-input-wrapper input {
+            padding-right: 45px;
+            cursor: pointer;
+            background: white;
+        }
+
+
+        /* =====================================================
+           SELECTION INFO
+        ====================================================== */
+
+        .selection-info {
+            background: #f7f7f2;
+            border-radius: 8px;
+            padding: 8px 10px;
+            margin-top: 8px;
+            font-size: 10px;
+        }
+
+
+        .selection-info i {
+            color: #9e9c2e;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 767px) {
+
+            .booking-card {
+                padding: 20px;
+            }
+
+
+            .room-preview img {
+                height: 220px;
+            }
+
+
+            .price-display {
+                font-size: 24px;
+            }
+
+
+            .calendar-wrapper {
+                max-width: 360px;
+            }
+
+
+            .calendar-card {
+                padding: 10px;
+            }
+
+
+            .calendar-day {
+                min-height: 34px;
+                font-size: 10px;
+            }
+
+
+            .calendar-weekday {
+                font-size: 8px;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .calendar-wrapper {
+                max-width: 330px;
+            }
+
+
+            .calendar-card {
+                padding: 8px;
+            }
+
+
+            .calendar-day {
+                min-height: 31px;
+                font-size: 9px;
+                border-radius: 6px;
+            }
+
+
+            .calendar-weekdays,
+            .calendar-days {
+                gap: 2px;
+            }
+
         }
 
     </style>
@@ -92,6 +740,10 @@
 <body>
 
 
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
 <nav class="navbar navbar-expand-lg">
 
     <div class="container">
@@ -100,20 +752,24 @@
             href="{% url 'home' %}"
             class="navbar-brand fw-bold"
         >
+
             <i class="bi bi-building me-2"></i>
+
             GrandStay
+
         </a>
 
-        <div>
 
-            <a
-                href="{% url 'my_bookings' %}"
-                class="btn btn-outline-secondary"
-            >
-                My Bookings
-            </a>
+        <a
+            href="{% url 'my_bookings' %}"
+            class="btn btn-outline-secondary btn-sm"
+        >
 
-        </div>
+            <i class="bi bi-calendar2-check me-1"></i>
+
+            My Bookings
+
+        </a>
 
     </div>
 
@@ -121,12 +777,18 @@
 
 
 
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
 <div class="container py-5">
 
     <div class="row g-4">
 
 
-        <!-- ROOM PREVIEW -->
+        <!-- =================================================
+             ROOM PREVIEW
+        ================================================== -->
 
         <div class="col-lg-5">
 
@@ -139,7 +801,22 @@
                         alt="{{ room.name }}"
                     >
 
+                {% else %}
+
+                    <div
+                        class="d-flex align-items-center justify-content-center bg-light"
+                        style="height:280px;"
+                    >
+
+                        <i
+                            class="bi bi-building"
+                            style="font-size:70px;"
+                        ></i>
+
+                    </div>
+
                 {% endif %}
+
 
                 <div class="p-4">
 
@@ -147,38 +824,48 @@
                         {{ room.category.name }}
                     </span>
 
+
                     <h3 class="fw-bold">
                         {{ room.name }}
                     </h3>
+
 
                     <p class="text-muted">
                         {{ room.description }}
                     </p>
 
-                    <div class="fs-5">
 
-                        <strong>
-                            Rs. {{ room.price }}
-                        </strong>
+                    <div class="price-display">
 
-                        <small class="text-muted">
+                        Rs. {{ room.price }}
+
+                        <small class="text-muted fs-6">
                             / night
                         </small>
 
                     </div>
 
+
                     <hr>
+
 
                     <div class="row">
 
                         <div class="col-6">
+
                             <i class="bi bi-people me-2"></i>
+
                             {{ room.capacity }} Guests
+
                         </div>
 
+
                         <div class="col-6">
+
                             <i class="bi bi-bed me-2"></i>
+
                             {{ room.bed_type }}
+
                         </div>
 
                     </div>
@@ -191,7 +878,9 @@
 
 
 
-        <!-- BOOKING FORM -->
+        <!-- =================================================
+             BOOKING FORM
+        ================================================== -->
 
         <div class="col-lg-7">
 
@@ -201,18 +890,34 @@
                     Book Your Room
                 </h2>
 
+
                 <p class="text-muted mb-4">
-                    Complete the information below to reserve
-                    your room.
+                    Select your dates and preferred check-in/check-out times.
                 </p>
 
+
+
+                <!-- =================================================
+                     MESSAGES
+                ================================================== -->
 
                 {% if messages %}
 
                     {% for message in messages %}
 
-                        <div class="alert alert-{{ message.tags }}">
+                        <div
+                            class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                            role="alert"
+                        >
+
                             {{ message }}
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="alert"
+                            ></button>
+
                         </div>
 
                     {% endfor %}
@@ -220,7 +925,15 @@
                 {% endif %}
 
 
-                <form method="POST">
+
+                <!-- =================================================
+                     FORM
+                ================================================== -->
+
+                <form
+                    method="POST"
+                    id="bookingForm"
+                >
 
                     {% csrf_token %}
 
@@ -228,94 +941,579 @@
                     <div class="row g-4">
 
 
-                        <!-- CHECK IN -->
+                        <!-- =================================================
+                             CHECK-IN DATE
+                        ================================================== -->
 
                         <div class="col-md-6">
 
-                            <label class="form-label fw-semibold">
+                            <label
+                                for="checkIn"
+                                class="form-label fw-semibold"
+                            >
+
+                                <i class="bi bi-calendar-event me-1"></i>
+
                                 Check-in Date
+
                             </label>
 
-                            <input
-                                type="date"
-                                name="check_in"
-                                class="form-control"
-                                min="{{ today|date:'Y-m-d' }}"
-                                required
-                            >
+
+                            <div class="date-input-wrapper">
+
+                                <input
+                                    type="text"
+                                    name="check_in"
+                                    id="checkIn"
+                                    class="form-control"
+                                    value="{{ check_in }}"
+                                    placeholder="Select check-in date"
+                                    autocomplete="off"
+                                    readonly
+                                    required
+                                >
+
+
+                                <i
+                                    class="bi bi-calendar3 calendar-icon"
+                                ></i>
+
+                            </div>
+
+
+                            <div class="date-help text-muted mt-1">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                Select an available date below.
+
+                            </div>
 
                         </div>
 
 
-                        <!-- CHECK OUT -->
+
+                        <!-- =================================================
+                             CHECK-OUT DATE
+                        ================================================== -->
 
                         <div class="col-md-6">
 
-                            <label class="form-label fw-semibold">
+                            <label
+                                for="checkOut"
+                                class="form-label fw-semibold"
+                            >
+
+                                <i class="bi bi-calendar-check me-1"></i>
+
                                 Check-out Date
+
                             </label>
 
-                            <input
-                                type="date"
-                                name="check_out"
-                                class="form-control"
-                                min="{{ today|date:'Y-m-d' }}"
-                                required
-                            >
+
+                            <div class="date-input-wrapper">
+
+                                <input
+                                    type="text"
+                                    name="check_out"
+                                    id="checkOut"
+                                    class="form-control"
+                                    value="{{ check_out }}"
+                                    placeholder="Select check-out date"
+                                    autocomplete="off"
+                                    readonly
+                                    required
+                                >
+
+
+                                <i
+                                    class="bi bi-calendar3 calendar-icon"
+                                ></i>
+
+                            </div>
+
+
+                            <div class="date-help text-muted mt-1">
+
+                                <i class="bi bi-info-circle"></i>
+
+                                Must be after check-in.
+
+                            </div>
 
                         </div>
 
 
-                        <!-- GUESTS -->
+
+                        <!-- =================================================
+                             CHECK-IN / CHECK-OUT TIME
+                        ================================================== -->
+
+                        <div class="col-12">
+
+                            <div class="row g-3">
+
+                                <!-- CHECK-IN TIME -->
+
+                                <div class="col-md-6">
+
+                                    <div class="time-card">
+
+                                        <div class="time-card-label">
+
+                                            <i class="bi bi-clock me-1"></i>
+
+                                            Check-in Time
+
+                                        </div>
+
+
+                                        <input
+                                            type="time"
+                                            name="check_in_time"
+                                            id="checkInTime"
+                                            class="form-control"
+                                            value="{{ check_in_time|default:'14:00' }}"
+                                            required
+                                        >
+
+
+                                        <div class="time-help">
+
+                                            Standard hotel check-in:
+                                            <strong>2:00 PM</strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- CHECK-OUT TIME -->
+
+                                <div class="col-md-6">
+
+                                    <div class="time-card">
+
+                                        <div class="time-card-label">
+
+                                            <i class="bi bi-clock-history me-1"></i>
+
+                                            Check-out Time
+
+                                        </div>
+
+
+                                        <input
+                                            type="time"
+                                            name="check_out_time"
+                                            id="checkOutTime"
+                                            class="form-control"
+                                            value="{{ check_out_time|default:'12:00' }}"
+                                            required
+                                        >
+
+
+                                        <div class="time-help">
+
+                                            Standard hotel check-out:
+                                            <strong>12:00 PM</strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             SMALL CALENDAR
+                        ================================================== -->
+
+                        <div class="col-12">
+
+                            <div class="calendar-wrapper">
+
+                                <div class="calendar-card">
+
+
+                                    <!-- CALENDAR HEADER -->
+
+                                    <div class="calendar-header">
+
+                                        <button
+                                            type="button"
+                                            class="calendar-nav-btn"
+                                            id="previousMonth"
+                                            title="Previous month"
+                                        >
+
+                                            <i class="bi bi-chevron-left"></i>
+
+                                        </button>
+
+
+                                        <h5
+                                            class="calendar-month-title"
+                                            id="calendarMonthTitle"
+                                        >
+                                            Loading...
+                                        </h5>
+
+
+                                        <button
+                                            type="button"
+                                            class="calendar-nav-btn"
+                                            id="nextMonth"
+                                            title="Next month"
+                                        >
+
+                                            <i class="bi bi-chevron-right"></i>
+
+                                        </button>
+
+                                    </div>
+
+
+
+                                    <!-- WEEKDAYS -->
+
+                                    <div class="calendar-weekdays">
+
+                                        <div class="calendar-weekday">Mon</div>
+                                        <div class="calendar-weekday">Tue</div>
+                                        <div class="calendar-weekday">Wed</div>
+                                        <div class="calendar-weekday">Thu</div>
+                                        <div class="calendar-weekday">Fri</div>
+                                        <div class="calendar-weekday">Sat</div>
+                                        <div class="calendar-weekday">Sun</div>
+
+                                    </div>
+
+
+
+                                    <!-- DAYS -->
+
+                                    <div
+                                        id="calendarDays"
+                                        class="calendar-days"
+                                    >
+
+                                        <div
+                                            class="calendar-loading"
+                                            style="grid-column:1 / -1;"
+                                        >
+
+                                            <span
+                                                class="spinner-border spinner-border-sm me-2"
+                                            ></span>
+
+                                            Loading...
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <div
+                                        id="calendarStatus"
+                                        class="calendar-status"
+                                    >
+
+                                        Select your
+                                        <strong>check-in date</strong>.
+
+                                    </div>
+
+
+
+                                    <!-- SELECTION INFO -->
+
+                                    <div
+                                        id="selectionInfo"
+                                        class="selection-info"
+                                    >
+
+                                        <i class="bi bi-info-circle me-1"></i>
+
+                                        Select check-in first,
+                                        then check-out.
+
+                                    </div>
+
+
+
+                                    <!-- LEGEND -->
+
+                                    <div class="calendar-legend">
+
+                                        <div class="legend-item">
+
+                                            <span
+                                                class="legend-box legend-available"
+                                            ></span>
+
+                                            Available
+
+                                        </div>
+
+
+                                        <div class="legend-item">
+
+                                            <span
+                                                class="legend-box legend-booked"
+                                            ></span>
+
+                                            Booked
+
+                                        </div>
+
+
+                                        <div class="legend-item">
+
+                                            <span
+                                                class="legend-box legend-selected"
+                                            ></span>
+
+                                            Selected
+
+                                        </div>
+
+
+                                        <div class="legend-item">
+
+                                            <span
+                                                class="legend-box legend-past"
+                                            ></span>
+
+                                            Past
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             AVAILABILITY
+                        ================================================== -->
+
+                        <div
+                            id="availabilityContainer"
+                            class="col-12"
+                        >
+
+                            <div
+                                id="availabilityBox"
+                                class="availability-box"
+                            >
+
+                                <span
+                                    id="availabilityMessage"
+                                ></span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             DATE ERROR
+                        ================================================== -->
+
+                        <div
+                            id="dateError"
+                            class="col-12"
+                            style="display:none;"
+                        >
+
+                            <div class="alert alert-danger mb-0">
+
+                                <i
+                                    class="bi bi-exclamation-triangle me-2"
+                                ></i>
+
+                                <span id="dateErrorText"></span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             GUESTS
+                        ================================================== -->
 
                         <div class="col-md-6">
 
-                            <label class="form-label fw-semibold">
+                            <label
+                                for="guests"
+                                class="form-label fw-semibold"
+                            >
+
+                                <i class="bi bi-people me-1"></i>
+
                                 Number of Guests
+
                             </label>
+
 
                             <input
                                 type="number"
                                 name="guests"
+                                id="guests"
                                 class="form-control"
                                 min="1"
                                 max="{{ room.capacity }}"
-                                value="1"
+                                value="{{ guests|default:'1' }}"
                                 required
                             >
 
+
                             <small class="text-muted">
-                                Maximum {{ room.capacity }} guests
+
+                                Maximum
+                                {{ room.capacity }}
+                                guests
+
                             </small>
 
                         </div>
 
 
-                        <!-- SPECIAL REQUEST -->
+
+                        <!-- =================================================
+                             SPECIAL REQUEST
+                        ================================================== -->
 
                         <div class="col-12">
 
-                            <label class="form-label fw-semibold">
+                            <label
+                                for="specialRequest"
+                                class="form-label fw-semibold"
+                            >
+
+                                <i class="bi bi-chat-left-text me-1"></i>
+
                                 Special Request
+
                             </label>
+
 
                             <textarea
                                 name="special_request"
+                                id="specialRequest"
                                 class="form-control"
                                 rows="4"
                                 placeholder="Any special request?"
-                            ></textarea>
+                            >{{ special_request }}</textarea>
 
                         </div>
 
 
-                        <!-- TOTAL -->
+
+                        <!-- =================================================
+                             STAY SUMMARY
+                        ================================================== -->
+
+                        <div class="col-12">
+
+                            <div class="stay-summary">
+
+                                <div class="stay-summary-title">
+
+                                    <i class="bi bi-info-circle me-1"></i>
+
+                                    Stay Summary
+
+                                </div>
+
+
+                                <div class="stay-summary-item">
+
+                                    <span>
+                                        Check-in
+                                    </span>
+
+                                    <strong id="summaryCheckIn">
+                                        —
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="stay-summary-item">
+
+                                    <span>
+                                        Check-out
+                                    </span>
+
+                                    <strong id="summaryCheckOut">
+                                        —
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="stay-summary-item">
+
+                                    <span>
+                                        Check-in Time
+                                    </span>
+
+                                    <strong id="summaryCheckInTime">
+                                        2:00 PM
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="stay-summary-item">
+
+                                    <span>
+                                        Check-out Time
+                                    </span>
+
+                                    <strong id="summaryCheckOutTime">
+                                        12:00 PM
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             TOTAL
+                        ================================================== -->
 
                         <div class="col-12">
 
                             <div class="total-box">
 
-                                <div class="d-flex justify-content-between">
+                                <div
+                                    class="d-flex justify-content-between"
+                                >
 
                                     <span>
                                         Room Price
@@ -327,10 +1525,37 @@
 
                                 </div>
 
-                                <div class="small text-muted mt-2">
 
-                                    Final total will be calculated
-                                    based on the number of nights.
+                                <div
+                                    class="d-flex justify-content-between mt-2"
+                                >
+
+                                    <span>
+                                        Number of Nights
+                                    </span>
+
+                                    <strong id="nightCount">
+                                        0
+                                    </strong>
+
+                                </div>
+
+
+                                <hr>
+
+
+                                <div
+                                    class="d-flex justify-content-between"
+                                >
+
+                                    <span class="fw-semibold">
+                                        Estimated Total
+                                    </span>
+
+
+                                    <strong id="totalAmount">
+                                        Rs. 0
+                                    </strong>
 
                                 </div>
 
@@ -339,16 +1564,25 @@
                         </div>
 
 
+
+                        <!-- =================================================
+                             SUBMIT
+                        ================================================== -->
+
                         <div class="col-12">
 
                             <button
                                 type="submit"
                                 class="btn btn-main w-100"
+                                id="submitButton"
+                                disabled
                             >
 
-                                <i class="bi bi-calendar-check me-2"></i>
+                                <i
+                                    class="bi bi-calendar-check me-2"
+                                ></i>
 
-                                Continue to Payment
+                                Check Availability First
 
                             </button>
 
@@ -367,5 +1601,1846 @@
 </div>
 
 
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+
+<!-- =========================================================
+     BOOKING + CALENDAR JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const checkIn =
+        document.getElementById("checkIn");
+
+    const checkOut =
+        document.getElementById("checkOut");
+
+    const checkInTime =
+        document.getElementById("checkInTime");
+
+    const checkOutTime =
+        document.getElementById("checkOutTime");
+
+    const guests =
+        document.getElementById("guests");
+
+    const bookingForm =
+        document.getElementById("bookingForm");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+    const nightCount =
+        document.getElementById("nightCount");
+
+    const totalAmount =
+        document.getElementById("totalAmount");
+
+    const dateError =
+        document.getElementById("dateError");
+
+    const dateErrorText =
+        document.getElementById("dateErrorText");
+
+    const availabilityBox =
+        document.getElementById("availabilityBox");
+
+    const availabilityMessage =
+        document.getElementById("availabilityMessage");
+
+    const calendarDays =
+        document.getElementById("calendarDays");
+
+    const calendarMonthTitle =
+        document.getElementById("calendarMonthTitle");
+
+    const calendarStatus =
+        document.getElementById("calendarStatus");
+
+    const selectionInfo =
+        document.getElementById("selectionInfo");
+
+    const previousMonth =
+        document.getElementById("previousMonth");
+
+    const nextMonth =
+        document.getElementById("nextMonth");
+
+    const summaryCheckIn =
+        document.getElementById("summaryCheckIn");
+
+    const summaryCheckOut =
+        document.getElementById("summaryCheckOut");
+
+    const summaryCheckInTime =
+        document.getElementById("summaryCheckInTime");
+
+    const summaryCheckOutTime =
+        document.getElementById("summaryCheckOutTime");
+
+
+    /* =====================================================
+       ROOM PRICE
+    ====================================================== */
+
+    const roomPrice =
+        Number("{{ room.price }}");
+
+
+    /* =====================================================
+       TODAY
+    ====================================================== */
+
+    const today =
+        "{{ today|date:'Y-m-d' }}";
+
+
+    /* =====================================================
+       URLS
+    ====================================================== */
+
+    const availabilityUrl =
+        "{% url 'check_availability' room.id %}";
+
+    const calendarAvailabilityUrl =
+        "{% url 'calendar_availability' room.id %}";
+
+
+    /* =====================================================
+       STATE
+    ====================================================== */
+
+    let roomAvailable = false;
+
+    let checkingAvailability = false;
+
+    let currentCalendarDate =
+        new Date(today + "T00:00:00");
+
+    let bookedRanges = [];
+
+    let calendarLoading = false;
+
+
+    /* =====================================================
+       FORMAT DATE
+    ====================================================== */
+
+    function formatDate(date) {
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(date.getMonth() + 1)
+            .padStart(2, "0");
+
+        const day =
+            String(date.getDate())
+            .padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    /* =====================================================
+       CREATE DATE
+    ====================================================== */
+
+    function createDate(dateString) {
+
+        return new Date(
+            dateString + "T00:00:00"
+        );
+
+    }
+
+
+    /* =====================================================
+       BOOKED DATE
+    ====================================================== */
+
+    function isBooked(dateString) {
+
+        return bookedRanges.some(function (range) {
+
+            return (
+                dateString >= range.check_in &&
+                dateString < range.check_out
+            );
+
+        });
+
+    }
+
+
+    /* =====================================================
+       SELECTED RANGE
+    ====================================================== */
+
+    function isInsideSelectedRange(dateString) {
+
+        if (
+            !checkIn.value ||
+            !checkOut.value
+        ) {
+
+            return false;
+
+        }
+
+        return (
+            dateString > checkIn.value &&
+            dateString < checkOut.value
+        );
+
+    }
+
+
+    /* =====================================================
+       READABLE DATE
+    ====================================================== */
+
+    function formatReadableDate(dateString) {
+
+        if (!dateString) {
+            return "—";
+        }
+
+        const date =
+            createDate(dateString);
+
+        return date.toLocaleDateString(
+            "en-US",
+            {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       READABLE TIME
+    ====================================================== */
+
+    function formatReadableTime(timeString) {
+
+        if (!timeString) {
+            return "—";
+        }
+
+        const parts =
+            timeString.split(":");
+
+        let hour =
+            Number(parts[0]);
+
+        const minute =
+            parts[1];
+
+        const period =
+            hour >= 12
+                ? "PM"
+                : "AM";
+
+        hour =
+            hour % 12 || 12;
+
+        return `${hour}:${minute} ${period}`;
+
+    }
+
+
+    /* =====================================================
+       UPDATE STAY SUMMARY
+    ====================================================== */
+
+    function updateStaySummary() {
+
+        summaryCheckIn.textContent =
+            formatReadableDate(
+                checkIn.value
+            );
+
+        summaryCheckOut.textContent =
+            formatReadableDate(
+                checkOut.value
+            );
+
+        summaryCheckInTime.textContent =
+            formatReadableTime(
+                checkInTime.value
+            );
+
+        summaryCheckOutTime.textContent =
+            formatReadableTime(
+                checkOutTime.value
+            );
+
+    }
+
+
+    /* =====================================================
+       RESET BUTTON
+    ====================================================== */
+
+    function resetSubmitButton() {
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML = `
+
+            <i class="bi bi-calendar-check me-2"></i>
+
+            Check Availability First
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       ENABLE BUTTON
+    ====================================================== */
+
+    function enableBookingButton() {
+
+        submitButton.disabled = false;
+
+        submitButton.innerHTML = `
+
+            <i class="bi bi-credit-card me-2"></i>
+
+            Continue to Payment
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       HIDE AVAILABILITY
+    ====================================================== */
+
+    function hideAvailability() {
+
+        availabilityBox.className =
+            "availability-box";
+
+        availabilityMessage.innerHTML = "";
+
+    }
+
+
+    /* =====================================================
+       SHOW CHECKING
+    ====================================================== */
+
+    function showChecking() {
+
+        availabilityBox.className =
+            "availability-box show alert alert-info";
+
+        availabilityMessage.innerHTML = `
+
+            <span
+                class="spinner-border spinner-border-sm me-2"
+            ></span>
+
+            Checking room availability...
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       SHOW AVAILABLE
+    ====================================================== */
+
+    function showAvailable(data) {
+
+        availabilityBox.className =
+            "availability-box show alert alert-success";
+
+        availabilityMessage.innerHTML = `
+
+            <i class="bi bi-check-circle-fill me-2"></i>
+
+            <strong>Room Available!</strong>
+
+            <br>
+
+            ${data.message ||
+            "This room is available for the selected dates."}
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       SHOW NOT AVAILABLE
+    ====================================================== */
+
+    function showNotAvailable(data) {
+
+        availabilityBox.className =
+            "availability-box show alert alert-danger";
+
+        availabilityMessage.innerHTML = `
+
+            <i class="bi bi-x-circle-fill me-2"></i>
+
+            <strong>Room Not Available!</strong>
+
+            <br>
+
+            ${data.message ||
+            "This room is already booked for the selected dates."}
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       DATE ERROR
+    ====================================================== */
+
+    function showDateError(
+        message,
+        field = null
+    ) {
+
+        dateError.style.display =
+            "block";
+
+        dateErrorText.textContent =
+            message;
+
+
+        if (field) {
+
+            field.classList.add(
+                "is-invalid"
+            );
+
+        }
+
+    }
+
+
+    function clearDateError() {
+
+        dateError.style.display =
+            "none";
+
+        dateErrorText.textContent =
+            "";
+
+        checkIn.classList.remove(
+            "is-invalid"
+        );
+
+        checkOut.classList.remove(
+            "is-invalid"
+        );
+
+        checkInTime.classList.remove(
+            "is-invalid"
+        );
+
+        checkOutTime.classList.remove(
+            "is-invalid"
+        );
+
+    }
+
+
+    /* =====================================================
+       VALIDATE DATES + TIMES
+    ====================================================== */
+
+    function validateDates() {
+
+        clearDateError();
+
+
+        if (!checkIn.value) {
+
+            roomAvailable = false;
+
+            return false;
+
+        }
+
+
+        if (!checkOut.value) {
+
+            roomAvailable = false;
+
+            return false;
+
+        }
+
+
+        if (!checkInTime.value) {
+
+            showDateError(
+                "Please select a check-in time.",
+                checkInTime
+            );
+
+            roomAvailable = false;
+
+            return false;
+
+        }
+
+
+        if (!checkOutTime.value) {
+
+            showDateError(
+                "Please select a check-out time.",
+                checkOutTime
+            );
+
+            roomAvailable = false;
+
+            return false;
+
+        }
+
+
+        const checkInDate =
+            createDate(checkIn.value);
+
+        const checkOutDate =
+            createDate(checkOut.value);
+
+        const todayDate =
+            createDate(today);
+
+
+        if (checkInDate < todayDate) {
+
+            showDateError(
+                "Check-in date cannot be in the past.",
+                checkIn
+            );
+
+            roomAvailable = false;
+
+            return false;
+
+        }
+
+
+        if (checkOutDate <= checkInDate) {
+
+            showDateError(
+                "Check-out date must be after check-in date.",
+                checkOut
+            );
+
+            roomAvailable = false;
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       CALCULATE TOTAL
+    ====================================================== */
+
+    function calculateTotal() {
+
+        nightCount.textContent = "0";
+
+        totalAmount.textContent = "Rs. 0";
+
+
+        if (
+            !checkIn.value ||
+            !checkOut.value
+        ) {
+
+            updateStaySummary();
+
+            return;
+
+        }
+
+
+        const checkInDate =
+            createDate(checkIn.value);
+
+        const checkOutDate =
+            createDate(checkOut.value);
+
+
+        const difference =
+            checkOutDate.getTime() -
+            checkInDate.getTime();
+
+
+        const nights =
+            Math.round(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        if (nights <= 0) {
+
+            updateStaySummary();
+
+            return;
+
+        }
+
+
+        const total =
+            nights * roomPrice;
+
+
+        nightCount.textContent =
+            nights;
+
+        totalAmount.textContent =
+            "Rs. " +
+            total.toLocaleString();
+
+
+        updateStaySummary();
+
+    }
+
+
+    /* =====================================================
+       CHECK AVAILABILITY
+    ====================================================== */
+
+    async function checkRoomAvailability() {
+
+        roomAvailable = false;
+
+        resetSubmitButton();
+
+
+        if (!validateDates()) {
+
+            hideAvailability();
+
+            return;
+
+        }
+
+
+        if (checkingAvailability) {
+            return;
+        }
+
+
+        checkingAvailability = true;
+
+        showChecking();
+
+
+        try {
+
+            const url =
+                `${availabilityUrl}?check_in=${encodeURIComponent(checkIn.value)}&check_out=${encodeURIComponent(checkOut.value)}`;
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "X-Requested-With":
+                                "XMLHttpRequest",
+
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Availability request failed."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                data.success === true &&
+                data.available === true
+            ) {
+
+                roomAvailable = true;
+
+                showAvailable(data);
+
+                enableBookingButton();
+
+            }
+
+            else {
+
+                roomAvailable = false;
+
+                showNotAvailable(data);
+
+                resetSubmitButton();
+
+            }
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Availability Error:",
+                error
+            );
+
+
+            roomAvailable = false;
+
+
+            availabilityBox.className =
+                "availability-box show alert alert-warning";
+
+
+            availabilityMessage.innerHTML = `
+
+                <i
+                    class="bi bi-exclamation-triangle-fill me-2"
+                ></i>
+
+                Unable to check room availability.
+
+            `;
+
+
+            resetSubmitButton();
+
+        }
+
+
+        finally {
+
+            checkingAvailability = false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       LOAD CALENDAR
+    ====================================================== */
+
+    async function loadCalendar(year, month) {
+
+        calendarLoading = true;
+
+
+        calendarDays.innerHTML = `
+
+            <div
+                class="calendar-loading"
+                style="grid-column:1 / -1;"
+            >
+
+                <span
+                    class="spinner-border spinner-border-sm me-2"
+                ></span>
+
+                Loading availability...
+
+            </div>
+
+        `;
+
+
+        try {
+
+            const url =
+                `${calendarAvailabilityUrl}?year=${year}&month=${month}`;
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        method: "GET",
+
+                        headers: {
+                            "X-Requested-With":
+                                "XMLHttpRequest",
+
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Calendar request failed."
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                data.success !== true
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load calendar."
+                );
+
+            }
+
+
+            bookedRanges =
+                data.booked_ranges || [];
+
+
+            renderCalendar(
+                year,
+                month
+            );
+
+        }
+
+
+        catch (error) {
+
+            console.error(
+                "Calendar Error:",
+                error
+            );
+
+
+            calendarDays.innerHTML = `
+
+                <div
+                    class="calendar-error"
+                    style="grid-column:1 / -1;"
+                >
+
+                    <i
+                        class="bi bi-exclamation-triangle me-2"
+                    ></i>
+
+                    Unable to load availability.
+
+                </div>
+
+            `;
+
+        }
+
+
+        finally {
+
+            calendarLoading = false;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       RENDER CALENDAR
+    ====================================================== */
+
+    function renderCalendar(
+        year,
+        month
+    ) {
+
+        const monthNames = [
+
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+
+        ];
+
+
+        calendarMonthTitle.textContent =
+            `${monthNames[month - 1]} ${year}`;
+
+
+        calendarDays.innerHTML = "";
+
+
+        const firstDate =
+            new Date(
+                year,
+                month - 1,
+                1
+            );
+
+
+        let firstDay =
+            firstDate.getDay();
+
+
+        firstDay =
+            firstDay === 0
+                ? 6
+                : firstDay - 1;
+
+
+        const daysInMonth =
+            new Date(
+                year,
+                month,
+                0
+            ).getDate();
+
+
+        /* EMPTY DAYS */
+
+        for (
+            let i = 0;
+            i < firstDay;
+            i++
+        ) {
+
+            const emptyDay =
+                document.createElement("div");
+
+            emptyDay.className =
+                "calendar-day empty";
+
+            calendarDays.appendChild(
+                emptyDay
+            );
+
+        }
+
+
+        /* DAYS */
+
+        for (
+            let day = 1;
+            day <= daysInMonth;
+            day++
+        ) {
+
+            const date =
+                new Date(
+                    year,
+                    month - 1,
+                    day
+                );
+
+
+            const dateString =
+                formatDate(date);
+
+
+            const button =
+                document.createElement("button");
+
+
+            button.type =
+                "button";
+
+
+            button.className =
+                "calendar-day";
+
+
+            button.textContent =
+                day;
+
+
+            button.dataset.date =
+                dateString;
+
+
+            /* PAST */
+
+            if (
+                dateString < today
+            ) {
+
+                button.classList.add(
+                    "past"
+                );
+
+                button.disabled =
+                    true;
+
+            }
+
+
+            /* BOOKED */
+
+            else if (
+                isBooked(dateString)
+            ) {
+
+                button.classList.add(
+                    "booked"
+                );
+
+                button.disabled =
+                    true;
+
+                button.title =
+                    "This date is already booked.";
+
+            }
+
+
+            /* AVAILABLE */
+
+            else {
+
+                button.classList.add(
+                    "available"
+                );
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        selectCalendarDate(
+                            dateString
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* TODAY */
+
+            if (
+                dateString === today
+            ) {
+
+                button.classList.add(
+                    "today"
+                );
+
+                button.title =
+                    "Today";
+
+            }
+
+
+            /* CHECK-IN */
+
+            if (
+                checkIn.value === dateString
+            ) {
+
+                button.classList.add(
+                    "check-in-selected",
+                    "selected"
+                );
+
+            }
+
+
+            /* CHECK-OUT */
+
+            if (
+                checkOut.value === dateString
+            ) {
+
+                button.classList.add(
+                    "check-out-selected",
+                    "selected"
+                );
+
+            }
+
+
+            /* RANGE */
+
+            if (
+                isInsideSelectedRange(
+                    dateString
+                )
+            ) {
+
+                button.classList.add(
+                    "in-range"
+                );
+
+            }
+
+
+            calendarDays.appendChild(
+                button
+            );
+
+        }
+
+
+        updateCalendarStatus();
+
+        updateMonthButtons();
+
+    }
+
+
+    /* =====================================================
+       SELECT DATE
+    ====================================================== */
+
+    function selectCalendarDate(
+        dateString
+    ) {
+
+
+        /* CHECK-IN */
+
+        if (!checkIn.value) {
+
+            checkIn.value =
+                dateString;
+
+            checkOut.value =
+                "";
+
+
+            roomAvailable =
+                false;
+
+
+            resetSubmitButton();
+
+            hideAvailability();
+
+            clearDateError();
+
+            calculateTotal();
+
+
+            calendarStatus.innerHTML = `
+
+                <strong>Check-in:</strong>
+
+                ${formatReadableDate(dateString)}
+
+                <br>
+
+                Select your
+                <strong>check-out date</strong>.
+
+            `;
+
+
+            selectionInfo.innerHTML = `
+
+                <i class="bi bi-calendar-check me-1"></i>
+
+                <strong>Check-in:</strong>
+
+                ${formatReadableDate(dateString)}
+
+                &nbsp; → &nbsp;
+
+                <strong>Select check-out</strong>
+
+            `;
+
+
+            renderCalendar(
+                currentCalendarDate.getFullYear(),
+                currentCalendarDate.getMonth() + 1
+            );
+
+
+            return;
+
+        }
+
+
+        /* CHECK-OUT */
+
+        if (
+            dateString <= checkIn.value
+        ) {
+
+            showDateError(
+                "Check-out date must be after check-in date.",
+                checkOut
+            );
+
+            return;
+
+        }
+
+
+        /* BOOKED RANGE */
+
+        if (
+            rangeContainsBookedDate(
+                checkIn.value,
+                dateString
+            )
+        ) {
+
+            showDateError(
+                "Your selected range contains a booked date. Please choose another check-out date.",
+                checkOut
+            );
+
+            return;
+
+        }
+
+
+        checkOut.value =
+            dateString;
+
+
+        clearDateError();
+
+        calculateTotal();
+
+
+        roomAvailable =
+            false;
+
+
+        resetSubmitButton();
+
+        hideAvailability();
+
+
+        selectionInfo.innerHTML = `
+
+            <i class="bi bi-check-circle me-1"></i>
+
+            <strong>Check-in:</strong>
+
+            ${formatReadableDate(checkIn.value)}
+
+            &nbsp; → &nbsp;
+
+            <strong>Check-out:</strong>
+
+            ${formatReadableDate(checkOut.value)}
+
+        `;
+
+
+        renderCalendar(
+            currentCalendarDate.getFullYear(),
+            currentCalendarDate.getMonth() + 1
+        );
+
+
+        checkRoomAvailability();
+
+    }
+
+
+    /* =====================================================
+       RANGE BOOKED CHECK
+    ====================================================== */
+
+    function rangeContainsBookedDate(
+        startDateString,
+        endDateString
+    ) {
+
+        const start =
+            createDate(
+                startDateString
+            );
+
+
+        const end =
+            createDate(
+                endDateString
+            );
+
+
+        const current =
+            new Date(start);
+
+
+        while (
+            current < end
+        ) {
+
+            const currentString =
+                formatDate(current);
+
+
+            if (
+                isBooked(currentString)
+            ) {
+
+                return true;
+
+            }
+
+
+            current.setDate(
+                current.getDate() + 1
+            );
+
+        }
+
+
+        return false;
+
+    }
+
+
+    /* =====================================================
+       CALENDAR STATUS
+    ====================================================== */
+
+    function updateCalendarStatus() {
+
+        if (
+            checkIn.value &&
+            checkOut.value
+        ) {
+
+            calendarStatus.innerHTML = `
+
+                <strong>Selected:</strong>
+
+                ${formatReadableDate(checkIn.value)}
+
+                →
+
+                ${formatReadableDate(checkOut.value)}
+
+            `;
+
+            return;
+
+        }
+
+
+        if (checkIn.value) {
+
+            calendarStatus.innerHTML = `
+
+                <strong>Check-in:</strong>
+
+                ${formatReadableDate(checkIn.value)}
+
+                — Select check-out.
+
+            `;
+
+            return;
+
+        }
+
+
+        calendarStatus.innerHTML = `
+
+            Select an available
+            <strong>check-in date</strong>.
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       MONTH BUTTONS
+    ====================================================== */
+
+    function updateMonthButtons() {
+
+        const currentMonth =
+            new Date(
+                today + "T00:00:00"
+            );
+
+
+        const calendarMonth =
+            new Date(
+                currentCalendarDate.getFullYear(),
+                currentCalendarDate.getMonth(),
+                1
+            );
+
+
+        const currentMonthStart =
+            new Date(
+                currentMonth.getFullYear(),
+                currentMonth.getMonth(),
+                1
+            );
+
+
+        previousMonth.disabled =
+            calendarMonth <=
+            currentMonthStart;
+
+    }
+
+
+    /* =====================================================
+       PREVIOUS MONTH
+    ====================================================== */
+
+    previousMonth.addEventListener(
+        "click",
+        function () {
+
+            if (calendarLoading) {
+                return;
+            }
+
+
+            const currentMonth =
+                new Date(
+                    today + "T00:00:00"
+                );
+
+
+            const newMonth =
+                new Date(
+                    currentCalendarDate.getFullYear(),
+                    currentCalendarDate.getMonth() - 1,
+                    1
+                );
+
+
+            const minimumMonth =
+                new Date(
+                    currentMonth.getFullYear(),
+                    currentMonth.getMonth(),
+                    1
+                );
+
+
+            if (
+                newMonth <
+                minimumMonth
+            ) {
+
+                return;
+
+            }
+
+
+            currentCalendarDate =
+                newMonth;
+
+
+            loadCalendar(
+                currentCalendarDate.getFullYear(),
+                currentCalendarDate.getMonth() + 1
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       NEXT MONTH
+    ====================================================== */
+
+    nextMonth.addEventListener(
+        "click",
+        function () {
+
+            if (calendarLoading) {
+                return;
+            }
+
+
+            currentCalendarDate =
+                new Date(
+                    currentCalendarDate.getFullYear(),
+                    currentCalendarDate.getMonth() + 1,
+                    1
+                );
+
+
+            loadCalendar(
+                currentCalendarDate.getFullYear(),
+                currentCalendarDate.getMonth() + 1
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       CHECK-IN FIELD
+    ====================================================== */
+
+    checkIn.addEventListener(
+        "click",
+        function () {
+
+            calendarStatus.innerHTML = `
+
+                Select your
+                <strong>check-in date</strong>.
+
+            `;
+
+        }
+    );
+
+
+    /* =====================================================
+       CHECK-OUT FIELD
+    ====================================================== */
+
+    checkOut.addEventListener(
+        "click",
+        function () {
+
+            if (!checkIn.value) {
+
+                calendarStatus.innerHTML = `
+
+                    <strong>
+                        Select check-in first.
+                    </strong>
+
+                `;
+
+                return;
+
+            }
+
+
+            calendarStatus.innerHTML = `
+
+                Check-in:
+
+                <strong>
+                    ${formatReadableDate(checkIn.value)}
+                </strong>
+
+                <br>
+
+                Select your
+                <strong>check-out date</strong>.
+
+            `;
+
+        }
+    );
+
+
+    /* =====================================================
+       TIME CHANGE
+    ====================================================== */
+
+    checkInTime.addEventListener(
+        "change",
+        function () {
+
+            roomAvailable =
+                false;
+
+            resetSubmitButton();
+
+            clearDateError();
+
+            updateStaySummary();
+
+
+            if (
+                checkIn.value &&
+                checkOut.value
+            ) {
+
+                checkRoomAvailability();
+
+            }
+
+        }
+    );
+
+
+    checkOutTime.addEventListener(
+        "change",
+        function () {
+
+            roomAvailable =
+                false;
+
+            resetSubmitButton();
+
+            clearDateError();
+
+            updateStaySummary();
+
+
+            if (
+                checkIn.value &&
+                checkOut.value
+            ) {
+
+                checkRoomAvailability();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       GUEST VALIDATION
+    ====================================================== */
+
+    guests.addEventListener(
+        "input",
+        function () {
+
+            const maximum =
+                Number(
+                    guests.max
+                );
+
+
+            let current =
+                Number(
+                    guests.value
+                );
+
+
+            if (
+                current > maximum
+            ) {
+
+                guests.value =
+                    maximum;
+
+            }
+
+
+            if (
+                current < 1
+            ) {
+
+                guests.value =
+                    1;
+
+            }
+
+
+            if (!guests.value) {
+
+                guests.value =
+                    1;
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       FORM SUBMIT
+    ====================================================== */
+
+    bookingForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            if (!validateDates()) {
+                return;
+            }
+
+
+            const guestCount =
+                Number(
+                    guests.value
+                );
+
+
+            const maximumGuests =
+                Number(
+                    guests.max
+                );
+
+
+            if (
+                guestCount < 1 ||
+                guestCount > maximumGuests
+            ) {
+
+                guests.classList.add(
+                    "is-invalid"
+                );
+
+
+                alert(
+                    `Number of guests must be between 1 and ${maximumGuests}.`
+                );
+
+
+                return;
+
+            }
+
+
+            guests.classList.remove(
+                "is-invalid"
+            );
+
+
+            if (
+                rangeContainsBookedDate(
+                    checkIn.value,
+                    checkOut.value
+                )
+            ) {
+
+                showDateError(
+                    "The selected date range contains a booked date."
+                );
+
+                return;
+
+            }
+
+
+            if (!roomAvailable) {
+
+                await checkRoomAvailability();
+
+            }
+
+
+            if (!roomAvailable) {
+                return;
+            }
+
+
+            submitButton.disabled =
+                true;
+
+
+            submitButton.innerHTML = `
+
+                <span
+                    class="spinner-border spinner-border-sm me-2"
+                ></span>
+
+                Processing...
+
+            `;
+
+
+            bookingForm.submit();
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ====================================================== */
+
+    updateStaySummary();
+
+    calculateTotal();
+
+    resetSubmitButton();
+
+
+    loadCalendar(
+        currentCalendarDate.getFullYear(),
+        currentCalendarDate.getMonth() + 1
+    );
+
+
+    if (
+        checkIn.value &&
+        checkOut.value
+    ) {
+
+        checkRoomAvailability();
+
+    }
+
+});
+
+</script>
+
+
 </body>
+
 </html>

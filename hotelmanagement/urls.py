@@ -61,6 +61,11 @@ urlpatterns = [
         'dashboard/',
         include('dashboard.urls')
     ),
+    
+    path(
+    'notifications/',
+    include('notifications.urls')
+),
 ]
 
 

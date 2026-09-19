@@ -1,754 +1,1538 @@
 {% load static %}
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+>
 
-    <meta
-        name="description"
-        content="{{ room.name }} - {{ room.category.name }} at GrandStay Hotel"
-    >
+<meta
+    name="description"
+    content="{{ room.name }} - {{ room.category.name }} at GrandStay Hotel"
+>
 
-    <title>
-        {{ room.name }} | GrandStay Hotel
-    </title>
-
-
-    <!-- =====================================================
-         BOOTSTRAP
-    ====================================================== -->
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+<title>
+    {{ room.name }} | GrandStay Hotel
+</title>
 
 
-    <!-- =====================================================
-         BOOTSTRAP ICONS
-    ====================================================== -->
+<!-- =====================================================
+     BOOTSTRAP 5
+====================================================== -->
 
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        rel="stylesheet"
-    >
-
-
-    <!-- =====================================================
-         GOOGLE FONT
-    ====================================================== -->
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+>
 
 
-    <!-- =====================================================
-         CUSTOM CSS
-    ====================================================== -->
+<!-- =====================================================
+     BOOTSTRAP ICONS
+====================================================== -->
 
-    <style>
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    rel="stylesheet"
+>
 
-        /* =================================================
-           GLOBAL
-        ================================================= */
 
-        * {
-            font-family: 'Poppins', sans-serif;
+<!-- =====================================================
+     GOOGLE FONT
+====================================================== -->
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     CUSTOM CSS
+====================================================== -->
+
+<style>
+
+    /* =====================================================
+       GLOBAL
+    ====================================================== */
+
+    :root {
+        --primary: #b38b59;
+        --primary-dark: #916d43;
+        --primary-light: #f4ede3;
+
+        --body-bg: #f7f7f5;
+        --white: #ffffff;
+        --dark: #222222;
+        --text: #555555;
+        --muted: #888888;
+        --border: #e9e5df;
+
+        --shadow-sm:
+            0 5px 20px rgba(0, 0, 0, .05);
+
+        --shadow-md:
+            0 10px 30px rgba(0, 0, 0, .08);
+    }
+
+
+    * {
+        font-family: 'Poppins', sans-serif;
+    }
+
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+
+    body {
+        background: var(--body-bg);
+        color: var(--dark);
+        overflow-x: hidden;
+    }
+
+
+    a {
+        text-decoration: none;
+    }
+
+
+    img {
+        max-width: 100%;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+    ====================================================== */
+
+    .main-navbar {
+        background: rgba(255, 255, 255, .98);
+        box-shadow:
+            0 3px 20px rgba(0, 0, 0, .07);
+        z-index: 1000;
+    }
+
+
+    .navbar-brand {
+        color: var(--dark) !important;
+        font-size: 1.45rem;
+        font-weight: 700;
+    }
+
+
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        background: var(--primary);
+        color: white;
+
+        border-radius: 12px;
+        margin-right: 8px;
+    }
+
+
+    .nav-link {
+        color: #444 !important;
+        font-size: .9rem;
+        font-weight: 500;
+
+        padding: 10px 12px !important;
+
+        transition: .25s ease;
+    }
+
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--primary) !important;
+    }
+
+
+    .navbar-toggler {
+        border: none;
+    }
+
+
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+
+
+    .login-nav-btn {
+        background: var(--primary);
+        color: white !important;
+
+        border-radius: 10px;
+        padding: 9px 18px !important;
+    }
+
+
+    .login-nav-btn:hover {
+        background: var(--primary-dark);
+        color: white !important;
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ====================================================== */
+
+    .btn-primary-custom {
+        background: var(--primary);
+        border: 1px solid var(--primary);
+
+        color: white;
+
+        border-radius: 11px;
+
+        padding: 11px 20px;
+
+        font-weight: 600;
+
+        transition: .25s ease;
+    }
+
+
+    .btn-primary-custom:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+
+        color: white;
+
+        transform: translateY(-1px);
+    }
+
+
+    .btn-outline-custom {
+        background: white;
+
+        border: 1px solid var(--primary);
+
+        color: var(--primary-dark);
+
+        border-radius: 11px;
+
+        padding: 10px 19px;
+
+        font-weight: 600;
+
+        transition: .25s ease;
+    }
+
+
+    .btn-outline-custom:hover {
+        background: var(--primary);
+
+        border-color: var(--primary);
+
+        color: white;
+    }
+
+
+    /* =====================================================
+       BREADCRUMB
+    ====================================================== */
+
+    .breadcrumb-section {
+        padding: 28px 0 18px;
+    }
+
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+
+        color: #777;
+
+        font-size: .9rem;
+        font-weight: 500;
+
+        transition: .25s;
+    }
+
+
+    .back-link:hover {
+        color: var(--primary-dark);
+
+        transform: translateX(-2px);
+    }
+
+
+    /* =====================================================
+       ROOM MAIN IMAGE
+       SMALLER AND BALANCED
+    ====================================================== */
+
+    .room-gallery {
+        position: relative;
+
+        max-width: 100%;
+    }
+
+
+    .room-image-wrapper {
+        position: relative;
+
+        overflow: hidden;
+
+        border-radius: 20px;
+
+        background: #e9e6df;
+
+        box-shadow: var(--shadow-md);
+    }
+
+
+    /*
+    -------------------------------------------------------
+    MAIN IMAGE SIZE
+    -------------------------------------------------------
+    */
+
+    .room-main-image {
+
+        width: 100%;
+
+        /*
+        Reduced from 570px
+        */
+
+        height: 430px;
+
+        object-fit: cover;
+
+        display: block;
+
+        transition: transform .5s ease;
+    }
+
+
+    .room-image-wrapper:hover .room-main-image {
+        transform: scale(1.015);
+    }
+
+
+    /*
+    -------------------------------------------------------
+    IMAGE PLACEHOLDER
+    -------------------------------------------------------
+    */
+
+    .room-placeholder {
+
+        width: 100%;
+
+        height: 430px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        color: #aaa;
+
+        font-size: 4rem;
+    }
+
+
+    /*
+    -------------------------------------------------------
+    FEATURED BADGE
+    -------------------------------------------------------
+    */
+
+    .featured-label {
+
+        position: absolute;
+
+        top: 16px;
+        left: 16px;
+
+        background: var(--primary);
+
+        color: white;
+
+        padding: 7px 13px;
+
+        border-radius: 30px;
+
+        font-size: .75rem;
+
+        font-weight: 600;
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, .12);
+    }
+
+
+    /*
+    -------------------------------------------------------
+    ROOM NUMBER
+    -------------------------------------------------------
+    */
+
+    .room-number-label {
+
+        position: absolute;
+
+        bottom: 16px;
+        left: 16px;
+
+        background: rgba(0, 0, 0, .65);
+
+        backdrop-filter: blur(5px);
+
+        color: white;
+
+        padding: 7px 12px;
+
+        border-radius: 9px;
+
+        font-size: .75rem;
+    }
+
+
+    /* =====================================================
+       ROOM INFORMATION
+    ====================================================== */
+
+    .room-information {
+        padding: 4px 0;
+    }
+
+
+    .category-label {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        background: var(--primary-light);
+
+        color: var(--primary-dark);
+
+        padding: 7px 13px;
+
+        border-radius: 30px;
+
+        font-size: .77rem;
+
+        font-weight: 600;
+
+        margin-bottom: 13px;
+    }
+
+
+    .room-title {
+
+        font-size: 2.25rem;
+
+        line-height: 1.2;
+
+        font-weight: 700;
+
+        margin-bottom: 10px;
+    }
+
+
+    .room-subtitle {
+
+        color: #777;
+
+        font-size: .88rem;
+    }
+
+
+    .room-description {
+
+        color: #666;
+
+        line-height: 1.8;
+
+        font-size: .9rem;
+    }
+
+
+    /* =====================================================
+       PRICE
+    ====================================================== */
+
+    .price-area {
+
+        padding: 16px 0;
+
+        border-top: 1px solid var(--border);
+
+        border-bottom: 1px solid var(--border);
+    }
+
+
+    .price-label {
+
+        color: #888;
+
+        font-size: .78rem;
+    }
+
+
+    .room-price {
+
+        color: var(--primary-dark);
+
+        font-size: 1.85rem;
+
+        font-weight: 700;
+    }
+
+
+    .price-night {
+
+        color: #777;
+
+        font-size: .82rem;
+    }
+
+
+    /* =====================================================
+       QUICK ROOM DETAILS
+    ====================================================== */
+
+    .details-grid {
+
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 10px;
+
+        margin-top: 20px;
+    }
+
+
+    .detail-item {
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 13px;
+
+        padding: 13px;
+
+        transition: .25s ease;
+    }
+
+
+    .detail-item:hover {
+
+        border-color: #dbc7ac;
+
+        transform: translateY(-2px);
+
+        box-shadow: var(--shadow-sm);
+    }
+
+
+    .detail-icon {
+
+        width: 35px;
+        height: 35px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background: var(--primary-light);
+
+        color: var(--primary-dark);
+
+        border-radius: 9px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .detail-label {
+
+        display: block;
+
+        color: #999;
+
+        font-size: .68rem;
+
+        margin-bottom: 2px;
+    }
+
+
+    .detail-value {
+
+        font-size: .82rem;
+
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       CONTENT SECTIONS
+    ====================================================== */
+
+    .content-section {
+
+        padding: 45px 0;
+    }
+
+
+    .section-heading {
+
+        font-size: 1.55rem;
+
+        font-weight: 700;
+
+        margin-bottom: 7px;
+    }
+
+
+    .section-description {
+
+        color: #888;
+
+        font-size: .85rem;
+    }
+
+
+    /* =====================================================
+       AMENITIES
+    ====================================================== */
+
+    .amenity-item {
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 14px;
+
+        padding: 16px;
+
+        height: 100%;
+
+        transition: .25s ease;
+    }
+
+
+    .amenity-item:hover {
+
+        transform: translateY(-3px);
+
+        box-shadow: var(--shadow-sm);
+    }
+
+
+    .amenity-icon {
+
+        width: 40px;
+        height: 40px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background: var(--primary-light);
+
+        color: var(--primary-dark);
+
+        border-radius: 10px;
+
+        font-size: 1.05rem;
+
+        margin-bottom: 9px;
+    }
+
+
+    .amenity-name {
+
+        display: block;
+
+        font-size: .82rem;
+
+        font-weight: 600;
+    }
+
+
+    /* =====================================================
+       BOOKING CARD
+    ====================================================== */
+
+    .booking-card {
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 18px;
+
+        padding: 23px;
+
+        box-shadow: var(--shadow-sm);
+
+        position: sticky;
+
+        top: 95px;
+    }
+
+
+    .booking-card-title {
+
+        font-size: 1.1rem;
+
+        font-weight: 700;
+    }
+
+
+    .booking-card-subtitle {
+
+        color: #888;
+
+        font-size: .8rem;
+
+        line-height: 1.7;
+    }
+
+
+    .booking-rate {
+
+        background: var(--body-bg);
+
+        border-radius: 13px;
+
+        padding: 15px;
+    }
+
+
+    .booking-rate-label {
+
+        color: #888;
+
+        font-size: .72rem;
+    }
+
+
+    .booking-rate-price {
+
+        color: var(--primary-dark);
+
+        font-size: 1.4rem;
+
+        font-weight: 700;
+    }
+
+
+    .booking-note {
+
+        color: #999;
+
+        font-size: .7rem;
+
+        text-align: center;
+    }
+
+
+    .secure-booking {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 6px;
+
+        color: #777;
+
+        font-size: .72rem;
+
+        margin-top: 14px;
+    }
+
+
+    .secure-booking i {
+
+        color: #5d9566;
+    }
+
+
+    /* =====================================================
+       REVIEWS
+    ====================================================== */
+
+    .reviews-header {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 20px;
+
+        flex-wrap: wrap;
+
+        margin-bottom: 23px;
+    }
+
+
+    .review-card {
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 16px;
+
+        padding: 20px;
+
+        height: 100%;
+
+        transition: .25s ease;
+    }
+
+
+    .review-card:hover {
+
+        box-shadow: var(--shadow-sm);
+
+        transform: translateY(-2px);
+    }
+
+
+    .review-avatar {
+
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: var(--primary-light);
+
+        color: var(--primary-dark);
+
+        border-radius: 50%;
+    }
+
+
+    .review-user {
+
+        font-size: .85rem;
+
+        font-weight: 600;
+    }
+
+
+    .review-date {
+
+        color: #999;
+
+        font-size: .7rem;
+
+        margin-top: 2px;
+    }
+
+
+    .rating-stars {
+
+        color: #d2a900;
+
+        font-size: .78rem;
+
+        white-space: nowrap;
+    }
+
+
+    .review-comment {
+
+        color: #666;
+
+        font-size: .8rem;
+
+        line-height: 1.8;
+    }
+
+
+    .empty-reviews {
+
+        background: white;
+
+        border: 1px dashed #d9d2c8;
+
+        border-radius: 16px;
+
+        text-align: center;
+
+        padding: 40px 20px;
+    }
+
+
+    .empty-reviews-icon {
+
+        width: 58px;
+        height: 58px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        background: var(--primary-light);
+
+        color: var(--primary-dark);
+
+        border-radius: 50%;
+
+        font-size: 1.4rem;
+    }
+
+
+    /* =====================================================
+       RELATED ROOMS
+    ====================================================== */
+
+    .related-card {
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 17px;
+
+        overflow: hidden;
+
+        height: 100%;
+
+        transition: .3s ease;
+    }
+
+
+    .related-card:hover {
+
+        transform: translateY(-4px);
+
+        box-shadow: var(--shadow-md);
+    }
+
+
+    .related-image {
+
+        width: 100%;
+
+        height: 200px;
+
+        object-fit: cover;
+
+        display: block;
+    }
+
+
+    .related-placeholder {
+
+        width: 100%;
+
+        height: 200px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #e9e6df;
+
+        color: #aaa;
+
+        font-size: 2.7rem;
+    }
+
+
+    .related-body {
+
+        padding: 19px;
+    }
+
+
+    .related-category {
+
+        color: var(--primary-dark);
+
+        background: var(--primary-light);
+
+        border-radius: 30px;
+
+        padding: 5px 10px;
+
+        font-size: .68rem;
+
+        font-weight: 600;
+    }
+
+
+    .related-title {
+
+        font-size: 1rem;
+
+        font-weight: 700;
+
+        margin-top: 11px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .related-description {
+
+        color: #888;
+
+        font-size: .75rem;
+
+        line-height: 1.6;
+    }
+
+
+    .related-price {
+
+        color: var(--primary-dark);
+
+        font-weight: 700;
+
+        font-size: .9rem;
+    }
+
+
+    .related-price small {
+
+        color: #999;
+
+        font-weight: 400;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ====================================================== */
+
+    .main-footer {
+
+        background: #202020;
+
+        color: white;
+
+        margin-top: 40px;
+    }
+
+
+    .footer-title {
+
+        font-size: 1.1rem;
+
+        font-weight: 700;
+    }
+
+
+    .footer-icon {
+
+        color: var(--primary);
+    }
+
+
+    .footer-text {
+
+        color: #aaa;
+
+        font-size: .8rem;
+
+        line-height: 1.8;
+    }
+
+
+    .footer-link {
+
+        display: block;
+
+        color: #aaa;
+
+        font-size: .8rem;
+
+        margin-bottom: 8px;
+
+        transition: .2s;
+    }
+
+
+    .footer-link:hover {
+
+        color: white;
+
+        transform: translateX(2px);
+    }
+
+
+    .contact-item {
+
+        color: #aaa;
+
+        font-size: .8rem;
+
+        margin-bottom: 9px;
+    }
+
+
+    .copyright {
+
+        color: #777;
+
+        font-size: .72rem;
+    }
+
+
+    /* =====================================================
+       TABLET
+    ====================================================== */
+
+    @media (max-width: 991px) {
+
+        .room-main-image,
+        .room-placeholder {
+
+            /*
+            Smaller tablet image
+            */
+
+            height: 350px;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
 
-        body {
-            background: #f7f7f2;
-            color: #222;
-        }
+        .room-title {
 
-        a {
-            text-decoration: none;
-        }
-
-
-        /* =================================================
-           NAVBAR
-        ================================================= */
-
-        .navbar {
-            background: #ffffff;
-            box-shadow: 0 3px 18px rgba(0, 0, 0, .08);
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #222;
-        }
-
-        .navbar-brand:hover {
-            color: #222;
-        }
-
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #b8b63b;
-            color: white;
-            border-radius: 12px;
-            margin-right: 8px;
-        }
-
-        .nav-link {
-            color: #444 !important;
-            font-weight: 500;
-            margin: 0 5px;
-        }
-
-        .nav-link:hover {
-            color: #9c9a28 !important;
-        }
-
-        .navbar-toggler {
-            border: none;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: none;
-        }
-
-
-        /* =================================================
-           BUTTONS
-        ================================================= */
-
-        .book-btn {
-            background: #b8b63b;
-            border: none;
-            color: white;
-            padding: 11px 22px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: .25s;
-        }
-
-        .book-btn:hover {
-            background: #9e9c2e;
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        .outline-btn {
-            border: 1px solid #b8b63b;
-            color: #8d8b25;
-            background: white;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-
-        .outline-btn:hover {
-            background: #b8b63b;
-            color: white;
-        }
-
-
-        /* =================================================
-           BREADCRUMB
-        ================================================= */
-
-        .breadcrumb-area {
-            padding-top: 35px;
-            padding-bottom: 15px;
-        }
-
-        .back-link {
-            color: #666;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            color: #9b992a;
-        }
-
-
-        /* =================================================
-           ROOM IMAGE
-        ================================================= */
-
-        .room-image-wrapper {
-            position: relative;
-        }
-
-        .room-image {
-            width: 100%;
-            height: 520px;
-            object-fit: cover;
-            border-radius: 24px;
-            display: block;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, .10);
-        }
-
-        .placeholder-image {
-            width: 100%;
-            height: 520px;
-            border-radius: 24px;
-            background: #e7e7df;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 5rem;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, .08);
-        }
-
-        .featured-badge {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #b8b63b;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-size: .85rem;
-            font-weight: 600;
-        }
-
-
-        /* =================================================
-           ROOM INFORMATION
-        ================================================= */
-
-        .room-info {
-            padding: 10px 0;
-        }
-
-        .category-badge {
-            display: inline-block;
-            background: #e8e8d5;
-            color: #77751e;
-            padding: 7px 14px;
-            border-radius: 30px;
-            font-size: .85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .room-description {
-            color: #6d6d6d;
-            line-height: 1.8;
-        }
-
-        .price {
-            color: #777;
-            font-size: 1rem;
-        }
-
-        .price strong {
-            color: #969428;
             font-size: 2rem;
         }
 
-        .price small {
-            color: #777;
+
+        .booking-card {
+
+            position: static;
         }
 
 
-        /* =================================================
-           ROOM QUICK INFORMATION
-        ================================================= */
+        .content-section {
 
-        .quick-info {
-            background: white;
-            border-radius: 18px;
-            padding: 20px;
-            height: 100%;
-            box-shadow: 0 5px 22px rgba(0, 0, 0, .05);
+            padding: 40px 0;
         }
 
-        .quick-info i {
-            color: #aaa72d;
-            font-size: 1.5rem;
-        }
+    }
 
-        .quick-info-label {
-            display: block;
-            color: #888;
-            font-size: .78rem;
-            margin-top: 8px;
-        }
 
-        .quick-info-value {
-            font-weight: 600;
-            font-size: .95rem;
+    /* =====================================================
+       MOBILE
+    ====================================================== */
+
+    @media (max-width: 767px) {
+
+        .breadcrumb-section {
+
+            padding: 22px 0 15px;
         }
 
 
-        /* =================================================
-           AMENITIES
-        ================================================= */
+        .room-main-image,
+        .room-placeholder {
 
-        .section-title {
+            height: 300px;
+
+            border-radius: 17px;
+        }
+
+
+        .room-title {
+
             font-size: 1.8rem;
-            font-weight: 700;
         }
 
-        .amenity-card {
-            background: white;
+
+        .room-information {
+
+            padding-top: 5px;
+        }
+
+
+        .reviews-header {
+
+            align-items: flex-start;
+        }
+
+    }
+
+
+    /* =====================================================
+       SMALL MOBILE
+    ====================================================== */
+
+    @media (max-width: 575px) {
+
+        .navbar-brand {
+
+            font-size: 1.2rem;
+        }
+
+
+        .brand-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 9px;
+        }
+
+
+        .room-main-image,
+        .room-placeholder {
+
+            /*
+            Small phone image
+            */
+
+            height: 240px;
+
             border-radius: 15px;
-            padding: 20px;
-            height: 100%;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, .05);
-            transition: .25s;
-        }
-
-        .amenity-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
-        }
-
-        .amenity-card i {
-            color: #aaa72d;
-            font-size: 1.6rem;
-        }
-
-        .amenity-card span {
-            display: block;
-            margin-top: 10px;
-            font-weight: 500;
         }
 
 
-        /* =================================================
-           BOOKING CARD
-        ================================================= */
+        .room-placeholder {
 
-        .booking-box {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, .07);
-            position: sticky;
-            top: 100px;
+            font-size: 3rem;
         }
 
-        .booking-box-title {
-            font-size: 1.25rem;
-            font-weight: 700;
+
+        .featured-label {
+
+            top: 10px;
+
+            left: 10px;
+
+            padding: 6px 10px;
+
+            font-size: .65rem;
         }
 
-        .booking-price {
-            background: #f7f7f2;
-            border-radius: 12px;
-            padding: 15px;
+
+        .room-number-label {
+
+            bottom: 10px;
+
+            left: 10px;
+
+            padding: 6px 9px;
+
+            font-size: .65rem;
         }
 
-        .booking-price strong {
-            color: #969428;
+
+        .room-title {
+
+            font-size: 1.55rem;
+        }
+
+
+        .room-description {
+
+            font-size: .82rem;
+        }
+
+
+        .room-price {
+
             font-size: 1.5rem;
         }
 
 
-        /* =================================================
-           REVIEWS
-        ================================================= */
+        .details-grid {
 
-        .review-card {
-            background: white;
-            border-radius: 18px;
-            padding: 22px;
-            height: 100%;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, .05);
-        }
-
-        .review-user {
-            font-weight: 600;
-        }
-
-        .review-date {
-            font-size: .8rem;
-            color: #999;
-        }
-
-        .stars {
-            color: #d0ad00;
-            letter-spacing: 1px;
-        }
-
-        .review-comment {
-            color: #666;
-            line-height: 1.7;
+            gap: 8px;
         }
 
 
-        /* =================================================
-           RELATED ROOMS
-        ================================================= */
+        .detail-item {
 
-        .room-card {
-            background: white;
-            border: none;
-            border-radius: 20px;
-            overflow: hidden;
-            height: 100%;
-            box-shadow: 0 7px 25px rgba(0, 0, 0, .07);
-            transition: .25s;
+            padding: 11px;
         }
 
-        .room-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 14px 35px rgba(0, 0, 0, .10);
+
+        .content-section {
+
+            padding: 32px 0;
         }
 
-        .related-image {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
+
+        .section-heading {
+
+            font-size: 1.35rem;
         }
 
+
+        .booking-card {
+
+            padding: 19px;
+        }
+
+
+        .related-image,
         .related-placeholder {
-            height: 220px;
-            background: #e7e7df;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 3rem;
+
+            height: 185px;
         }
 
-        .related-price {
-            color: #969428;
-            font-weight: 700;
-        }
+    }
 
-
-        /* =================================================
-           EMPTY REVIEW
-        ================================================= */
-
-        .empty-review {
-            background: white;
-            border-radius: 18px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, .05);
-        }
-
-        .empty-review i {
-            font-size: 3rem;
-            color: #aaa;
-        }
-
-
-        /* =================================================
-           FOOTER
-        ================================================= */
-
-        footer {
-            background: #202020;
-            color: white;
-        }
-
-        footer a {
-            color: #aaa;
-        }
-
-        footer a:hover {
-            color: white;
-        }
-
-        .footer-title {
-            font-weight: 700;
-        }
-
-        .footer-icon {
-            color: #b8b63b;
-            margin-right: 8px;
-        }
-
-
-        /* =================================================
-           MOBILE
-        ================================================= */
-
-        @media (max-width: 991px) {
-
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .room-image,
-            .placeholder-image {
-                height: 400px;
-            }
-
-            .booking-box {
-                position: static;
-            }
-
-        }
-
-
-        @media (max-width: 576px) {
-
-            .hero-title {
-                font-size: 1.7rem;
-            }
-
-            .room-image,
-            .placeholder-image {
-                height: 280px;
-                border-radius: 18px;
-            }
-
-            .placeholder-image {
-                font-size: 3.5rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .booking-box {
-                padding: 20px;
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      NAVBAR
 ====================================================== -->
 
-<nav class="navbar navbar-expand-lg sticky-top">
+<nav class="navbar navbar-expand-lg sticky-top main-navbar">
 
-    <div class="container">
-
-        <a
-            class="navbar-brand"
-            href="{% url 'home' %}"
-        >
-
-            <span class="brand-icon">
-
-                <i class="bi bi-building"></i>
-
-            </span>
-
-            GrandStay
-
-        </a>
+<div class="container">
 
 
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar"
-            aria-controls="mainNavbar"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
+    <!-- BRAND -->
 
-            <span class="navbar-toggler-icon"></span>
+    <a
+        class="navbar-brand"
+        href="{% url 'home' %}"
+    >
 
-        </button>
+        <span class="brand-icon">
 
+            <i class="bi bi-building"></i>
 
-        <div
-            class="collapse navbar-collapse"
-            id="mainNavbar"
-        >
+        </span>
 
-            <ul class="navbar-nav ms-auto align-items-lg-center">
+        GrandStay
+
+    </a>
 
 
-                <!-- HOME -->
+    <!-- MOBILE MENU -->
+
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+    >
+
+        <i class="bi bi-list fs-3"></i>
+
+    </button>
+
+
+    <!-- NAVIGATION -->
+
+    <div
+        class="collapse navbar-collapse"
+        id="mainNavbar"
+    >
+
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+
+
+            <!-- HOME -->
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link"
+                    href="{% url 'home' %}"
+                >
+
+                    <i class="bi bi-house me-1"></i>
+
+                    Home
+
+                </a>
+
+            </li>
+
+
+            <!-- ROOMS -->
+
+            <li class="nav-item">
+
+                <a
+                    class="nav-link active"
+                    href="{% url 'room_list' %}"
+                >
+
+                    <i class="bi bi-door-open me-1"></i>
+
+                    Rooms
+
+                </a>
+
+            </li>
+
+
+            {% if user.is_authenticated %}
+
+
+                <!-- MY BOOKINGS -->
 
                 <li class="nav-item">
 
                     <a
                         class="nav-link"
-                        href="{% url 'home' %}"
+                        href="{% url 'my_bookings' %}"
                     >
 
-                        <i class="bi bi-house me-1"></i>
+                        <i class="bi bi-calendar-check me-1"></i>
 
-                        Home
+                        My Bookings
 
                     </a>
 
                 </li>
 
 
-                <!-- ROOMS -->
+                <!-- MY REVIEWS -->
 
                 <li class="nav-item">
 
                     <a
                         class="nav-link"
-                        href="{% url 'room_list' %}"
+                        href="{% url 'my_reviews' %}"
                     >
 
-                        <i class="bi bi-door-open me-1"></i>
+                        <i class="bi bi-star me-1"></i>
 
-                        Rooms
+                        My Reviews
 
                     </a>
 
                 </li>
 
 
-                {% if user.is_authenticated %}
+                <!-- PAYMENTS -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'payment_history' %}"
+                    >
+
+                        <i class="bi bi-credit-card me-1"></i>
+
+                        Payments
+
+                    </a>
+
+                </li>
 
 
-                    <!-- MY BOOKINGS -->
+                <!-- PROFILE -->
 
-                    <li class="nav-item">
+                <li class="nav-item">
 
-                        <a
-                            class="nav-link"
-                            href="{% url 'my_bookings' %}"
-                        >
+                    <a
+                        class="nav-link"
+                        href="{% url 'profile' %}"
+                    >
 
-                            <i class="bi bi-calendar-check me-1"></i>
+                        <i class="bi bi-person-circle me-1"></i>
 
-                            My Bookings
+                        Profile
 
-                        </a>
+                    </a>
 
-                    </li>
-
-
-                    <!-- MY REVIEWS -->
-
-                    <li class="nav-item">
-
-                        <a
-                            class="nav-link"
-                            href="{% url 'my_reviews' %}"
-                        >
-
-                            <i class="bi bi-star me-1"></i>
-
-                            My Reviews
-
-                        </a>
-
-                    </li>
+                </li>
 
 
-                    <!-- PAYMENT HISTORY -->
+                <!-- LOGOUT -->
 
-                    <li class="nav-item">
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
 
-                        <a
-                            class="nav-link"
-                            href="{% url 'payment_history' %}"
-                        >
+                    <a
+                        href="{% url 'logout' %}"
+                        class="btn btn-outline-secondary btn-sm px-3"
+                    >
 
-                            <i class="bi bi-credit-card me-1"></i>
+                        <i class="bi bi-box-arrow-right me-1"></i>
 
-                            Payments
+                        Logout
 
-                        </a>
+                    </a>
 
-                    </li>
-
-
-                    <!-- PROFILE -->
-
-                    <li class="nav-item">
-
-                        <a
-                            class="nav-link"
-                            href="{% url 'profile' %}"
-                        >
-
-                            <i class="bi bi-person-circle me-1"></i>
-
-                            Profile
-
-                        </a>
-
-                    </li>
+                </li>
 
 
-                    <!-- LOGOUT -->
-
-                    <li class="nav-item ms-lg-2">
-
-                        <a
-                            href="{% url 'logout' %}"
-                            class="btn btn-outline-secondary btn-sm px-3"
-                        >
-
-                            <i class="bi bi-box-arrow-right me-1"></i>
-
-                            Logout
-
-                        </a>
-
-                    </li>
+            {% else %}
 
 
-                {% else %}
+                <!-- LOGIN -->
+
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="nav-link login-nav-btn"
+                    >
+
+                        <i class="bi bi-box-arrow-in-right me-1"></i>
+
+                        Login
+
+                    </a>
+
+                </li>
 
 
-                    <!-- LOGIN -->
+            {% endif %}
 
-                    <li class="nav-item ms-lg-2">
-
-                        <a
-                            href="{% url 'login' %}"
-                            class="btn book-btn"
-                        >
-
-                            <i class="bi bi-box-arrow-in-right me-1"></i>
-
-                            Login
-
-                        </a>
-
-                    </li>
-
-
-                {% endif %}
-
-            </ul>
-
-        </div>
+        </ul>
 
     </div>
 
+</div>
+
 </nav>
-
-
 
 <!-- =====================================================
      MAIN CONTENT
@@ -756,12 +1540,13 @@
 
 <main>
 
+<!-- =====================================================
+     BACK TO ROOMS
+====================================================== -->
 
-    <!-- =================================================
-         BREADCRUMB
-    ================================================== -->
+<section class="breadcrumb-section">
 
-    <div class="container breadcrumb-area">
+    <div class="container">
 
         <a
             href="{% url 'room_list' %}"
@@ -776,38 +1561,43 @@
 
     </div>
 
+</section>
 
 
-    <!-- =================================================
-         ROOM MAIN SECTION
-    ================================================== -->
 
-    <section class="pb-5">
+<!-- =====================================================
+     ROOM OVERVIEW
+====================================================== -->
 
-        <div class="container">
+<section class="pb-4">
 
-            <div class="row g-5">
+    <div class="container">
+
+        <div class="row g-4 align-items-start">
 
 
-                <!-- =================================================
-                     ROOM IMAGE
-                ================================================== -->
+            <!-- =================================================
+                 ROOM IMAGE
+            ================================================== -->
 
-                <div class="col-lg-7">
+            <div class="col-lg-7">
+
+                <div class="room-gallery">
 
                     <div class="room-image-wrapper">
+
 
                         {% if room.image %}
 
                             <img
                                 src="{{ room.image.url }}"
-                                class="room-image"
+                                class="room-main-image"
                                 alt="{{ room.name }}"
                             >
 
                         {% else %}
 
-                            <div class="placeholder-image">
+                            <div class="room-placeholder">
 
                                 <i class="bi bi-building"></i>
 
@@ -818,7 +1608,7 @@
 
                         {% if room.is_featured %}
 
-                            <div class="featured-badge">
+                            <div class="featured-label">
 
                                 <i class="bi bi-star-fill me-1"></i>
 
@@ -828,179 +1618,219 @@
 
                         {% endif %}
 
+
+                        <div class="room-number-label">
+
+                            <i class="bi bi-door-open me-1"></i>
+
+                            Room {{ room.room_number }}
+
+                        </div>
+
+
                     </div>
 
                 </div>
 
+            </div>
 
 
-                <!-- =================================================
-                     ROOM INFORMATION
-                ================================================== -->
 
-                <div class="col-lg-5">
+            <!-- =================================================
+                 ROOM INFORMATION
+            ================================================== -->
 
-                    <div class="room-info">
+            <div class="col-lg-5">
 
-
-                        <!-- CATEGORY -->
-
-                        <span class="category-badge">
-
-                            <i class="bi bi-tag me-1"></i>
-
-                            {{ room.category.name }}
-
-                        </span>
+                <div class="room-information">
 
 
-                        <!-- ROOM NAME -->
+                    <!-- CATEGORY -->
 
-                        <h1 class="hero-title mb-3">
+                    <span class="category-label">
 
-                            {{ room.name }}
+                        <i class="bi bi-tag-fill"></i>
 
-                        </h1>
+                        {{ room.category.name }}
 
-
-                        <!-- ROOM NUMBER -->
-
-                        <p class="text-muted mb-3">
-
-                            <i class="bi bi-door-open me-2"></i>
-
-                            Room {{ room.room_number }}
-
-                        </p>
+                    </span>
 
 
-                        <!-- DESCRIPTION -->
+                    <!-- ROOM NAME -->
 
-                        <p class="room-description mb-4">
+                    <h1 class="room-title">
 
-                            {{ room.description|default:"Experience comfort, elegance and exceptional hospitality in this beautiful room at GrandStay Hotel." }}
+                        {{ room.name }}
 
-                        </p>
+                    </h1>
 
 
-                        <!-- PRICE -->
+                    <!-- FLOOR -->
 
-                        <div class="price mb-4">
+                    <p class="room-subtitle mb-3">
+
+                        <i class="bi bi-building me-1"></i>
+
+                        Floor {{ room.floor }}
+
+                        <span class="mx-2">•</span>
+
+                        Room {{ room.room_number }}
+
+                    </p>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <p class="room-description mb-3">
+
+                        {% if room.description %}
+
+                            {{ room.description }}
+
+                        {% else %}
+
+                            Experience comfort, elegance and
+                            exceptional hospitality in this
+                            beautiful room at GrandStay Hotel.
+
+                        {% endif %}
+
+                    </p>
+
+
+                    <!-- PRICE -->
+
+                    <div class="price-area">
+
+                        <div class="price-label">
 
                             Starting from
 
-                            <br>
+                        </div>
 
-                            <strong>
+                        <div>
+
+                            <span class="room-price">
+
                                 Rs. {{ room.price }}
-                            </strong>
 
-                            <span>
+                            </span>
+
+                            <span class="price-night">
+
                                 / night
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ROOM DETAILS
+                    ================================================== -->
+
+                    <div class="details-grid">
+
+
+                        <!-- CAPACITY -->
+
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="bi bi-people"></i>
+
+                            </div>
+
+                            <span class="detail-label">
+
+                                Capacity
+
+                            </span>
+
+                            <span class="detail-value">
+
+                                {{ room.capacity }} Guests
+
                             </span>
 
                         </div>
 
 
-                        <!-- =================================================
-                             QUICK INFORMATION
-                        ================================================== -->
+                        <!-- SIZE -->
 
-                        <div class="row g-3 mb-4">
+                        <div class="detail-item">
 
+                            <div class="detail-icon">
 
-                            <!-- CAPACITY -->
-
-                            <div class="col-6">
-
-                                <div class="quick-info">
-
-                                    <i class="bi bi-people"></i>
-
-                                    <span class="quick-info-label">
-                                        Capacity
-                                    </span>
-
-                                    <div class="quick-info-value">
-
-                                        {{ room.capacity }}
-                                        Guests
-
-                                    </div>
-
-                                </div>
+                                <i class="bi bi-aspect-ratio"></i>
 
                             </div>
 
+                            <span class="detail-label">
 
-                            <!-- ROOM SIZE -->
+                                Room Size
 
-                            <div class="col-6">
+                            </span>
 
-                                <div class="quick-info">
+                            <span class="detail-value">
 
-                                    <i class="bi bi-aspect-ratio"></i>
+                                {{ room.size }} m²
 
-                                    <span class="quick-info-label">
-                                        Room Size
-                                    </span>
+                            </span>
 
-                                    <div class="quick-info-value">
-
-                                        {{ room.size }}
-                                        m²
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+                        </div>
 
 
-                            <!-- BED -->
+                        <!-- BED -->
 
-                            <div class="col-6">
+                        <div class="detail-item">
 
-                                <div class="quick-info">
+                            <div class="detail-icon">
 
-                                    <i class="bi bi-bed"></i>
-
-                                    <span class="quick-info-label">
-                                        Bed Type
-                                    </span>
-
-                                    <div class="quick-info-value">
-
-                                        {{ room.bed_type }}
-
-                                    </div>
-
-                                </div>
+                                <i class="bi bi-lamp"></i>
 
                             </div>
 
+                            <span class="detail-label">
 
-                            <!-- FLOOR -->
+                                Bed Type
 
-                            <div class="col-6">
+                            </span>
 
-                                <div class="quick-info">
+                            <span class="detail-value">
 
-                                    <i class="bi bi-building"></i>
+                                {{ room.bed_type }}
 
-                                    <span class="quick-info-label">
-                                        Floor
-                                    </span>
+                            </span>
 
-                                    <div class="quick-info-value">
+                        </div>
 
-                                        Floor {{ room.floor }}
 
-                                    </div>
+                        <!-- FLOOR -->
 
-                                </div>
+                        <div class="detail-item">
+
+                            <div class="detail-icon">
+
+                                <i class="bi bi-building"></i>
 
                             </div>
+
+                            <span class="detail-label">
+
+                                Floor
+
+                            </span>
+
+                            <span class="detail-value">
+
+                                Floor {{ room.floor }}
+
+                            </span>
 
                         </div>
 
@@ -1013,257 +1843,331 @@
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
 
-    <!-- =================================================
-         AMENITIES + BOOKING
-    ================================================== -->
+<!-- =====================================================
+     AMENITIES + BOOKING
+====================================================== -->
 
-    <section class="pb-5">
+<section class="content-section">
 
-        <div class="container">
+    <div class="container">
 
-            <div class="row g-5">
+        <div class="row g-4">
 
 
-                <!-- =================================================
-                     AMENITIES
-                ================================================== -->
+            <!-- =================================================
+                 AMENITIES
+            ================================================== -->
 
-                <div class="col-lg-8">
+            <div class="col-lg-8">
 
-                    <h2 class="section-title mb-4">
+
+                <div class="mb-4">
+
+                    <h2 class="section-heading">
 
                         Room Amenities
 
                     </h2>
 
+                    <p class="section-description mb-0">
 
-                    <div class="row g-3">
+                        Everything you need for a comfortable stay.
+
+                    </p>
+
+                </div>
 
 
-                        {% if room.has_wifi %}
+                <div class="row g-3">
 
-                            <div class="col-md-4 col-6">
 
-                                <div class="amenity-card">
+                    {% if room.has_wifi %}
+
+                        <div class="col-sm-6 col-md-4">
+
+                            <div class="amenity-item">
+
+                                <div class="amenity-icon">
 
                                     <i class="bi bi-wifi"></i>
 
-                                    <span>
-                                        Free Wi-Fi
-                                    </span>
-
                                 </div>
 
-                            </div>
+                                <span class="amenity-name">
 
-                        {% endif %}
+                                    Free Wi-Fi
 
-
-                        {% if room.has_ac %}
-
-                            <div class="col-md-4 col-6">
-
-                                <div class="amenity-card">
-
-                                    <i class="bi bi-snow"></i>
-
-                                    <span>
-                                        Air Conditioning
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        {% endif %}
-
-
-                        {% if room.has_tv %}
-
-                            <div class="col-md-4 col-6">
-
-                                <div class="amenity-card">
-
-                                    <i class="bi bi-tv"></i>
-
-                                    <span>
-                                        Television
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        {% endif %}
-
-
-                        {% if room.has_breakfast %}
-
-                            <div class="col-md-4 col-6">
-
-                                <div class="amenity-card">
-
-                                    <i class="bi bi-cup-hot"></i>
-
-                                    <span>
-                                        Breakfast Included
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        {% endif %}
-
-
-                        {% if room.has_balcony %}
-
-                            <div class="col-md-4 col-6">
-
-                                <div class="amenity-card">
-
-                                    <i class="bi bi-door-open"></i>
-
-                                    <span>
-                                        Private Balcony
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                        {% endif %}
-
-
-                        <!-- ALWAYS AVAILABLE -->
-
-                        <div class="col-md-4 col-6">
-
-                            <div class="amenity-card">
-
-                                <i class="bi bi-shield-check"></i>
-
-                                <span>
-                                    Secure Stay
                                 </span>
 
                             </div>
 
                         </div>
 
-                    </div>
-
-                </div>
+                    {% endif %}
 
 
+                    {% if room.has_ac %}
 
-                <!-- =================================================
-                     BOOKING BOX
-                ================================================== -->
+                        <div class="col-sm-6 col-md-4">
 
-                <div class="col-lg-4">
+                            <div class="amenity-item">
 
-                    <div class="booking-box">
+                                <div class="amenity-icon">
 
+                                    <i class="bi bi-snow"></i>
 
-                        <div class="booking-box-title mb-2">
+                                </div>
 
-                            Reserve This Room
+                                <span class="amenity-name">
+
+                                    Air Conditioning
+
+                                </span>
+
+                            </div>
 
                         </div>
 
-
-                        <p class="text-muted small mb-4">
-
-                            Select your dates and complete your
-                            reservation.
-
-                        </p>
+                    {% endif %}
 
 
-                        <div class="booking-price mb-4">
+                    {% if room.has_tv %}
 
-                            <div class="small text-muted">
-                                Room rate
+                        <div class="col-sm-6 col-md-4">
+
+                            <div class="amenity-item">
+
+                                <div class="amenity-icon">
+
+                                    <i class="bi bi-tv"></i>
+
+                                </div>
+
+                                <span class="amenity-name">
+
+                                    Television
+
+                                </span>
+
                             </div>
 
-                            <strong>
-                                Rs. {{ room.price }}
-                            </strong>
+                        </div>
 
-                            <span class="text-muted">
-                                / night
+                    {% endif %}
+
+
+                    {% if room.has_breakfast %}
+
+                        <div class="col-sm-6 col-md-4">
+
+                            <div class="amenity-item">
+
+                                <div class="amenity-icon">
+
+                                    <i class="bi bi-cup-hot"></i>
+
+                                </div>
+
+                                <span class="amenity-name">
+
+                                    Breakfast Included
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if room.has_balcony %}
+
+                        <div class="col-sm-6 col-md-4">
+
+                            <div class="amenity-item">
+
+                                <div class="amenity-icon">
+
+                                    <i class="bi bi-door-open"></i>
+
+                                </div>
+
+                                <span class="amenity-name">
+
+                                    Private Balcony
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- SECURE STAY -->
+
+                    <div class="col-sm-6 col-md-4">
+
+                        <div class="amenity-item">
+
+                            <div class="amenity-icon">
+
+                                <i class="bi bi-shield-check"></i>
+
+                            </div>
+
+                            <span class="amenity-name">
+
+                                Secure Stay
+
                             </span>
 
                         </div>
 
-
-                        {% if user.is_authenticated %}
-
-
-                            <!-- LOGGED-IN CUSTOMER -->
-
-                            <a
-                                href="{% url 'create_booking' room.id %}"
-                                class="btn book-btn w-100 mb-3"
-                            >
-
-                                <i class="bi bi-calendar-check me-2"></i>
-
-                                Book This Room
-
-                            </a>
+                    </div>
 
 
-                            <a
-                                href="{% url 'my_bookings' %}"
-                                class="btn outline-btn w-100"
-                            >
+                </div>
 
-                                <i class="bi bi-list-check me-2"></i>
-
-                                My Bookings
-
-                            </a>
+            </div>
 
 
-                        {% else %}
+
+            <!-- =================================================
+                 BOOKING CARD
+            ================================================== -->
+
+            <div class="col-lg-4">
+
+                <div class="booking-card">
 
 
-                            <!-- GUEST -->
+                    <h3 class="booking-card-title mb-2">
 
-                            <a
-                                href="{% url 'login' %}?next={% url 'create_booking' room.id %}"
-                                class="btn book-btn w-100 mb-3"
-                            >
+                        Reserve This Room
 
-                                <i class="bi bi-box-arrow-in-right me-2"></i>
-
-                                Login to Book
-
-                            </a>
+                    </h3>
 
 
-                            <a
-                                href="{% url 'register' %}"
-                                class="btn outline-btn w-100"
-                            >
+                    <p class="booking-card-subtitle mb-3">
 
-                                <i class="bi bi-person-plus me-2"></i>
+                        Choose your preferred dates and
+                        continue to complete your reservation.
 
-                                Create Account
-
-                            </a>
+                    </p>
 
 
-                        {% endif %}
+                    <div class="booking-rate mb-4">
 
+                        <div class="booking-rate-label">
+
+                            Room rate
+
+                        </div>
+
+                        <div>
+
+                            <span class="booking-rate-price">
+
+                                Rs. {{ room.price }}
+
+                            </span>
+
+                            <span class="text-muted small">
+
+                                / night
+
+                            </span>
+
+                        </div>
 
                     </div>
+
+
+                    {% if user.is_authenticated %}
+
+
+                        <!-- LOGGED-IN USER -->
+
+                        <a
+                            href="{% url 'create_booking' room.id %}"
+                            class="btn btn-primary-custom w-100 mb-3"
+                        >
+
+                            <i class="bi bi-calendar-check me-2"></i>
+
+                            Book This Room
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'my_bookings' %}"
+                            class="btn btn-outline-custom w-100"
+                        >
+
+                            <i class="bi bi-list-check me-2"></i>
+
+                            My Bookings
+
+                        </a>
+
+
+                    {% else %}
+
+
+                        <!-- GUEST -->
+
+                        <a
+                            href="{% url 'login' %}?next={% url 'create_booking' room.id %}"
+                            class="btn btn-primary-custom w-100 mb-3"
+                        >
+
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+
+                            Login to Book
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'register' %}"
+                            class="btn btn-outline-custom w-100"
+                        >
+
+                            <i class="bi bi-person-plus me-2"></i>
+
+                            Create Account
+
+                        </a>
+
+
+                    {% endif %}
+
+
+                    <div class="secure-booking">
+
+                        <i class="bi bi-shield-check"></i>
+
+                        Secure booking process
+
+                    </div>
+
+
+                    <p class="booking-note mt-2 mb-0">
+
+                        Final price is calculated based on
+                        your selected stay dates.
+
+                    </p>
 
                 </div>
 
@@ -1271,74 +2175,95 @@
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
 
-    <!-- =================================================
-         REVIEWS
-    ================================================== -->
+<!-- =====================================================
+     REVIEWS
+====================================================== -->
 
-    <section class="py-5">
+<section class="content-section">
 
-        <div class="container">
-
-
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-
-                <div>
-
-                    <h2 class="section-title mb-1">
-                        Guest Reviews
-                    </h2>
-
-                    <p class="text-muted mb-0">
-                        See what our guests say about this room.
-                    </p>
-
-                </div>
+    <div class="container">
 
 
-                {% if user.is_authenticated %}
+        <div class="reviews-header">
 
-                    <a
-                        href="{% url 'add_review' room.id %}"
-                        class="btn outline-btn"
-                    >
 
-                        <i class="bi bi-star me-2"></i>
+            <div>
 
-                        Write a Review
+                <h2 class="section-heading mb-1">
 
-                    </a>
+                    Guest Reviews
 
-                {% endif %}
+                </h2>
+
+                <p class="section-description mb-0">
+
+                    See what our guests say about this room.
+
+                </p>
 
             </div>
 
 
+            {% if user.is_authenticated %}
 
-            {% if reviews %}
+                <a
+                    href="{% url 'add_review' room.id %}"
+                    class="btn btn-outline-custom"
+                >
 
-                <div class="row g-4">
+                    <i class="bi bi-star me-2"></i>
 
-                    {% for review in reviews %}
+                    Write a Review
 
-                        <div class="col-lg-6">
+                </a>
 
-                            <div class="review-card">
-
-
-                                <div class="d-flex justify-content-between align-items-start gap-3">
+            {% endif %}
 
 
-                                    <!-- USER -->
+        </div>
+
+
+
+        {% if reviews %}
+
+
+            <div class="row g-4">
+
+
+                {% for review in reviews %}
+
+
+                    <div class="col-lg-6">
+
+                        <div class="review-card">
+
+
+                            <div
+                                class="d-flex justify-content-between align-items-start gap-3"
+                            >
+
+
+                                <!-- USER -->
+
+                                <div class="d-flex align-items-center gap-3">
+
+
+                                    <div class="review-avatar">
+
+                                        <i class="bi bi-person"></i>
+
+                                    </div>
+
 
                                     <div>
 
                                         <div class="review-user">
-
-                                            <i class="bi bi-person-circle me-2"></i>
 
                                             {% if review.user.get_full_name %}
 
@@ -1353,7 +2278,7 @@
                                         </div>
 
 
-                                        <div class="review-date mt-1">
+                                        <div class="review-date">
 
                                             {{ review.created_at|date:"M d, Y" }}
 
@@ -1362,409 +2287,486 @@
                                     </div>
 
 
-                                    <!-- RATING -->
-
-                                    <div class="stars">
-
-                                        {% if review.rating >= 1 %}
-                                            <i class="bi bi-star-fill"></i>
-                                        {% else %}
-                                            <i class="bi bi-star"></i>
-                                        {% endif %}
-
-                                        {% if review.rating >= 2 %}
-                                            <i class="bi bi-star-fill"></i>
-                                        {% else %}
-                                            <i class="bi bi-star"></i>
-                                        {% endif %}
-
-                                        {% if review.rating >= 3 %}
-                                            <i class="bi bi-star-fill"></i>
-                                        {% else %}
-                                            <i class="bi bi-star"></i>
-                                        {% endif %}
-
-                                        {% if review.rating >= 4 %}
-                                            <i class="bi bi-star-fill"></i>
-                                        {% else %}
-                                            <i class="bi bi-star"></i>
-                                        {% endif %}
-
-                                        {% if review.rating >= 5 %}
-                                            <i class="bi bi-star-fill"></i>
-                                        {% else %}
-                                            <i class="bi bi-star"></i>
-                                        {% endif %}
-
-                                    </div>
-
                                 </div>
 
 
-                                <hr>
+                                <!-- STARS -->
+
+                                <div class="rating-stars">
 
 
-                                <p class="review-comment mb-0">
+                                    {% if review.rating >= 1 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
 
-                                    "{{ review.comment }}"
 
-                                </p>
+                                    {% if review.rating >= 2 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
 
+
+                                    {% if review.rating >= 3 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+
+
+                                    {% if review.rating >= 4 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+
+
+                                    {% if review.rating >= 5 %}
+                                        <i class="bi bi-star-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-star"></i>
+                                    {% endif %}
+
+
+                                </div>
 
                             </div>
 
+
+                            <hr class="my-3">
+
+
+                            <p class="review-comment mb-0">
+
+                                "{{ review.comment }}"
+
+                            </p>
+
+
                         </div>
 
-                    {% endfor %}
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- NO REVIEWS -->
+
+            <div class="empty-reviews">
+
+
+                <div class="empty-reviews-icon">
+
+                    <i class="bi bi-chat-heart"></i>
 
                 </div>
 
 
-            {% else %}
+                <h5 class="fw-bold mt-3 mb-2">
+
+                    No Reviews Yet
+
+                </h5>
 
 
-                <div class="empty-review">
+                <p class="text-muted small mb-0">
 
-                    <i class="bi bi-chat-square-heart"></i>
+                    Be the first guest to share your
+                    experience with this room.
 
-                    <h5 class="fw-bold mt-3">
-                        No Reviews Yet
-                    </h5>
-
-                    <p class="text-muted mb-0">
-
-                        Be the first guest to share your
-                        experience with this room.
-
-                    </p>
-
-                </div>
+                </p>
 
 
-            {% endif %}
+            </div>
 
-        </div>
 
-    </section>
+        {% endif %}
+
+
+    </div>
+
+</section>
 
 
 
-    <!-- =================================================
-         RELATED ROOMS
-    ================================================== -->
+<!-- =====================================================
+     RELATED ROOMS
+====================================================== -->
 
-    {% if related_rooms %}
+{% if related_rooms %}
 
-        <section class="py-5">
 
-            <div class="container">
+    <section class="content-section pt-2">
 
-                <h2 class="section-title mb-4">
+        <div class="container">
+
+
+            <div class="mb-4">
+
+                <h2 class="section-heading">
 
                     You May Also Like
 
                 </h2>
 
+                <p class="section-description mb-0">
 
-                <div class="row g-4">
-
-
-                    {% for related in related_rooms %}
-
-                        <div class="col-lg-4 col-md-6">
-
-
-                            <div class="room-card">
-
-
-                                <!-- IMAGE -->
-
-                                {% if related.image %}
-
-                                    <img
-                                        src="{{ related.image.url }}"
-                                        class="related-image"
-                                        alt="{{ related.name }}"
-                                    >
-
-                                {% else %}
-
-                                    <div class="related-placeholder">
-
-                                        <i class="bi bi-building"></i>
-
-                                    </div>
-
-                                {% endif %}
-
-
-                                <!-- BODY -->
-
-                                <div class="p-4">
-
-
-                                    <span class="category-badge mb-2">
-
-                                        {{ related.category.name }}
-
-                                    </span>
-
-
-                                    <h5 class="fw-bold mt-2">
-
-                                        {{ related.name }}
-
-                                    </h5>
-
-
-                                    <p class="text-muted small">
-
-                                        {{ related.description|truncatewords:18 }}
-
-                                    </p>
-
-
-                                    <div class="d-flex justify-content-between align-items-center mt-3">
-
-
-                                        <div>
-
-                                            <span class="related-price">
-
-                                                Rs. {{ related.price }}
-
-                                            </span>
-
-                                            <small class="text-muted">
-                                                / night
-                                            </small>
-
-                                        </div>
-
-
-                                        <a
-                                            href="{% url 'room_detail' related.id %}"
-                                            class="btn book-btn btn-sm"
-                                        >
-
-                                            View Room
-
-                                            <i class="bi bi-arrow-right ms-1"></i>
-
-                                        </a>
-
-
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                    {% endfor %}
-
-
-                </div>
-
-            </div>
-
-        </section>
-
-    {% endif %}
-
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-====================================================== -->
-
-<footer class="py-5 mt-5">
-
-    <div class="container">
-
-        <div class="row g-4">
-
-
-            <!-- ABOUT -->
-
-            <div class="col-lg-5">
-
-                <h4 class="footer-title mb-3">
-
-                    <i class="bi bi-building footer-icon"></i>
-
-                    GrandStay Hotel
-
-                </h4>
-
-
-                <p class="text-secondary">
-
-                    Experience comfort, luxury and exceptional
-                    hospitality. We are committed to making
-                    every stay memorable.
+                    Explore other rooms in the same category.
 
                 </p>
 
             </div>
 
 
+            <div class="row g-4">
 
-            <!-- QUICK LINKS -->
 
-            <div class="col-lg-3">
+                {% for related in related_rooms %}
 
-                <h6 class="fw-bold mb-3">
-                    Quick Links
-                </h6>
 
+                    <div class="col-lg-4 col-md-6">
+
+                        <div class="related-card">
+
+
+                            <!-- IMAGE -->
+
+                            {% if related.image %}
+
+                                <img
+                                    src="{{ related.image.url }}"
+                                    class="related-image"
+                                    alt="{{ related.name }}"
+                                >
+
+                            {% else %}
+
+                                <div class="related-placeholder">
+
+                                    <i class="bi bi-building"></i>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- CONTENT -->
+
+                            <div class="related-body">
+
+
+                                <span class="related-category">
+
+                                    {{ related.category.name }}
+
+                                </span>
+
+
+                                <h3 class="related-title">
+
+                                    {{ related.name }}
+
+                                </h3>
+
+
+                                <p class="related-description mb-3">
+
+                                    {% if related.description %}
+
+                                        {{ related.description|truncatewords:18 }}
+
+                                    {% else %}
+
+                                        Comfortable accommodation
+                                        designed for a relaxing stay.
+
+                                    {% endif %}
+
+                                </p>
+
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+
+
+                                    <div>
+
+                                        <span class="related-price">
+
+                                            Rs. {{ related.price }}
+
+                                        </span>
+
+                                        <small>
+
+                                            / night
+
+                                        </small>
+
+                                    </div>
+
+
+                                    <a
+                                        href="{% url 'room_detail' related.id %}"
+                                        class="btn btn-primary-custom btn-sm"
+                                    >
+
+                                        View Room
+
+                                        <i class="bi bi-arrow-right ms-1"></i>
+
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+{% endif %}
+
+</main>
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer class="main-footer py-5">
+
+
+<div class="container">
+
+    <div class="row g-4">
+
+
+        <!-- ABOUT -->
+
+        <div class="col-lg-5">
+
+            <h4 class="footer-title mb-3">
+
+                <i class="bi bi-building footer-icon me-2"></i>
+
+                GrandStay Hotel
+
+            </h4>
+
+
+            <p class="footer-text mb-0">
+
+                Experience comfort, luxury and exceptional
+                hospitality. We are committed to making
+                every stay memorable.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- QUICK LINKS -->
+
+        <div class="col-lg-3">
+
+            <h6 class="fw-bold mb-3">
+
+                Quick Links
+
+            </h6>
+
+
+            <a
+                href="{% url 'home' %}"
+                class="footer-link"
+            >
+
+                <i class="bi bi-house me-2"></i>
+
+                Home
+
+            </a>
+
+
+            <a
+                href="{% url 'room_list' %}"
+                class="footer-link"
+            >
+
+                <i class="bi bi-door-open me-2"></i>
+
+                Rooms
+
+            </a>
+
+
+            {% if user.is_authenticated %}
 
                 <a
-                    href="{% url 'home' %}"
-                    class="d-block mb-2"
+                    href="{% url 'my_bookings' %}"
+                    class="footer-link"
                 >
 
-                    Home
+                    <i class="bi bi-calendar-check me-2"></i>
+
+                    My Bookings
 
                 </a>
 
 
                 <a
-                    href="{% url 'room_list' %}"
-                    class="d-block mb-2"
+                    href="{% url 'my_reviews' %}"
+                    class="footer-link"
                 >
 
-                    Rooms
+                    <i class="bi bi-star me-2"></i>
+
+                    My Reviews
 
                 </a>
 
 
-                {% if user.is_authenticated %}
+                <a
+                    href="{% url 'payment_history' %}"
+                    class="footer-link"
+                >
 
-                    <a
-                        href="{% url 'my_bookings' %}"
-                        class="d-block mb-2"
-                    >
+                    <i class="bi bi-credit-card me-2"></i>
 
-                        My Bookings
+                    Payments
 
-                    </a>
+                </a>
 
-
-                    <a
-                        href="{% url 'my_reviews' %}"
-                        class="d-block"
-                    >
-
-                        My Reviews
-
-                    </a>
-
-                {% endif %}
-
-            </div>
-
-
-
-            <!-- CONTACT -->
-
-            <div class="col-lg-4">
-
-                <h6 class="fw-bold mb-3">
-                    Contact Us
-                </h6>
-
-
-                {% if hotel %}
-
-                    {% if hotel.address %}
-
-                        <p class="text-secondary mb-2">
-
-                            <i class="bi bi-geo-alt footer-icon"></i>
-
-                            {{ hotel.address }}
-
-                        </p>
-
-                    {% endif %}
-
-
-                    {% if hotel.phone %}
-
-                        <p class="text-secondary mb-2">
-
-                            <i class="bi bi-telephone footer-icon"></i>
-
-                            {{ hotel.phone }}
-
-                        </p>
-
-                    {% endif %}
-
-
-                    {% if hotel.email %}
-
-                        <p class="text-secondary mb-0">
-
-                            <i class="bi bi-envelope footer-icon"></i>
-
-                            {{ hotel.email }}
-
-                        </p>
-
-                    {% endif %}
-
-                {% else %}
-
-                    <p class="text-secondary">
-
-                        <i class="bi bi-geo-alt footer-icon"></i>
-
-                        GrandStay Hotel
-
-                    </p>
-
-                {% endif %}
-
-            </div>
+            {% endif %}
 
 
         </div>
 
 
-        <hr class="border-secondary my-4">
+
+        <!-- CONTACT -->
+
+        <div class="col-lg-4">
+
+            <h6 class="fw-bold mb-3">
+
+                Contact Us
+
+            </h6>
 
 
-        <div class="text-center text-secondary small">
+            {% if hotel %}
 
-            © {% now "Y" %}
 
-            GrandStay Hotel.
+                {% if hotel.address %}
 
-            All Rights Reserved.
+                    <div class="contact-item">
+
+                        <i class="bi bi-geo-alt footer-icon me-2"></i>
+
+                        {{ hotel.address }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if hotel.phone %}
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-telephone footer-icon me-2"></i>
+
+                        {{ hotel.phone }}
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if hotel.email %}
+
+                    <div class="contact-item">
+
+                        <i class="bi bi-envelope footer-icon me-2"></i>
+
+                        {{ hotel.email }}
+
+                    </div>
+
+                {% endif %}
+
+
+            {% else %}
+
+
+                <div class="contact-item">
+
+                    <i class="bi bi-building footer-icon me-2"></i>
+
+                    GrandStay Hotel
+
+                </div>
+
+
+            {% endif %}
+
 
         </div>
+
 
     </div>
 
+
+    <hr class="border-secondary my-4">
+
+
+    <div class="text-center copyright">
+
+        © {% now "Y" %}
+
+        GrandStay Hotel.
+
+        All Rights Reserved.
+
+    </div>
+
+
+</div>
+
 </footer>
 
-
-
 <!-- =====================================================
-     BOOTSTRAP JS
+     BOOTSTRAP JAVASCRIPT
 ====================================================== -->
 
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 ></script>
-
 
 </body>
 

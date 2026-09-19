@@ -15,6 +15,7 @@ urlpatterns = [
         name="create_booking"
     ),
 
+
     # =====================================================
     # CHECK ROOM AVAILABILITY
     # =====================================================
@@ -24,6 +25,18 @@ urlpatterns = [
         views.check_availability,
         name="check_availability"
     ),
+
+
+    # =====================================================
+    # CALENDAR AVAILABILITY
+    # =====================================================
+
+    path(
+        "room/<int:room_id>/calendar-availability/",
+        views.calendar_availability,
+        name="calendar_availability"
+    ),
+
 
     # =====================================================
     # CUSTOMER BOOKINGS
@@ -35,6 +48,7 @@ urlpatterns = [
         name="my_bookings"
     ),
 
+
     # =====================================================
     # CUSTOMER BOOKING DETAIL
     # =====================================================
@@ -45,6 +59,7 @@ urlpatterns = [
         name="booking_detail"
     ),
 
+
     # =====================================================
     # CANCEL BOOKING
     # =====================================================
@@ -54,4 +69,5 @@ urlpatterns = [
         views.cancel_booking,
         name="cancel_booking"
     ),
+
 ]

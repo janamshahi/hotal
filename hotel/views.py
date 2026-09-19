@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.db.models import Avg
+from django.contrib.auth.models import User
 
 from .models import Hotel, Service
-from rooms.models import Room, RoomCategory
+
+from rooms.models import (
+    Room,
+    RoomCategory
+)
+
 from reviews.models import Review
-from django.contrib.auth.models import User
 
 
 # =========================================================
@@ -27,7 +32,12 @@ def home(request):
 
 
     # =====================================================
-    # FEATURED + AVAILABLE ROOMS
+    # AVAILABLE + ACTIVE ROOMS
+    #
+    # IMPORTANT:
+    # room_number is taken directly from the Room model.
+    # Therefore, when admin changes the room number,
+    # the updated value will be displayed automatically.
     # =====================================================
 
     rooms = (
@@ -47,7 +57,7 @@ def home(request):
 
 
     # =====================================================
-    # ALL ACTIVE SERVICES
+    # ACTIVE SERVICES
     # =====================================================
 
     services = (
@@ -114,6 +124,8 @@ def home(request):
 
     # =====================================================
     # TOTAL CUSTOMERS
+    #
+    # Excludes staff and superusers.
     # =====================================================
 
     total_customers = (
@@ -178,32 +190,48 @@ def home(request):
     # =====================================================
 
     if average_rating is None:
+
         average_rating = 0
 
 
     # =====================================================
-    # CONTEXT
+    # HOME PAGE CONTEXT
     # =====================================================
 
     context = {
 
-        # Hotel
+        # -------------------------------------------------
+        # HOTEL
+        # -------------------------------------------------
+
         'hotel': hotel,
 
 
-        # Rooms
+        # -------------------------------------------------
+        # ROOMS
+        # -------------------------------------------------
+
         'rooms': rooms,
 
 
-        # Categories
+        # -------------------------------------------------
+        # CATEGORIES
+        # -------------------------------------------------
+
         'categories': categories,
 
 
-        # Services
+        # -------------------------------------------------
+        # SERVICES
+        # -------------------------------------------------
+
         'services': services,
 
 
-        # Statistics
+        # -------------------------------------------------
+        # STATISTICS
+        # -------------------------------------------------
+
         'total_rooms': total_rooms,
 
         'available_rooms': available_rooms,
@@ -213,7 +241,10 @@ def home(request):
         'total_customers': total_customers,
 
 
-        # Reviews
+        # -------------------------------------------------
+        # REVIEWS
+        # -------------------------------------------------
+
         'reviews': reviews,
 
         'total_reviews': total_reviews,

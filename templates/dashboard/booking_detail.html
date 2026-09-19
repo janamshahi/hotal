@@ -19,7 +19,7 @@ active
 <style>
 
 /* =========================================================
-   GLOBAL PAGE
+   GLOBAL
 ========================================================= */
 
 .booking-page {
@@ -161,7 +161,7 @@ active
 
 
 /* =========================================================
-   MAIN ROOM CARD
+   ROOM CARD
 ========================================================= */
 
 .room-card {
@@ -183,7 +183,7 @@ active
     min-height: 390px;
     position: relative;
     overflow: hidden;
-    background: #ededE7;
+    background: #edede7;
 }
 
 .room-image {
@@ -219,7 +219,9 @@ active
 }
 
 
-/* IMAGE OVERLAY */
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
 
 .room-image-overlay {
     position: absolute;
@@ -246,7 +248,9 @@ active
 }
 
 
-/* ROOM CONTENT */
+/* =========================================================
+   ROOM CONTENT
+========================================================= */
 
 .room-content {
     padding: 34px;
@@ -286,7 +290,7 @@ active
 
 
 /* =========================================================
-   STATUS
+   BOOKING STATUS
 ========================================================= */
 
 .status-badge {
@@ -436,6 +440,12 @@ active
     color: #333;
     font-size: 14px;
     font-weight: 650;
+}
+
+.info-subvalue {
+    margin-top: 3px;
+    color: #999;
+    font-size: 11px;
 }
 
 
@@ -641,6 +651,84 @@ active
 
 
 /* =========================================================
+   STATUS TIMELINE
+========================================================= */
+
+.status-flow-card {
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #eeeeea;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.035);
+}
+
+.status-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding: 8px 2px 5px;
+}
+
+.status-step {
+    min-width: 120px;
+    text-align: center;
+    position: relative;
+}
+
+.status-step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: calc(50% + 22px);
+    width: calc(100% - 44px);
+    height: 2px;
+    background: #e7e7e0;
+}
+
+.status-step.done:not(:last-child)::after {
+    background: #b8b63b;
+}
+
+.status-circle {
+    position: relative;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #f0f0eb;
+    color: #999;
+    font-size: 14px;
+}
+
+.status-step.done .status-circle {
+    background: #b8b63b;
+    color: #fff;
+}
+
+.status-step.active .status-circle {
+    background: #303030;
+    color: #d9d75f;
+    box-shadow: 0 0 0 5px rgba(184,182,59,.13);
+}
+
+.status-step.cancelled-step .status-circle {
+    background: #dc2626;
+    color: #fff;
+}
+
+.status-step-label {
+    color: #777;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
    MANAGEMENT CARD
 ========================================================= */
 
@@ -657,6 +745,7 @@ active
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .management-title {
@@ -676,10 +765,51 @@ active
     display: flex;
     flex-wrap: wrap;
     gap: 9px;
+    align-items: center;
 }
 
 
-/* DELETE BUTTON */
+/* =========================================================
+   UPDATE FORM
+========================================================= */
+
+.booking-update-form {
+    width: 100%;
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid #eeeeee;
+}
+
+.form-label-custom {
+    display: block;
+    margin-bottom: 7px;
+    color: #777;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.booking-select {
+    height: 44px;
+    border: 1px solid #dedede;
+    border-radius: 10px;
+    padding: 0 13px;
+    color: #444;
+    background-color: #fff;
+    font-size: 13px;
+    box-shadow: none;
+}
+
+.booking-select:focus {
+    border-color: #b8b63b;
+    box-shadow: 0 0 0 3px rgba(184,182,59,.12);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
 
 .btn-delete {
     display: inline-flex;
@@ -699,6 +829,26 @@ active
 .btn-delete:hover {
     background: #b91c1c;
     color: #fff;
+}
+
+
+/* =========================================================
+   AUTOMATIC STATUS NOTICE
+========================================================= */
+
+.auto-status-note {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #f7f7f2;
+    border: 1px solid #ececdf;
+    color: #777;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.auto-status-note i {
+    color: #aaa82f;
 }
 
 
@@ -741,13 +891,8 @@ active
         font-size: 23px;
     }
 
-    .management-content {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .management-actions {
-        width: 100%;
+    .status-flow {
+        justify-content: flex-start;
     }
 
 }
@@ -785,7 +930,8 @@ active
     .customer-card,
     .payment-card,
     .request-card,
-    .management-card {
+    .management-card,
+    .status-flow-card {
         padding: 19px;
     }
 
@@ -818,60 +964,60 @@ active
 {% block content %}
 
 <div class="container-fluid booking-page">
+
 <!-- =====================================================
      PAGE HEADER
 ====================================================== -->
 
 <div class="booking-header">
 
-    <div>
+<div>
 
-        <div class="breadcrumb-custom">
+    <div class="breadcrumb-custom">
 
-            <a href="{% url 'dashboard' %}">
-                Dashboard
-            </a>
-
-            <i class="bi bi-chevron-right"></i>
-
-            <a href="{% url 'manage_bookings' %}">
-                Bookings
-            </a>
-
-            <i class="bi bi-chevron-right"></i>
-
-            <span class="current">
-                Booking #{{ booking.id }}
-            </span>
-
-        </div>
-
-        <h1 class="booking-title">
-            Booking Details
-        </h1>
-
-        <p class="booking-subtitle">
-            Review customer, room, stay and payment information.
-        </p>
-
-    </div>
-
-
-    <div class="header-actions">
-
-        <a
-            href="{% url 'manage_bookings' %}"
-            class="btn-dashboard-outline"
-        >
-            <i class="bi bi-arrow-left"></i>
-            Back to Bookings
+        <a href="{% url 'dashboard' %}">
+            Dashboard
         </a>
 
+        <i class="bi bi-chevron-right"></i>
+
+        <a href="{% url 'manage_bookings' %}">
+            Bookings
+        </a>
+
+        <i class="bi bi-chevron-right"></i>
+
+        <span class="current">
+            Booking #{{ booking.id }}
+        </span>
+
     </div>
+
+    <h1 class="booking-title">
+        Booking Details
+    </h1>
+
+    <p class="booking-subtitle">
+        Review customer, room, stay and payment information.
+    </p>
 
 </div>
 
 
+<div class="header-actions">
+
+    <a
+        href="{% url 'manage_bookings' %}"
+        class="btn-dashboard-outline"
+    >
+        <i class="bi bi-arrow-left"></i>
+        Back to Bookings
+    </a>
+
+</div>
+
+
+</div>
 
 <!-- =====================================================
      MESSAGES
@@ -879,30 +1025,29 @@ active
 
 {% if messages %}
 
-    {% for message in messages %}
 
-        <div
-            class="alert alert-{{ message.tags }} booking-alert alert-dismissible fade show mb-3"
-            role="alert"
-        >
+{% for message in messages %}
 
-            <i class="bi bi-info-circle me-2"></i>
+    <div
+        class="alert alert-{{ message.tags }} booking-alert alert-dismissible fade show mb-3"
+        role="alert"
+    >
 
-            {{ message }}
+        <i class="bi bi-info-circle me-2"></i>
 
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="alert"
-            ></button>
+        {{ message }}
 
-        </div>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+        ></button>
 
-    {% endfor %}
+    </div>
+
+{% endfor %}
 
 {% endif %}
-
-
 
 <!-- =====================================================
      ROOM OVERVIEW
@@ -910,219 +1055,216 @@ active
 
 <div class="room-card">
 
-    <div class="row g-0">
+<div class="row g-0">
 
 
-        <!-- ROOM IMAGE -->
+    <!-- ROOM IMAGE -->
 
-        <div class="col-lg-5 room-image-column">
+    <div class="col-lg-5 room-image-column">
 
-            <div class="room-image-wrapper">
+        <div class="room-image-wrapper">
 
-                {% if booking.room.image %}
+            {% if booking.room.image %}
 
-                    <img
-                        src="{{ booking.room.image.url }}"
-                        alt="{{ booking.room.name }}"
-                        class="room-image"
-                    >
+                <img
+                    src="{{ booking.room.image.url }}"
+                    alt="{{ booking.room.name }}"
+                    class="room-image"
+                >
 
-                {% else %}
+            {% else %}
 
-                    <div class="room-placeholder">
+                <div class="room-placeholder">
 
-                        <div class="text-center">
+                    <div class="text-center">
 
-                            <i class="bi bi-building"></i>
+                        <i class="bi bi-building"></i>
 
-                            <div class="mt-2 small">
-                                No Room Image
-                            </div>
-
+                        <div class="mt-2 small">
+                            No Room Image
                         </div>
 
                     </div>
 
-                {% endif %}
-
-
-                <div class="room-image-overlay">
-
-                    <span class="booking-id-badge">
-
-                        <i class="bi bi-receipt"></i>
-
-                        Booking #{{ booking.id }}
-
-                    </span>
-
                 </div>
+
+            {% endif %}
+
+
+            <div class="room-image-overlay">
+
+                <span class="booking-id-badge">
+
+                    <i class="bi bi-receipt"></i>
+
+                    Booking #{{ booking.id }}
+
+                </span>
 
             </div>
 
         </div>
 
+    </div>
 
 
-        <!-- ROOM INFORMATION -->
+    <!-- ROOM INFORMATION -->
 
-        <div class="col-lg-7">
+    <div class="col-lg-7">
 
-            <div class="room-content">
+        <div class="room-content">
 
-                <div class="room-top-line">
+            <div class="room-top-line">
 
-                    <div>
+                <div>
 
-                        <h2 class="room-name">
-                            {{ booking.room.name }}
-                        </h2>
+                    <h2 class="room-name">
+                        {{ booking.room.name }}
+                    </h2>
 
-                        <div class="room-number">
+                    <div class="room-number">
 
-                            <i class="bi bi-door-open me-1"></i>
+                        <i class="bi bi-door-open me-1"></i>
 
-                            Room {{ booking.room.room_number }}
+                        Room {{ booking.room.room_number }}
 
-                            <span class="mx-2">
-                                •
-                            </span>
+                        <span class="mx-2">
+                            •
+                        </span>
 
-                            <i class="bi bi-grid me-1"></i>
+                        <i class="bi bi-grid me-1"></i>
 
-                            {{ booking.room.category.name }}
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- STATUS -->
-
-                    <div>
-
-                        {% if booking.status == "confirmed" %}
-
-                            <span class="status-badge status-confirmed">
-                                <i class="bi bi-check-circle-fill"></i>
-                                {{ booking.get_status_display }}
-                            </span>
-
-                        {% elif booking.status == "pending" %}
-
-                            <span class="status-badge status-pending">
-                                <i class="bi bi-clock-fill"></i>
-                                {{ booking.get_status_display }}
-                            </span>
-
-                        {% elif booking.status == "checked_in" %}
-
-                            <span class="status-badge status-checked_in">
-                                <i class="bi bi-door-open-fill"></i>
-                                {{ booking.get_status_display }}
-                            </span>
-
-                        {% elif booking.status == "checked_out" %}
-
-                            <span class="status-badge status-checked_out">
-                                <i class="bi bi-box-arrow-right"></i>
-                                {{ booking.get_status_display }}
-                            </span>
-
-                        {% elif booking.status == "cancelled" %}
-
-                            <span class="status-badge status-cancelled">
-                                <i class="bi bi-x-circle-fill"></i>
-                                {{ booking.get_status_display }}
-                            </span>
-
-                        {% else %}
-
-                            <span class="status-badge status-pending">
-                                {{ booking.get_status_display }}
-                            </span>
-
-                        {% endif %}
+                        {{ booking.room.category.name }}
 
                     </div>
 
                 </div>
 
 
-                {% if booking.room.description %}
+                <!-- BOOKING STATUS -->
 
-                    <p class="room-description">
-                        {{ booking.room.description }}
-                    </p>
+                <div>
+
+                    {% if booking.status == "confirmed" %}
+
+                        <span class="status-badge status-confirmed">
+                            <i class="bi bi-check-circle-fill"></i>
+                            {{ booking.get_status_display }}
+                        </span>
+
+                    {% elif booking.status == "pending" %}
+
+                        <span class="status-badge status-pending">
+                            <i class="bi bi-clock-fill"></i>
+                            {{ booking.get_status_display }}
+                        </span>
+
+                    {% elif booking.status == "checked_in" %}
+
+                        <span class="status-badge status-checked_in">
+                            <i class="bi bi-door-open-fill"></i>
+                            {{ booking.get_status_display }}
+                        </span>
+
+                    {% elif booking.status == "checked_out" %}
+
+                        <span class="status-badge status-checked_out">
+                            <i class="bi bi-box-arrow-right"></i>
+                            {{ booking.get_status_display }}
+                        </span>
+
+                    {% elif booking.status == "cancelled" %}
+
+                        <span class="status-badge status-cancelled">
+                            <i class="bi bi-x-circle-fill"></i>
+                            {{ booking.get_status_display }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="status-badge status-pending">
+                            {{ booking.get_status_display }}
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            {% if booking.room.description %}
+
+                <p class="room-description">
+                    {{ booking.room.description }}
+                </p>
+
+            {% endif %}
+
+
+            <!-- ROOM FEATURES -->
+
+            <div class="room-features">
+
+                <span class="room-feature">
+                    <i class="bi bi-people"></i>
+                    {{ booking.room.capacity }} Guests
+                </span>
+
+                <span class="room-feature">
+                    <i class="bi bi-arrows-fullscreen"></i>
+                    {{ booking.room.size }} m²
+                </span>
+
+                <span class="room-feature">
+                    <i class="bi bi-bed"></i>
+                    {{ booking.room.bed_type }}
+                </span>
+
+                {% if booking.room.has_wifi %}
+
+                    <span class="room-feature">
+                        <i class="bi bi-wifi"></i>
+                        Wi-Fi
+                    </span>
 
                 {% endif %}
 
-
-                <!-- ROOM FEATURES -->
-
-                <div class="room-features">
+                {% if booking.room.has_ac %}
 
                     <span class="room-feature">
-                        <i class="bi bi-people"></i>
-                        {{ booking.room.capacity }} Guests
+                        <i class="bi bi-snow"></i>
+                        AC
                     </span>
+
+                {% endif %}
+
+                {% if booking.room.has_tv %}
 
                     <span class="room-feature">
-                        <i class="bi bi-arrows-fullscreen"></i>
-                        {{ booking.room.size }} m²
+                        <i class="bi bi-tv"></i>
+                        TV
                     </span>
+
+                {% endif %}
+
+                {% if booking.room.has_breakfast %}
 
                     <span class="room-feature">
-                        <i class="bi bi-bed"></i>
-                        {{ booking.room.bed_type }}
+                        <i class="bi bi-cup-hot"></i>
+                        Breakfast
                     </span>
 
-                    {% if booking.room.has_wifi %}
+                {% endif %}
 
-                        <span class="room-feature">
-                            <i class="bi bi-wifi"></i>
-                            Wi-Fi
-                        </span>
+                {% if booking.room.has_balcony %}
 
-                    {% endif %}
+                    <span class="room-feature">
+                        <i class="bi bi-house"></i>
+                        Balcony
+                    </span>
 
-                    {% if booking.room.has_ac %}
-
-                        <span class="room-feature">
-                            <i class="bi bi-snow"></i>
-                            AC
-                        </span>
-
-                    {% endif %}
-
-                    {% if booking.room.has_tv %}
-
-                        <span class="room-feature">
-                            <i class="bi bi-tv"></i>
-                            TV
-                        </span>
-
-                    {% endif %}
-
-                    {% if booking.room.has_breakfast %}
-
-                        <span class="room-feature">
-                            <i class="bi bi-cup-hot"></i>
-                            Breakfast
-                        </span>
-
-                    {% endif %}
-
-                    {% if booking.room.has_balcony %}
-
-                        <span class="room-feature">
-                            <i class="bi bi-house"></i>
-                            Balcony
-                        </span>
-
-                    {% endif %}
-
-                </div>
+                {% endif %}
 
             </div>
 
@@ -1133,6 +1275,7 @@ active
 </div>
 
 
+</div>
 
 <!-- =====================================================
      STAY SUMMARY
@@ -1140,164 +1283,308 @@ active
 
 <div class="section-heading">
 
+<div class="section-heading-icon">
+    <i class="bi bi-calendar2-week"></i>
+</div>
+
+<h5>
+    Stay Information
+</h5>
+
+
+</div>
+
+<div class="row g-3 mb-4">
+
+<!-- CHECK IN -->
+
+<div class="col-6 col-xl-3">
+
+    <div class="info-card">
+
+        <div class="info-card-inner">
+
+            <div class="info-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </div>
+
+            <div>
+
+                <div class="info-label">
+                    Check-in
+                </div>
+
+                <div class="info-value">
+                    {{ booking.check_in|date:"M d, Y" }}
+                </div>
+
+                {% if booking.check_in_time %}
+
+                    <div class="info-subvalue">
+
+                        <i class="bi bi-clock me-1"></i>
+
+                        {{ booking.check_in_time|time:"h:i A" }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CHECK OUT -->
+
+<div class="col-6 col-xl-3">
+
+    <div class="info-card">
+
+        <div class="info-card-inner">
+
+            <div class="info-icon">
+                <i class="bi bi-box-arrow-right"></i>
+            </div>
+
+            <div>
+
+                <div class="info-label">
+                    Check-out
+                </div>
+
+                <div class="info-value">
+                    {{ booking.check_out|date:"M d, Y" }}
+                </div>
+
+                {% if booking.check_out_time %}
+
+                    <div class="info-subvalue">
+
+                        <i class="bi bi-clock me-1"></i>
+
+                        {{ booking.check_out_time|time:"h:i A" }}
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- GUESTS -->
+
+<div class="col-6 col-xl-3">
+
+    <div class="info-card">
+
+        <div class="info-card-inner">
+
+            <div class="info-icon">
+                <i class="bi bi-people"></i>
+            </div>
+
+            <div>
+
+                <div class="info-label">
+                    Guests
+                </div>
+
+                <div class="info-value">
+
+                    {{ booking.guests }}
+
+                    {% if booking.guests == 1 %}
+                        Guest
+                    {% else %}
+                        Guests
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- NIGHTS -->
+
+<div class="col-6 col-xl-3">
+
+    <div class="info-card">
+
+        <div class="info-card-inner">
+
+            <div class="info-icon">
+                <i class="bi bi-moon-stars"></i>
+            </div>
+
+            <div>
+
+                <div class="info-label">
+                    Nights
+                </div>
+
+                <div class="info-value">
+
+                    {{ booking.total_nights }}
+
+                    {% if booking.total_nights == 1 %}
+                        Night
+                    {% else %}
+                        Nights
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     STATUS FLOW
+====================================================== -->
+
+<div class="status-flow-card mb-4">
+
+<div class="section-heading">
+
     <div class="section-heading-icon">
-        <i class="bi bi-calendar2-week"></i>
+        <i class="bi bi-diagram-3"></i>
     </div>
 
     <h5>
-        Stay Information
+        Booking Status Flow
     </h5>
 
 </div>
 
 
-<div class="row g-3 mb-4">
+<div class="status-flow">
 
+    <!-- PENDING -->
 
-    <!-- CHECK IN -->
+    <div
+        class="status-step
+        {% if booking.status != 'cancelled' %}
+            {% if booking.status == 'pending' or booking.status == 'confirmed' or booking.status == 'checked_in' or booking.status == 'checked_out' %}
+                done
+            {% endif %}
+        {% endif %}"
+    >
 
-    <div class="col-6 col-xl-3">
+        <div class="status-circle">
+            <i class="bi bi-clock"></i>
+        </div>
 
-        <div class="info-card">
-
-            <div class="info-card-inner">
-
-                <div class="info-icon">
-                    <i class="bi bi-box-arrow-in-right"></i>
-                </div>
-
-                <div>
-
-                    <div class="info-label">
-                        Check-in
-                    </div>
-
-                    <div class="info-value">
-                        {{ booking.check_in|date:"M d, Y" }}
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="status-step-label">
+            Pending
         </div>
 
     </div>
 
 
-    <!-- CHECK OUT -->
+    <!-- CONFIRMED -->
 
-    <div class="col-6 col-xl-3">
+    <div
+        class="status-step
+        {% if booking.status == 'confirmed' or booking.status == 'checked_in' or booking.status == 'checked_out' %}
+            done
+        {% endif %}"
+    >
 
-        <div class="info-card">
+        <div class="status-circle">
+            <i class="bi bi-check-circle"></i>
+        </div>
 
-            <div class="info-card-inner">
-
-                <div class="info-icon">
-                    <i class="bi bi-box-arrow-right"></i>
-                </div>
-
-                <div>
-
-                    <div class="info-label">
-                        Check-out
-                    </div>
-
-                    <div class="info-value">
-                        {{ booking.check_out|date:"M d, Y" }}
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="status-step-label">
+            Confirmed
         </div>
 
     </div>
 
 
-    <!-- GUESTS -->
+    <!-- CHECKED IN -->
 
-    <div class="col-6 col-xl-3">
+    <div
+        class="status-step
+        {% if booking.status == 'checked_in' or booking.status == 'checked_out' %}
+            done
+        {% endif %}"
+    >
 
-        <div class="info-card">
+        <div class="status-circle">
+            <i class="bi bi-door-open"></i>
+        </div>
 
-            <div class="info-card-inner">
-
-                <div class="info-icon">
-                    <i class="bi bi-people"></i>
-                </div>
-
-                <div>
-
-                    <div class="info-label">
-                        Guests
-                    </div>
-
-                    <div class="info-value">
-
-                        {{ booking.guests }}
-
-                        {% if booking.guests == 1 %}
-                            Guest
-                        {% else %}
-                            Guests
-                        {% endif %}
-
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div class="status-step-label">
+            Checked In
         </div>
 
     </div>
 
 
-    <!-- NIGHTS -->
+    <!-- CHECKED OUT -->
 
-    <div class="col-6 col-xl-3">
+    <div
+        class="status-step
+        {% if booking.status == 'checked_out' %}
+            done
+        {% endif %}"
+    >
 
-        <div class="info-card">
+        <div class="status-circle">
+            <i class="bi bi-box-arrow-right"></i>
+        </div>
 
-            <div class="info-card-inner">
+        <div class="status-step-label">
+            Checked Out
+        </div>
 
-                <div class="info-icon">
-                    <i class="bi bi-moon-stars"></i>
-                </div>
+    </div>
 
-                <div>
 
-                    <div class="info-label">
-                        Nights
-                    </div>
+    <!-- CANCELLED -->
 
-                    <div class="info-value">
+    {% if booking.status == "cancelled" %}
 
-                        {% with nights=booking.check_out|timeuntil:booking.check_in %}
-                            {{ total_nights|default:"0" }}
-                        {% endwith %}
+        <div class="status-step cancelled-step">
 
-                        {% if total_nights == 1 %}
-                            Night
-                        {% else %}
-                            Nights
-                        {% endif %}
+            <div class="status-circle">
+                <i class="bi bi-x-lg"></i>
+            </div>
 
-                    </div>
-
-                </div>
-
+            <div class="status-step-label">
+                Cancelled
             </div>
 
         </div>
 
-    </div>
+    {% endif %}
 
 </div>
 
-
+</div>
 
 <!-- =====================================================
      CUSTOMER + PAYMENT
@@ -1306,90 +1593,87 @@ active
 <div class="row g-4 mb-4">
 
 
-    <!-- CUSTOMER -->
+<!-- CUSTOMER -->
 
-    <div class="col-lg-6">
+<div class="col-lg-6">
 
-        <div class="customer-card">
+    <div class="customer-card">
 
-            <div class="section-heading">
+        <div class="section-heading">
 
-                <div class="section-heading-icon">
-                    <i class="bi bi-person"></i>
-                </div>
+            <div class="section-heading-icon">
+                <i class="bi bi-person"></i>
+            </div>
 
-                <h5>
-                    Guest Information
-                </h5>
+            <h5>
+                Guest Information
+            </h5>
+
+        </div>
+
+
+        <div class="customer-profile">
+
+            <div class="customer-avatar">
+
+                {% if booking.user.first_name %}
+
+                    {{ booking.user.first_name|first|upper }}
+
+                {% else %}
+
+                    {{ booking.user.username|first|upper }}
+
+                {% endif %}
 
             </div>
 
 
-            <div class="customer-profile">
+            <div>
 
-                <div class="customer-avatar">
+                <h6 class="customer-name">
 
-                    {% if booking.user.first_name %}
+                    {% if booking.user.get_full_name %}
 
-                        {{ booking.user.first_name|first|upper }}
+                        {{ booking.user.get_full_name }}
 
                     {% else %}
 
-                        {{ booking.user.username|first|upper }}
+                        {{ booking.user.username }}
 
                     {% endif %}
 
-                </div>
+                </h6>
 
-                <div>
-
-                    <h6 class="customer-name">
-
-                        {% if booking.user.get_full_name %}
-
-                            {{ booking.user.get_full_name }}
-
-                        {% else %}
-
-                            {{ booking.user.username }}
-
-                        {% endif %}
-
-                    </h6>
-
-                    <div class="customer-username">
-
-                        @{{ booking.user.username }}
-
-                    </div>
-
+                <div class="customer-username">
+                    @{{ booking.user.username }}
                 </div>
 
             </div>
 
+        </div>
 
-            <div class="customer-row">
 
-                <div class="customer-label">
-                    Email
-                </div>
+        <div class="customer-row">
 
-                <div class="customer-value">
+            <div class="customer-label">
+                Email
+            </div>
 
-                    {% if booking.user.email %}
+            <div class="customer-value">
 
-                        {{ booking.user.email }}
-
-                    {% else %}
-
-                        Not provided
-
-                    {% endif %}
-
-                </div>
+                {% if booking.user.email %}
+                    {{ booking.user.email }}
+                {% else %}
+                    Not provided
+                {% endif %}
 
             </div>
 
+        </div>
+
+
+        {% if booking.user.customer_profile %}
 
             {% if booking.user.customer_profile.phone %}
 
@@ -1424,103 +1708,113 @@ active
 
             {% endif %}
 
-        </div>
+        {% endif %}
 
     </div>
 
+</div>
 
 
-    <!-- PAYMENT -->
+<!-- PAYMENT -->
 
-    <div class="col-lg-6">
+<div class="col-lg-6">
 
-        <div class="payment-card">
+    <div class="payment-card">
 
-            <div class="payment-heading">
+        <div class="payment-heading">
 
-                <i class="bi bi-credit-card me-1"></i>
+            <i class="bi bi-credit-card me-1"></i>
 
-                PAYMENT SUMMARY
+            PAYMENT SUMMARY
 
-            </div>
-
-
-            <div class="total-price">
-
-                Rs. {{ booking.total_amount }}
-
-            </div>
+        </div>
 
 
-            <div class="payment-row">
-
-                <span class="payment-label">
-                    Booking Status
-                </span>
-
-                <span class="payment-value">
-                    {{ booking.get_status_display }}
-                </span>
-
-            </div>
+        <div class="total-price">
+            Rs. {{ booking.total_amount }}
+        </div>
 
 
-            <div class="payment-row">
+        <div class="payment-row">
 
-                <span class="payment-label">
-                    Payment Status
-                </span>
+            <span class="payment-label">
+                Booking Status
+            </span>
 
-                <span>
+            <span class="payment-value">
+                {{ booking.get_status_display }}
+            </span>
 
-                    {% if booking.payment_status == "paid" %}
-
-                        <span class="payment-status payment-paid">
-                            {{ booking.get_payment_status_display }}
-                        </span>
-
-                    {% elif booking.payment_status == "pending" %}
-
-                        <span class="payment-status payment-pending">
-                            {{ booking.get_payment_status_display }}
-                        </span>
-
-                    {% elif booking.payment_status == "failed" %}
-
-                        <span class="payment-status payment-failed">
-                            {{ booking.get_payment_status_display }}
-                        </span>
-
-                    {% elif booking.payment_status == "refunded" %}
-
-                        <span class="payment-status payment-refunded">
-                            {{ booking.get_payment_status_display }}
-                        </span>
-
-                    {% else %}
-
-                        <span class="payment-status payment-pending">
-                            {{ booking.get_payment_status_display }}
-                        </span>
-
-                    {% endif %}
-
-                </span>
-
-            </div>
+        </div>
 
 
-            <div class="payment-row">
+        <div class="payment-row">
 
-                <span class="payment-label">
-                    Booking Created
-                </span>
+            <span class="payment-label">
+                Payment Status
+            </span>
 
-                <span class="payment-value">
-                    {{ booking.created_at|date:"M d, Y" }}
-                </span>
+            <span>
 
-            </div>
+                {% if booking.payment_status == "paid" %}
+
+                    <span class="payment-status payment-paid">
+                        {{ booking.get_payment_status_display }}
+                    </span>
+
+                {% elif booking.payment_status == "pending" %}
+
+                    <span class="payment-status payment-pending">
+                        {{ booking.get_payment_status_display }}
+                    </span>
+
+                {% elif booking.payment_status == "failed" %}
+
+                    <span class="payment-status payment-failed">
+                        {{ booking.get_payment_status_display }}
+                    </span>
+
+                {% elif booking.payment_status == "refunded" %}
+
+                    <span class="payment-status payment-refunded">
+                        {{ booking.get_payment_status_display }}
+                    </span>
+
+                {% else %}
+
+                    <span class="payment-status payment-pending">
+                        {{ booking.get_payment_status_display }}
+                    </span>
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span class="payment-label">
+                Booking Created
+            </span>
+
+            <span class="payment-value">
+                {{ booking.created_at|date:"M d, Y" }}
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span class="payment-label">
+                Last Updated
+            </span>
+
+            <span class="payment-value">
+                {{ booking.updated_at|date:"M d, Y h:i A" }}
+            </span>
 
         </div>
 
@@ -1528,7 +1822,7 @@ active
 
 </div>
 
-
+</div>
 
 <!-- =====================================================
      SPECIAL REQUEST
@@ -1536,42 +1830,38 @@ active
 
 <div class="request-card mb-4">
 
-    <div class="section-heading">
+<div class="section-heading">
 
-        <div class="section-heading-icon">
-            <i class="bi bi-chat-left-text"></i>
-        </div>
-
-        <h5>
-            Special Request
-        </h5>
-
+    <div class="section-heading-icon">
+        <i class="bi bi-chat-left-text"></i>
     </div>
 
-
-    {% if booking.special_request %}
-
-        <div class="request-box">
-
-            {{ booking.special_request|linebreaksbr }}
-
-        </div>
-
-    {% else %}
-
-        <div class="request-box request-empty">
-
-            <i class="bi bi-info-circle me-1"></i>
-
-            No special request was added to this booking.
-
-        </div>
-
-    {% endif %}
+    <h5>
+        Special Request
+    </h5>
 
 </div>
 
 
+{% if booking.special_request %}
+
+    <div class="request-box">
+        {{ booking.special_request|linebreaksbr }}
+    </div>
+
+{% else %}
+
+    <div class="request-box request-empty">
+
+        <i class="bi bi-info-circle me-1"></i>
+
+        No special request was added to this booking.
+
+    </div>
+
+{% endif %}
+
+</div>
 
 <!-- =====================================================
      ADMIN MANAGEMENT
@@ -1579,91 +1869,213 @@ active
 
 <div class="management-card">
 
-    <div class="management-content">
+<div class="management-content">
 
 
-        <div>
+    <div>
 
-            <h5 class="management-title">
+        <h5 class="management-title">
 
-                <i class="bi bi-gear me-2"></i>
+            <i class="bi bi-gear me-2"></i>
 
-                Manage Booking
+            Manage Booking
 
-            </h5>
+        </h5>
 
-            <p class="management-description">
+        <p class="management-description">
 
-                Update the booking status or permanently remove
-                this booking from the system.
+            Update the booking and payment status,
+            or permanently remove this booking.
 
-            </p>
+        </p>
 
-        </div>
-
-
-        <div class="management-actions">
+    </div>
 
 
-            <!-- BACK -->
+    <div class="management-actions">
 
-            <a
-                href="{% url 'manage_bookings' %}"
-                class="btn-dashboard-outline"
+
+        <!-- BACK -->
+
+        <a
+            href="{% url 'manage_bookings' %}"
+            class="btn-dashboard-outline"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back
+
+        </a>
+
+
+        <!-- DELETE -->
+
+        <form
+            method="POST"
+            action="{% url 'delete_booking' booking.id %}"
+            class="m-0"
+            onsubmit="return confirm(
+                'Are you sure you want to permanently delete Booking #{{ booking.id }}?'
+            );"
+        >
+
+            {% csrf_token %}
+
+            <button
+                type="submit"
+                class="btn-delete"
             >
 
-                <i class="bi bi-arrow-left"></i>
+                <i class="bi bi-trash3"></i>
 
-                Back
+                Delete
 
-            </a>
+            </button>
 
+        </form>
 
-            <!-- UPDATE -->
-
-            <a
-                href="{% url 'update_booking' booking.id %}"
-                class="btn-dashboard-main"
-            >
-
-                <i class="bi bi-pencil-square"></i>
-
-                Update Booking
-
-            </a>
+    </div>
 
 
-            <!-- DELETE -->
+    <!-- =================================================
+         UPDATE BOOKING FORM
+    ================================================== -->
 
-            <form
-                method="POST"
-                action="{% url 'delete_booking' booking.id %}"
-                class="m-0"
-                onsubmit="return confirm(
-                    'Are you sure you want to permanently delete Booking #{{ booking.id }}?'
-                );"
-            >
+    <div class="booking-update-form">
 
-                {% csrf_token %}
+        <form
+            method="POST"
+            action="{% url 'update_booking' booking.id %}"
+        >
 
-                <button
-                    type="submit"
-                    class="btn-delete"
-                >
+            {% csrf_token %}
 
-                    <i class="bi bi-trash3"></i>
 
-                    Delete
+            <div class="row g-3 align-items-end">
 
-                </button>
 
-            </form>
+                <!-- BOOKING STATUS -->
+
+                <div class="col-md-5">
+
+                    <label
+                        for="bookingStatus"
+                        class="form-label-custom"
+                    >
+                        Booking Status
+                    </label>
+
+
+                    <select
+                        id="bookingStatus"
+                        name="status"
+                        class="form-select booking-select"
+                        required
+                    >
+
+                        {% for value, label in status_choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if booking.status == value %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- PAYMENT STATUS -->
+
+                <div class="col-md-5">
+
+                    <label
+                        for="paymentStatus"
+                        class="form-label-custom"
+                    >
+                        Payment Status
+                    </label>
+
+
+                    <select
+                        id="paymentStatus"
+                        name="payment_status"
+                        class="form-select booking-select"
+                        required
+                    >
+
+                        {% for value, label in payment_status_choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if booking.payment_status == value %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ label }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- UPDATE -->
+
+                <div class="col-md-2">
+
+                    <button
+                        type="submit"
+                        class="btn-dashboard-main w-100"
+                    >
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Update
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+        <!-- AUTOMATIC STATUS INFORMATION -->
+
+        <div class="auto-status-note">
+
+            <i class="bi bi-info-circle me-1"></i>
+
+            <strong>Automatic status:</strong>
+
+            Confirmed bookings automatically change to
+            <strong>Checked In</strong> at the configured
+            check-in date and time, and then to
+            <strong>Checked Out</strong> at the configured
+            check-out date and time.
+
+            Pending bookings remain pending until they are
+            confirmed.
 
         </div>
 
     </div>
 
 </div>
+
+</div>
+
 </div>
 
 {% endblock %}

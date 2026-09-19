@@ -14,457 +14,1315 @@ active
 
 {% block content %}
 
-<div class="container-fluid">
+<style>
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+/* =========================================================
+   PAGE
+========================================================= */
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+.payment-page {
+    padding-bottom: 35px;
+}
+
+.page-title {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+.page-subtitle {
+    color: #6c757d;
+    font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   STAT CARDS
+========================================================= */
+
+.payment-stat-card {
+    background: #ffffff;
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+
+.payment-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.09);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+}
+
+.stat-icon.primary {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.stat-icon.success {
+    background: #ecfdf3;
+    color: #198754;
+}
+
+.stat-icon.warning {
+    background: #fff8e1;
+    color: #d99a00;
+}
+
+.stat-icon.revenue {
+    background: #eaf7f0;
+    color: #198754;
+}
+
+.stat-label {
+    font-size: 0.84rem;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: #212529;
+}
+
+
+/* =========================================================
+   FILTER CARD
+========================================================= */
+
+.filter-card {
+    background: #ffffff;
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+}
+
+.filter-title {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.filter-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 7px;
+}
+
+.filter-control {
+    min-height: 43px;
+    border-radius: 10px;
+    border: 1px solid #dee2e6;
+    font-size: 0.9rem;
+}
+
+.filter-control:focus {
+    border-color: #212529;
+    box-shadow: 0 0 0 0.15rem rgba(33, 37, 41, 0.08);
+}
+
+.btn-search {
+    min-height: 43px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   PAYMENT TABLE CARD
+========================================================= */
+
+.payment-table-card {
+    background: #ffffff;
+    border: 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.payment-table-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid #eeeeee;
+    background: #ffffff;
+}
+
+.payment-table-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.payment-count {
+    background: #f1f3f5;
+    color: #495057;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.payment-table {
+    margin-bottom: 0;
+    min-width: 1250px;
+}
+
+.payment-table thead th {
+    background: #f8f9fa;
+    color: #6c757d;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e9ecef;
+    white-space: nowrap;
+}
+
+.payment-table tbody td {
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+    font-size: 0.88rem;
+}
+
+.payment-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.payment-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.payment-table tbody tr:hover {
+    background: #fafafa;
+}
+
+
+/* =========================================================
+   PAYMENT ID
+========================================================= */
+
+.payment-id {
+    font-weight: 700;
+    color: #212529;
+    white-space: nowrap;
+}
+
+.payment-id small {
+    display: block;
+    color: #868e96;
+    font-weight: 400;
+    margin-top: 4px;
+}
+
+
+/* =========================================================
+   CUSTOMER
+========================================================= */
+
+.customer-name {
+    font-weight: 600;
+    color: #212529;
+    white-space: nowrap;
+}
+
+.customer-username {
+    color: #868e96;
+    font-size: 0.78rem;
+    margin-top: 3px;
+}
+
+
+/* =========================================================
+   ROOM
+========================================================= */
+
+.room-number {
+    font-weight: 700;
+    color: #212529;
+    white-space: nowrap;
+}
+
+.room-name {
+    color: #868e96;
+    font-size: 0.78rem;
+    margin-top: 3px;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   AMOUNT
+========================================================= */
+
+.payment-amount {
+    font-weight: 700;
+    white-space: nowrap;
+    color: #212529;
+}
+
+
+/* =========================================================
+   PAYMENT METHOD
+========================================================= */
+
+.payment-method {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 600;
+    color: #495057;
+    white-space: nowrap;
+}
+
+.payment-method i {
+    color: #6c757d;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.payment-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 20px;
+    padding: 6px 10px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-completed {
+    background: #e9f8ef;
+    color: #157347;
+}
+
+.status-completed .status-dot {
+    background: #198754;
+}
+
+.status-pending {
+    background: #fff4d6;
+    color: #946200;
+}
+
+.status-pending .status-dot {
+    background: #ffc107;
+}
+
+.status-failed {
+    background: #fdeaea;
+    color: #b02a37;
+}
+
+.status-failed .status-dot {
+    background: #dc3545;
+}
+
+.status-refunded {
+    background: #e8f5fb;
+    color: #087990;
+}
+
+.status-refunded .status-dot {
+    background: #0dcaf0;
+}
+
+
+/* =========================================================
+   TRANSACTION ID
+========================================================= */
+
+.transaction-id {
+    max-width: 150px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 0.78rem;
+    color: #495057;
+}
+
+
+/* =========================================================
+   BOOKING DATES
+========================================================= */
+
+.booking-dates {
+    min-width: 150px;
+}
+
+.booking-date-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 5px;
+}
+
+.booking-date-row:last-child {
+    margin-bottom: 0;
+}
+
+.booking-date-label {
+    width: 38px;
+    color: #868e96;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.booking-date-value {
+    color: #343a40;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.booking-time {
+    display: block;
+    color: #868e96;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-top: 1px;
+}
+
+
+/* =========================================================
+   NIGHTS
+========================================================= */
+
+.nights-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 6px 9px;
+    color: #495057;
+    font-size: 0.76rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.payment-date {
+    white-space: nowrap;
+    color: #495057;
+    font-size: 0.82rem;
+}
+
+.payment-date small {
+    color: #868e96;
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+========================================================= */
+
+.btn-view-payment {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    border: 1px solid #dee2e6;
+    color: #343a40;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.btn-view-payment:hover {
+    background: #212529;
+    color: #ffffff;
+    border-color: #212529;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-payment {
+    padding: 70px 20px !important;
+    text-align: center;
+}
+
+.empty-payment-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: #f1f3f5;
+    color: #868e96;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.empty-payment h5 {
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.empty-payment p {
+    color: #868e96;
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .payment-page {
+        padding: 0 2px 25px;
+    }
+
+    .page-title {
+        font-size: 1.35rem;
+    }
+
+    .stat-value {
+        font-size: 1.35rem;
+    }
+
+    .payment-table-header {
+        padding: 16px;
+    }
+
+    .filter-card .card-body {
+        padding: 16px;
+    }
+
+    .payment-count {
+        display: none;
+    }
+
+}
+
+</style>
+
+<div class="container-fluid payment-page">
+
+<!-- =========================================================
+     PAGE HEADER
+========================================================= -->
+
+<div class="mb-4">
+
+
+<h3 class="page-title mb-1">
+    Payment Management
+</h3>
+
+<p class="page-subtitle mb-0">
+    Monitor, manage and track all hotel booking payments.
+</p>
+
+</div>
+
+<!-- =========================================================
+     STATISTICS
+========================================================= -->
+
+<div class="row g-4 mb-4">
+
+
+<!-- TOTAL PAYMENTS -->
+
+<div class="col-xl-3 col-md-6">
+
+    <div class="payment-stat-card h-100">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+
+                    <div class="stat-label">
+                        Total Payments
+                    </div>
+
+                    <div class="stat-value">
+                        {{ total_payments }}
+                    </div>
+
+                </div>
+
+                <div class="stat-icon primary">
+
+                    <i class="bi bi-credit-card"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- COMPLETED -->
+
+<div class="col-xl-3 col-md-6">
+
+    <div class="payment-stat-card h-100">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+
+                    <div class="stat-label">
+                        Completed Payments
+                    </div>
+
+                    <div class="stat-value text-success">
+                        {{ completed_payments }}
+                    </div>
+
+                </div>
+
+                <div class="stat-icon success">
+
+                    <i class="bi bi-check-circle"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PENDING -->
+
+<div class="col-xl-3 col-md-6">
+
+    <div class="payment-stat-card h-100">
+
+        <div class="payment-stat-card h-100">
+
+            <div class="card-body p-4">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+
+                        <div class="stat-label">
+                            Pending Payments
+                        </div>
+
+                        <div class="stat-value text-warning">
+                            {{ pending_payments }}
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon warning">
+
+                        <i class="bi bi-hourglass-split"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- REVENUE -->
+
+<div class="col-xl-3 col-md-6">
+
+    <div class="payment-stat-card h-100">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-start">
+
+                <div>
+
+                    <div class="stat-label">
+                        Completed Revenue
+                    </div>
+
+                    <div class="stat-value">
+                        Rs. {{ total_revenue }}
+                    </div>
+
+                </div>
+
+                <div class="stat-icon revenue">
+
+                    <i class="bi bi-cash-stack"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+     SEARCH & FILTER
+========================================================= -->
+
+<div class="filter-card mb-4">
+
+
+<div class="card-body p-4">
+
+    <div class="d-flex align-items-center mb-3">
+
+        <i class="bi bi-funnel me-2"></i>
+
+        <span class="filter-title">
+            Search & Filter Payments
+        </span>
+
+    </div>
+
+
+    <form method="get">
+
+        <div class="row g-3">
+
+
+            <!-- SEARCH -->
+
+            <div class="col-lg-5 col-md-12">
+
+                <label class="filter-label">
+                    Search
+                </label>
+
+                <div class="input-group">
+
+                    <span class="input-group-text bg-white border-end-0">
+
+                        <i class="bi bi-search text-muted"></i>
+
+                    </span>
+
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ search }}"
+                        class="form-control filter-control border-start-0"
+                        placeholder="Customer, transaction ID, room..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label class="filter-label">
+                    Payment Status
+                </label>
+
+                <select
+                    name="status"
+                    class="form-select filter-control"
+                >
+
+                    <option value="">
+                        All Status
+                    </option>
+
+                    {% for value, label in status_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if selected_status == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- METHOD -->
+
+            <div class="col-lg-3 col-md-6">
+
+                <label class="filter-label">
+                    Payment Method
+                </label>
+
+                <select
+                    name="method"
+                    class="form-select filter-control"
+                >
+
+                    <option value="">
+                        All Methods
+                    </option>
+
+                    {% for value, label in method_choices %}
+
+                        <option
+                            value="{{ value }}"
+                            {% if selected_method == value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ label }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- SEARCH BUTTON -->
+
+            <div class="col-lg-1 col-md-12 d-flex align-items-end">
+
+                <button
+                    type="submit"
+                    class="btn btn-dark btn-search w-100"
+                    title="Search Payments"
+                >
+
+                    <i class="bi bi-search"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+</div>
+
+<!-- =========================================================
+     PAYMENT RECORDS
+========================================================= -->
+
+<div class="payment-table-card">
+
+
+<!-- TABLE HEADER -->
+
+<div class="payment-table-header">
+
+    <div class="d-flex justify-content-between align-items-center">
 
         <div>
-            <h3 class="fw-bold mb-1">
-                Payment Management
-            </h3>
 
-            <p class="text-muted mb-0">
-                Manage hotel booking payments
-            </p>
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         STATISTICS
-    ====================================================== -->
-
-    <div class="row g-4 mb-4">
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between">
-
-                        <div>
-
-                            <p class="text-muted mb-1">
-                                Total Payments
-                            </p>
-
-                            <h3 class="fw-bold">
-                                {{ total_payments }}
-                            </h3>
-
-                        </div>
-
-                        <div class="fs-1 text-primary">
-                            <i class="bi bi-credit-card"></i>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <p class="text-muted mb-1">
-                        Completed
-                    </p>
-
-                    <h3 class="fw-bold text-success">
-                        {{ completed_payments }}
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <p class="text-muted mb-1">
-                        Pending
-                    </p>
-
-                    <h3 class="fw-bold text-warning">
-                        {{ pending_payments }}
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="col-xl-3 col-md-6">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <p class="text-muted mb-1">
-                        Completed Revenue
-                    </p>
-
-                    <h3 class="fw-bold">
-                        Rs. {{ total_revenue }}
-                    </h3>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         SEARCH & FILTER
-    ====================================================== -->
-
-    <div class="card border-0 shadow-sm mb-4">
-
-        <div class="card-body">
-
-            <form method="get">
-
-                <div class="row g-3">
-
-                    <div class="col-lg-5">
-
-                        <label class="form-label">
-                            Search
-                        </label>
-
-                        <input
-                            type="text"
-                            name="search"
-                            value="{{ search }}"
-                            class="form-control"
-                            placeholder="Customer, transaction ID, room..."
-                        >
-
-                    </div>
-
-
-                    <div class="col-lg-3">
-
-                        <label class="form-label">
-                            Status
-                        </label>
-
-                        <select
-                            name="status"
-                            class="form-select"
-                        >
-
-                            <option value="">
-                                All Status
-                            </option>
-
-                            {% for value, label in status_choices %}
-
-                            <option
-                                value="{{ value }}"
-                                {% if selected_status == value %}
-                                    selected
-                                {% endif %}
-                            >
-                                {{ label }}
-                            </option>
-
-                            {% endfor %}
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-lg-3">
-
-                        <label class="form-label">
-                            Payment Method
-                        </label>
-
-                        <select
-                            name="method"
-                            class="form-select"
-                        >
-
-                            <option value="">
-                                All Methods
-                            </option>
-
-                            {% for value, label in method_choices %}
-
-                            <option
-                                value="{{ value }}"
-                                {% if selected_method == value %}
-                                    selected
-                                {% endif %}
-                            >
-                                {{ label }}
-                            </option>
-
-                            {% endfor %}
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="col-lg-1 d-flex align-items-end">
-
-                        <button
-                            type="submit"
-                            class="btn btn-dark w-100"
-                        >
-                            <i class="bi bi-search"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         PAYMENT TABLE
-    ====================================================== -->
-
-    <div class="card border-0 shadow-sm">
-
-        <div class="card-header bg-white py-3">
-
-            <h5 class="mb-0 fw-bold">
+            <h5 class="payment-table-title">
                 Payment Records
             </h5>
 
+            <small class="text-muted">
+                All payment transactions associated with hotel bookings.
+            </small>
+
         </div>
 
-        <div class="card-body p-0">
-
-            <div class="table-responsive">
-
-                <table class="table table-hover align-middle mb-0">
-
-                    <thead class="table-light">
-
-                        <tr>
-
-                            <th>Payment</th>
-
-                            <th>Customer</th>
-
-                            <th>Room</th>
-
-                            <th>Amount</th>
-
-                            <th>Method</th>
-
-                            <th>Status</th>
-
-                            <th>Transaction ID</th>
-
-                            <th>Date</th>
-
-                            <th>Action</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {% for payment in payments %}
-
-                        <tr>
-
-                            <td>
-
-                                <strong>
-                                    #{{ payment.id }}
-                                </strong>
-
-                            </td>
-
-
-                            <td>
-
-                                <strong>
-                                    {{ payment.booking.user.get_full_name|default:payment.booking.user.username }}
-                                </strong>
-
-                                <br>
-
-                                <small class="text-muted">
-                                    {{ payment.booking.user.username }}
-                                </small>
-
-                            </td>
-
-
-                            <td>
-
-                                <strong>
-                                    {{ payment.booking.room.room_number }}
-                                </strong>
-
-                                <br>
-
-                                <small class="text-muted">
-                                    {{ payment.booking.room.name }}
-                                </small>
-
-                            </td>
-
-
-                            <td>
-
-                                <strong>
-                                    Rs. {{ payment.amount }}
-                                </strong>
-
-                            </td>
-
-
-                            <td>
-
-                                {{ payment.get_method_display }}
-
-                            </td>
-
-
-                            <td>
-
-                                {% if payment.status == 'completed' %}
-
-                                    <span class="badge bg-success">
-                                        Completed
-                                    </span>
-
-                                {% elif payment.status == 'pending' %}
-
-                                    <span class="badge bg-warning text-dark">
-                                        Pending
-                                    </span>
-
-                                {% elif payment.status == 'failed' %}
-
-                                    <span class="badge bg-danger">
-                                        Failed
-                                    </span>
-
-                                {% elif payment.status == 'refunded' %}
-
-                                    <span class="badge bg-info">
-                                        Refunded
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <td>
-
-                                {% if payment.transaction_id %}
-
-                                    <small>
-                                        {{ payment.transaction_id }}
-                                    </small>
-
-                                {% else %}
-
-                                    <span class="text-muted">
-                                        —
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <td>
-
-                                {{ payment.created_at|date:"d M Y" }}
-
-                            </td>
-
-
-                            <td>
-
-                                <a
-                                    href="{% url 'payment_detail' payment.id %}"
-                                    class="btn btn-sm btn-outline-dark"
-                                >
-                                    <i class="bi bi-eye"></i>
-                                </a>
-
-                            </td>
-
-                        </tr>
-
-                        {% empty %}
-
-                        <tr>
-
-                            <td
-                                colspan="9"
-                                class="text-center py-5"
-                            >
-
-                                <i class="bi bi-credit-card fs-1 text-muted"></i>
-
-                                <h5 class="mt-3">
-                                    No payments found
-                                </h5>
-
-                                <p class="text-muted">
-                                    Payment records will appear here.
-                                </p>
-
-                            </td>
-
-                        </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
+        <span class="payment-count">
+            {{ payments|length }} Records
+        </span>
 
     </div>
+
+</div>
+
+
+<!-- TABLE -->
+
+<div class="table-responsive">
+
+    <table class="table payment-table align-middle">
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Payment
+                </th>
+
+                <th>
+                    Customer
+                </th>
+
+                <th>
+                    Room
+                </th>
+
+                <th>
+                    Amount
+                </th>
+
+                <th>
+                    Method
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+                <th>
+                    Stay
+                </th>
+
+                <th>
+                    Transaction ID
+                </th>
+
+                <th>
+                    Date
+                </th>
+
+                <th class="text-center">
+                    Action
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for payment in payments %}
+
+            <tr>
+
+
+                <!-- PAYMENT -->
+
+                <td>
+
+                    <div class="payment-id">
+
+                        #{{ payment.id }}
+
+                        <small>
+                            Booking #{{ payment.booking.id }}
+                        </small>
+
+                    </div>
+
+                </td>
+
+
+                <!-- CUSTOMER -->
+
+                <td>
+
+                    <div class="customer-name">
+
+                        {% if payment.booking.user.get_full_name %}
+
+                            {{ payment.booking.user.get_full_name }}
+
+                        {% else %}
+
+                            {{ payment.booking.user.username }}
+
+                        {% endif %}
+
+                    </div>
+
+                    <div class="customer-username">
+
+                        {{ payment.booking.user.username }}
+
+                    </div>
+
+                </td>
+
+
+                <!-- ROOM -->
+
+                <td>
+
+                    <div class="room-number">
+
+                        {{ payment.booking.room.room_number }}
+
+                    </div>
+
+                    <div class="room-name">
+
+                        {{ payment.booking.room.name }}
+
+                    </div>
+
+                </td>
+
+
+                <!-- AMOUNT -->
+
+                <td>
+
+                    <div class="payment-amount">
+
+                        Rs. {{ payment.amount }}
+
+                    </div>
+
+                </td>
+
+
+                <!-- METHOD -->
+
+                <td>
+
+                    <span class="payment-method">
+
+                        {% if payment.method == 'cash' %}
+
+                            <i class="bi bi-cash-stack"></i>
+
+                        {% elif payment.method == 'card' %}
+
+                            <i class="bi bi-credit-card"></i>
+
+                        {% elif payment.method == 'online' %}
+
+                            <i class="bi bi-globe2"></i>
+
+                        {% else %}
+
+                            <i class="bi bi-wallet2"></i>
+
+                        {% endif %}
+
+                        {{ payment.get_method_display }}
+
+                    </span>
+
+                </td>
+
+
+                <!-- STATUS -->
+
+                <td>
+
+                    {% if payment.status == 'completed' %}
+
+                        <span class="payment-status status-completed">
+
+                            <span class="status-dot"></span>
+
+                            Completed
+
+                        </span>
+
+                    {% elif payment.status == 'pending' %}
+
+                        <span class="payment-status status-pending">
+
+                            <span class="status-dot"></span>
+
+                            Pending
+
+                        </span>
+
+                    {% elif payment.status == 'failed' %}
+
+                        <span class="payment-status status-failed">
+
+                            <span class="status-dot"></span>
+
+                            Failed
+
+                        </span>
+
+                    {% elif payment.status == 'refunded' %}
+
+                        <span class="payment-status status-refunded">
+
+                            <span class="status-dot"></span>
+
+                            Refunded
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="payment-status status-pending">
+
+                            <span class="status-dot"></span>
+
+                            {{ payment.get_status_display }}
+
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+
+                <!-- STAY -->
+
+                <td>
+
+                    <div class="booking-dates">
+
+
+                        <!-- CHECK IN -->
+
+                        <div class="booking-date-row">
+
+                            <span class="booking-date-label">
+                                In
+                            </span>
+
+                            <div>
+
+                                <div class="booking-date-value">
+
+                                    {{ payment.booking.check_in|date:"d M Y" }}
+
+                                </div>
+
+                                {% if payment.booking.check_in_time %}
+
+                                    <span class="booking-time">
+
+                                        <i class="bi bi-clock me-1"></i>
+
+                                        {{ payment.booking.check_in_time|time:"g:i A" }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CHECK OUT -->
+
+                        <div class="booking-date-row">
+
+                            <span class="booking-date-label">
+                                Out
+                            </span>
+
+                            <div>
+
+                                <div class="booking-date-value">
+
+                                    {{ payment.booking.check_out|date:"d M Y" }}
+
+                                </div>
+
+                                {% if payment.booking.check_out_time %}
+
+                                    <span class="booking-time">
+
+                                        <i class="bi bi-clock me-1"></i>
+
+                                        {{ payment.booking.check_out_time|time:"g:i A" }}
+
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- NIGHTS -->
+
+                        <div class="mt-2">
+
+                            <span class="nights-badge">
+
+                                <i class="bi bi-moon-stars"></i>
+
+                                {{ payment.booking.total_nights }}
+                                Night{{ payment.booking.total_nights|pluralize }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </td>
+
+
+                <!-- TRANSACTION ID -->
+
+                <td>
+
+                    {% if payment.transaction_id %}
+
+                        <span
+                            class="transaction-id"
+                            title="{{ payment.transaction_id }}"
+                        >
+
+                            {{ payment.transaction_id }}
+
+                        </span>
+
+                    {% else %}
+
+                        <span class="text-muted">
+                            —
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+
+                <!-- DATE -->
+
+                <td>
+
+                    <span class="payment-date">
+
+                        {{ payment.created_at|date:"d M Y" }}
+
+                        <br>
+
+                        <small>
+                            {{ payment.created_at|date:"h:i A" }}
+                        </small>
+
+                    </span>
+
+                </td>
+
+
+                <!-- ACTION -->
+
+                <td class="text-center">
+
+                    <a
+                        href="{% url 'payment_detail' payment.id %}"
+                        class="btn-view-payment"
+                        title="View Payment Details"
+                    >
+
+                        <i class="bi bi-eye"></i>
+
+                    </a>
+
+                </td>
+
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td
+                    colspan="10"
+                    class="empty-payment"
+                >
+
+                    <div class="empty-payment-icon">
+
+                        <i class="bi bi-credit-card"></i>
+
+                    </div>
+
+                    <h5>
+                        No Payments Found
+                    </h5>
+
+                    <p>
+                        Payment records will appear here
+                        once customers make bookings.
+                    </p>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+</div>
 
 </div>
 

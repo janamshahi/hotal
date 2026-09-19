@@ -1,0 +1,600 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Notifications | GrandStay Hotel</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f6f7f8;
+            color: #212529;
+            font-family: "Poppins", sans-serif;
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .main-navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px 0;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: #212529;
+            text-decoration: none;
+        }
+
+        .brand:hover {
+            color: #212529;
+        }
+
+        .back-home {
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-home:hover {
+            color: #000;
+        }
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .notification-page {
+            max-width: 1000px;
+            margin: 45px auto;
+            padding: 0 20px 50px;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .notification-header {
+            background: linear-gradient(
+                135deg,
+                #212529,
+                #343a40
+            );
+
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .notification-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .notification-header p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .notification-count {
+            min-width: 42px;
+            height: 42px;
+            padding: 0 12px;
+            border-radius: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 255, 255, 0.15);
+            font-weight: 600;
+        }
+
+        /* =====================================================
+           NOTIFICATION CARD
+        ===================================================== */
+
+        .notification-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 18px;
+
+            padding: 22px;
+            margin-bottom: 16px;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .notification-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .notification-card.unread {
+            border-left: 5px solid #ffc107;
+            background: #fffdf4;
+        }
+
+        /* =====================================================
+           ICON
+        ===================================================== */
+
+        .notification-icon {
+            width: 52px;
+            height: 52px;
+
+            min-width: 52px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3cd;
+            color: #856404;
+
+            font-size: 23px;
+        }
+
+        .notification-card:not(.unread)
+        .notification-icon {
+            background: #f1f3f5;
+            color: #6c757d;
+        }
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .notification-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 7px;
+        }
+
+        .notification-message {
+            color: #6c757d;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .notification-date {
+            color: #adb5bd;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           BADGES
+        ===================================================== */
+
+        .new-badge {
+            font-size: 10px;
+            padding: 5px 8px;
+            border-radius: 20px;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .notification-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-read {
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .btn-delete {
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+
+            padding: 80px 25px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+
+            margin: 0 auto 20px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f1f3f5;
+            color: #adb5bd;
+
+            font-size: 35px;
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .empty-state p {
+            color: #868e96;
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 576px) {
+
+            .notification-page {
+                margin-top: 25px;
+                padding: 0 12px 35px;
+            }
+
+            .notification-header {
+                padding: 22px;
+                border-radius: 16px;
+            }
+
+            .notification-header h1 {
+                font-size: 23px;
+            }
+
+            .notification-card {
+                padding: 17px;
+            }
+
+            .notification-icon {
+                width: 44px;
+                height: 44px;
+                min-width: 44px;
+                font-size: 18px;
+            }
+
+            .notification-title {
+                font-size: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="main-navbar">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <a
+                href="{% url 'home' %}"
+                class="brand"
+            >
+                <i class="bi bi-building me-2"></i>
+                GrandStay Hotel
+            </a>
+
+            <a
+                href="{% url 'home' %}"
+                class="back-home"
+            >
+                <i class="bi bi-arrow-left me-1"></i>
+                Back to Home
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="notification-page">
+
+
+    <!-- HEADER -->
+
+    <div class="notification-header">
+
+        <div
+            class="d-flex justify-content-between align-items-center gap-3 flex-wrap"
+        >
+
+            <div>
+
+                <h1>
+                    <i class="bi bi-bell me-2"></i>
+                    Notifications
+                </h1>
+
+                <p>
+                    Stay updated about your hotel bookings.
+                </p>
+
+            </div>
+
+
+            {% if unread_notifications > 0 %}
+
+                <div class="notification-count">
+
+                    {{ unread_notifications }}
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NOTIFICATION LIST
+    ===================================================== -->
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+
+            <div
+                class="notification-card
+                {% if not notification.is_read %}
+                    unread
+                {% endif %}"
+            >
+
+                <div class="d-flex gap-3">
+
+
+                    <!-- ICON -->
+
+                    <div class="notification-icon">
+
+                        {% if notification.notification_type == "checkout" %}
+
+                            <i class="bi bi-calendar-check"></i>
+
+                        {% else %}
+
+                            <i class="bi bi-bell"></i>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+
+                    <div class="flex-grow-1">
+
+
+                        <!-- TITLE -->
+
+                        <div class="notification-title">
+
+                            {{ notification.title }}
+
+                            {% if not notification.is_read %}
+
+                                <span
+                                    class="badge bg-warning text-dark new-badge ms-2"
+                                >
+                                    NEW
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- MESSAGE -->
+
+                        <div class="notification-message">
+
+                            {{ notification.message }}
+
+                        </div>
+
+
+                        <!-- DATE -->
+
+                        <div class="notification-date">
+
+                            <i class="bi bi-clock me-1"></i>
+
+                            {{ notification.created_at|date:"d M Y, h:i A" }}
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="notification-actions">
+
+
+                            {% if not notification.is_read %}
+
+                                <a
+                                    href="{% url 'mark_notification_read' notification.id %}"
+                                    class="btn btn-sm btn-outline-success btn-read"
+                                >
+
+                                    <i class="bi bi-check2 me-1"></i>
+
+                                    Mark as Read
+
+                                </a>
+
+                            {% endif %}
+
+
+                            {% if notification.booking %}
+
+                                <a
+                                    href="{% url 'my_bookings' %}"
+                                    class="btn btn-sm btn-outline-primary btn-read"
+                                >
+
+                                    <i class="bi bi-calendar-check me-1"></i>
+
+                                    View Booking
+
+                                </a>
+
+                            {% endif %}
+
+
+                            <a
+                                href="{% url 'delete_notification' notification.id %}"
+                                class="btn btn-sm btn-outline-danger btn-delete"
+                                onclick="return confirm('Are you sure you want to delete this notification?');"
+                            >
+
+                                <i class="bi bi-trash me-1"></i>
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- EMPTY STATE -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-bell-slash"></i>
+
+            </div>
+
+            <h3>
+                No Notifications
+            </h3>
+
+            <p>
+                You don't have any notifications yet.
+            </p>
+
+            <a
+                href="{% url 'home' %}"
+                class="btn btn-dark mt-2"
+            >
+
+                <i class="bi bi-house me-1"></i>
+
+                Back to Home
+
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+</main>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+</body>
+
+</html>

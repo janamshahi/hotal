@@ -1,607 +1,848 @@
 {% extends "dashboard/base.html" %}
 
-
 {% block title %}
     Dashboard | GrandStay Hotel
 {% endblock %}
 
-
 {% block navbar_title %}
-    Admin Dashboard
+    Hotel Dashboard
 {% endblock %}
-
-
-{% block dashboard_active %}
-    active
-{% endblock %}
-
-
-{% block extra_css %}
-
-<style>
-
-    /* =====================================================
-       WELCOME
-    ===================================================== */
-
-    .welcome-card {
-
-        background:
-            linear-gradient(
-                135deg,
-                #172033,
-                #28344d
-            );
-
-        border-radius: 18px;
-
-        padding: 30px;
-
-        color: white;
-
-        margin-bottom: 25px;
-
-        position: relative;
-
-        overflow: hidden;
-
-    }
-
-
-    .welcome-card::after {
-
-        content: "";
-
-        position: absolute;
-
-        width: 220px;
-
-        height: 220px;
-
-        border-radius: 50%;
-
-        background: rgba(212,175,55,0.10);
-
-        right: -70px;
-
-        top: -90px;
-
-    }
-
-
-    .welcome-card h2 {
-
-        font-size: 24px;
-
-        font-weight: 700;
-
-        margin-bottom: 8px;
-
-    }
-
-
-    .welcome-card p {
-
-        color: rgba(255,255,255,0.70);
-
-        font-size: 13px;
-
-        margin-bottom: 0;
-
-    }
-
-
-    .hotel-name {
-
-        color: #d4af37;
-
-    }
-
-
-    /* =====================================================
-       STAT CARDS
-    ===================================================== */
-
-    .stat-card {
-
-        background: white;
-
-        border-radius: 16px;
-
-        padding: 22px;
-
-        border: 1px solid #e9ebef;
-
-        height: 100%;
-
-        transition: 0.25s;
-
-    }
-
-
-    .stat-card:hover {
-
-        transform: translateY(-4px);
-
-        box-shadow:
-            0 12px 30px rgba(15,23,42,0.08);
-
-    }
-
-
-    .stat-icon {
-
-        width: 48px;
-
-        height: 48px;
-
-        border-radius: 13px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        font-size: 21px;
-
-        margin-bottom: 17px;
-
-    }
-
-
-    .icon-blue {
-
-        background: #eaf2ff;
-
-        color: #3b82f6;
-
-    }
-
-
-    .icon-green {
-
-        background: #e9f8f0;
-
-        color: #16a34a;
-
-    }
-
-
-    .icon-orange {
-
-        background: #fff3e5;
-
-        color: #f97316;
-
-    }
-
-
-    .icon-red {
-
-        background: #ffecec;
-
-        color: #ef4444;
-
-    }
-
-
-    .stat-title {
-
-        color: #8b93a3;
-
-        font-size: 12px;
-
-        margin-bottom: 5px;
-
-    }
-
-
-    .stat-value {
-
-        color: #172033;
-
-        font-size: 27px;
-
-        font-weight: 700;
-
-    }
-
-
-    /* =====================================================
-       SECTION CARD
-    ===================================================== */
-
-    .dashboard-card {
-
-        background: white;
-
-        border-radius: 16px;
-
-        border: 1px solid #e9ebef;
-
-        overflow: hidden;
-
-        height: 100%;
-
-    }
-
-
-    .card-header-custom {
-
-        padding: 20px 22px;
-
-        border-bottom: 1px solid #edf0f3;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: space-between;
-
-    }
-
-
-    .card-header-custom h5 {
-
-        margin: 0;
-
-        font-size: 15px;
-
-        font-weight: 600;
-
-    }
-
-
-    .view-link {
-
-        font-size: 12px;
-
-        color: #8a7b16;
-
-        font-weight: 600;
-
-    }
-
-
-    /* =====================================================
-       TABLE
-    ===================================================== */
-
-    .table {
-
-        margin: 0;
-
-    }
-
-
-    .table th {
-
-        color: #8b93a3;
-
-        font-size: 11px;
-
-        font-weight: 600;
-
-        text-transform: uppercase;
-
-        border-bottom: 1px solid #edf0f3;
-
-        padding: 15px 20px;
-
-        white-space: nowrap;
-
-    }
-
-
-    .table td {
-
-        padding: 16px 20px;
-
-        vertical-align: middle;
-
-        font-size: 12px;
-
-        border-bottom: 1px solid #f0f1f3;
-
-    }
-
-
-    .table tr:last-child td {
-
-        border-bottom: none;
-
-    }
-
-
-    .room-number {
-
-        font-weight: 600;
-
-        color: #172033;
-
-    }
-
-
-    .room-category {
-
-        color: #8b93a3;
-
-    }
-
-
-    .status {
-
-        display: inline-flex;
-
-        align-items: center;
-
-        padding: 5px 10px;
-
-        border-radius: 20px;
-
-        font-size: 10px;
-
-        font-weight: 600;
-
-    }
-
-
-    .status-available {
-
-        background: #e9f8f0;
-
-        color: #15803d;
-
-    }
-
-
-    .status-maintenance {
-
-        background: #fff3e5;
-
-        color: #c2410c;
-
-    }
-
-
-    .status-inactive {
-
-        background: #f1f2f4;
-
-        color: #6b7280;
-
-    }
-
-
-    /* =====================================================
-       QUICK ACTIONS
-    ===================================================== */
-
-    .quick-action {
-
-        display: flex;
-
-        align-items: center;
-
-        gap: 14px;
-
-        padding: 15px;
-
-        border: 1px solid #edf0f3;
-
-        border-radius: 12px;
-
-        margin-bottom: 10px;
-
-        color: #172033;
-
-        transition: 0.2s;
-
-    }
-
-
-    .quick-action:hover {
-
-        border-color: #d4af37;
-
-        background: #fffdf3;
-
-        color: #172033;
-
-    }
-
-
-    .quick-action-icon {
-
-        width: 42px;
-
-        height: 42px;
-
-        border-radius: 11px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        background: #f5f1d8;
-
-        color: #897817;
-
-    }
-
-
-    .quick-action-text strong {
-
-        display: block;
-
-        font-size: 12px;
-
-    }
-
-
-    .quick-action-text small {
-
-        color: #8b93a3;
-
-        font-size: 10px;
-
-    }
-
-
-    /* =====================================================
-       HOTEL INFORMATION
-    ===================================================== */
-
-    .hotel-info {
-
-        padding: 22px;
-
-    }
-
-
-    .info-item {
-
-        display: flex;
-
-        gap: 12px;
-
-        margin-bottom: 18px;
-
-    }
-
-
-    .info-icon {
-
-        width: 38px;
-
-        height: 38px;
-
-        border-radius: 10px;
-
-        background: #f4f5f7;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        color: #6b7280;
-
-        flex-shrink: 0;
-
-    }
-
-
-    .info-label {
-
-        color: #9aa1ad;
-
-        font-size: 10px;
-
-        margin-bottom: 3px;
-
-    }
-
-
-    .info-value {
-
-        font-size: 12px;
-
-        font-weight: 500;
-
-        color: #374151;
-
-    }
-
-</style>
-
-{% endblock %}
-
-
 
 {% block content %}
 
+<style>
 
-<!-- =========================================================
-     WELCOME
-========================================================= -->
+/* =========================================================
+   DASHBOARD PAGE
+========================================================= */
 
-<div class="welcome-card">
-
-    <h2>
-
-        Welcome back,
-
-        {% if request.user.first_name %}
-
-            {{ request.user.first_name }}
-
-        {% else %}
-
-            {{ request.user.username }}
-
-        {% endif %}
-
-        👋
-
-    </h2>
+.dashboard-page {
+    padding-bottom: 30px;
+}
 
 
-    <p>
+/* =========================================================
+   WELCOME CARD
+========================================================= */
 
-        Manage your
+.welcome-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #172033 0%,
+        #202c43 55%,
+        #2d3a52 100%
+    );
+    border-radius: 16px;
+    padding: 28px 30px;
+    margin-bottom: 24px;
+    color: #ffffff;
+    box-shadow: 0 8px 25px rgba(23, 32, 51, 0.12);
+}
 
-        {% if hotel %}
+.welcome-card::before {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(197, 162, 83, 0.10);
+    right: -70px;
+    top: -90px;
+}
 
-            <span class="hotel-name">
-                {{ hotel.name }}
-            </span>
+.welcome-card::after {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    right: 100px;
+    bottom: -90px;
+}
 
-        {% else %}
+.welcome-content {
+    position: relative;
+    z-index: 2;
+}
 
-            <span class="hotel-name">
-                GrandStay Hotel
-            </span>
+.welcome-card h2 {
+    margin: 0 0 7px;
+    font-size: 25px;
+    font-weight: 700;
+}
 
-        {% endif %}
+.welcome-card p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 13px;
+}
 
-        operations from your admin dashboard.
-
-    </p>
-
-</div>
-
-
-
-<!-- =========================================================
-     STATISTICS
-========================================================= -->
-
-<div class="row g-4 mb-4">
+.welcome-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 16px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+}
 
 
-    <!-- TOTAL ROOMS -->
+/* =========================================================
+   SECTION TITLE
+========================================================= */
 
-    <div class="col-xl-3 col-md-6">
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
 
-        <div class="stat-card">
+.section-title h5 {
+    margin: 0;
+    color: #172033;
+    font-size: 15px;
+    font-weight: 700;
+}
 
-            <div class="stat-icon icon-blue">
+.section-title a {
+    color: #8c7c35;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+}
 
-                <i class="bi bi-door-open"></i>
+.section-title a:hover {
+    text-decoration: underline;
+}
 
-            </div>
 
-            <div class="stat-title">
-                Total Rooms
-            </div>
+/* =========================================================
+   STAT CARDS
+========================================================= */
 
-            <div class="stat-value">
-                {{ total_rooms }}
+.stat-card {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e8eaee;
+    border-radius: 14px;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035);
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================================
+   CLICKABLE DASHBOARD STAT CARDS
+========================================================= */
+
+.dashboard-stat-link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-stat-link:hover {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dashboard-stat-link .stat-card {
+    cursor: pointer;
+}
+
+.dashboard-stat-link .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.10);
+}
+
+.stat-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f1f0d8;
+    color: #8c7c35;
+    font-size: 20px;
+}
+
+.stat-card h6 {
+    margin: 0 0 5px;
+    color: #7c8492;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.stat-card h3 {
+    margin: 0;
+    color: #172033;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ROOM STATISTICS
+========================================================= */
+
+.room-stat-card {
+    height: 100%;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e8eaee;
+    border-radius: 14px;
+    transition: 0.25s ease;
+}
+
+.room-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+}
+
+.room-stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.room-stat-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: #f1f0d8;
+    color: #8c7c35;
+    font-size: 18px;
+}
+
+.room-stat-card h6 {
+    margin: 0;
+    color: #7d8490;
+    font-size: 11px;
+}
+
+.room-stat-card h3 {
+    margin: 7px 0 0;
+    color: #172033;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   CONTENT CARDS
+========================================================= */
+
+.dashboard-card {
+    background: #ffffff;
+    border: 1px solid #e8eaee;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035);
+    overflow: hidden;
+}
+
+.dashboard-card-header {
+    padding: 16px 18px;
+    border-bottom: 1px solid #eceef2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-card-header h6 {
+    margin: 0;
+    color: #172033;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.dashboard-card-header a {
+    color: #8c7c35;
+    font-size: 11px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.dashboard-card-header a:hover {
+    text-decoration: underline;
+}
+
+.dashboard-card-body {
+    padding: 18px;
+}
+
+
+/* =========================================================
+   RECENT ROOMS
+========================================================= */
+
+.room-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f1f3;
+}
+
+.room-item:last-child {
+    border-bottom: none;
+}
+
+.room-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.room-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f3f2df;
+    color: #8c7c35;
+    font-size: 16px;
+}
+
+.room-name {
+    color: #273146;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.room-number {
+    margin-top: 3px;
+    color: #8b929e;
+    font-size: 10px;
+}
+
+.room-price {
+    color: #172033;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.status-available {
+    background: #eaf7ef;
+    color: #2c8b52;
+}
+
+.status-occupied {
+    background: #fff1e7;
+    color: #c66a27;
+}
+
+.status-maintenance {
+    background: #f2edf8;
+    color: #7655a5;
+}
+
+.status-reserved {
+    background: #eaf1fb;
+    color: #4873a9;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
+
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    border: 1px solid #eceef2;
+    border-radius: 10px;
+    color: #273146;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: 0.2s ease;
+}
+
+.quick-action:last-child {
+    margin-bottom: 0;
+}
+
+.quick-action:hover {
+    color: #172033;
+    background: #fafaf5;
+    border-color: #dcdcbf;
+    transform: translateX(3px);
+}
+
+.quick-action-icon {
+    width: 37px;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #f1f0d8;
+    color: #8c7c35;
+    font-size: 16px;
+}
+
+.quick-action-text {
+    flex: 1;
+}
+
+.quick-action-title {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.quick-action-description {
+    margin-top: 2px;
+    color: #8b929e;
+    font-size: 9px;
+}
+
+.quick-action-arrow {
+    color: #a3a8b1;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   HOTEL INFORMATION
+========================================================= */
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 11px 0;
+    border-bottom: 1px solid #f0f1f3;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f2df;
+    border-radius: 8px;
+    color: #8c7c35;
+    font-size: 14px;
+}
+
+.info-label {
+    color: #8b929e;
+    font-size: 9px;
+    margin-bottom: 2px;
+}
+
+.info-value {
+    color: #273146;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CALENDAR
+========================================================= */
+
+.calendar-card {
+    background: #ffffff;
+    border: 1px solid #e8eaee;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.035);
+}
+
+.calendar-header {
+    padding: 16px 18px;
+    border-bottom: 1px solid #eceef2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.calendar-title {
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.calendar-controls {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.calendar-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e0e3e8;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #4c5564;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.calendar-btn:hover {
+    background: #f4f3df;
+    border-color: #d7d4a7;
+    color: #8c7c35;
+}
+
+.calendar-month {
+    min-width: 120px;
+    text-align: center;
+    color: #273146;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CALENDAR GRID
+========================================================= */
+
+.calendar-body {
+    padding: 16px;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 7px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    color: #8b929e;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 7px 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    min-height: 76px;
+    border: 1px solid #eef0f3;
+    border-radius: 7px;
+    padding: 6px;
+    background: #ffffff;
+    position: relative;
+    transition: 0.2s ease;
+}
+
+.calendar-day:hover {
+    border-color: #d7d4a7;
+    background: #fcfcf8;
+}
+
+.calendar-day.empty {
+    background: #fafafa;
+    border-color: transparent;
+}
+
+.calendar-day.today {
+    border-color: #c5a253;
+    box-shadow: inset 0 0 0 1px rgba(197, 162, 83, 0.2);
+}
+
+.day-number {
+    color: #555d6b;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.calendar-day.today .day-number {
+    color: #8c7c35;
+    font-weight: 700;
+}
+
+.booking-event {
+    display: block;
+    margin-top: 3px;
+    padding: 3px 4px;
+    border-radius: 4px;
+    background: #eef2f8;
+    color: #3d587a;
+    font-size: 7px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+}
+
+.booking-event:hover {
+    background: #e2e8f2;
+    color: #263f61;
+}
+
+.booking-event.confirmed {
+    background: #eaf7ef;
+    color: #2c8b52;
+}
+
+.booking-event.checked_in {
+    background: #fff1e7;
+    color: #c66a27;
+}
+
+.booking-event.checked_out {
+    background: #f0f0f2;
+    color: #666b75;
+}
+
+.booking-event.pending {
+    background: #fff8df;
+    color: #9a7b24;
+}
+
+
+/* =========================================================
+   CALENDAR LEGEND
+========================================================= */
+
+.calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid #eceef2;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #7c8492;
+    font-size: 9px;
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.legend-confirmed {
+    background: #2c8b52;
+}
+
+.legend-checkin {
+    background: #c66a27;
+}
+
+.legend-checkout {
+    background: #666b75;
+}
+
+.legend-pending {
+    background: #9a7b24;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.calendar-loading {
+    text-align: center;
+    padding: 35px 10px;
+    color: #8b929e;
+    font-size: 11px;
+}
+
+.calendar-loading i {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    text-align: center;
+    padding: 30px 10px;
+    color: #8b929e;
+}
+
+.empty-state i {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: #c5c9d0;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .welcome-card {
+        padding: 23px;
+    }
+
+    .welcome-card h2 {
+        font-size: 21px;
+    }
+
+    .calendar-day {
+        min-height: 65px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .welcome-card {
+        padding: 20px;
+    }
+
+    .welcome-card h2 {
+        font-size: 19px;
+    }
+
+    .calendar-body {
+        padding: 10px;
+        overflow-x: auto;
+    }
+
+    .calendar-weekdays,
+    .calendar-grid {
+        min-width: 650px;
+    }
+
+    .calendar-header {
+        padding: 13px;
+    }
+
+    .calendar-month {
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+    }
+
+    .stat-card h3 {
+        font-size: 19px;
+    }
+
+    .dashboard-card-body {
+        padding: 14px;
+    }
+}
+
+</style>
+
+
+<div class="dashboard-page">
+
+
+    <!-- =====================================================
+         WELCOME
+    ====================================================== -->
+
+    <div class="welcome-card">
+
+        <div class="welcome-content">
+
+            <h2>
+                Welcome back,
+
+                {% if request.user.first_name %}
+                    {{ request.user.first_name }}
+                {% else %}
+                    {{ request.user.username }}
+                {% endif %}
+
+                👋
+            </h2>
+
+            <p>
+                Here's what's happening at GrandStay Hotel today.
+            </p>
+
+            <div class="welcome-date">
+
+                <i class="bi bi-calendar3"></i>
+
+                <span>
+                    {% now "l, F d, Y" %}
+                </span>
+
             </div>
 
         </div>
@@ -609,25 +850,146 @@
     </div>
 
 
+    <!-- =====================================================
+         ROOM STATISTICS
+    ====================================================== -->
 
-    <!-- AVAILABLE -->
+    <div class="section-title">
 
-    <div class="col-xl-3 col-md-6">
+        <h5>
+            Room Statistics
+        </h5>
 
-        <div class="stat-card">
+        <a href="{% url 'manage_rooms' %}">
+            View Rooms
+            <i class="bi bi-arrow-right"></i>
+        </a>
 
-            <div class="stat-icon icon-green">
+    </div>
 
-                <i class="bi bi-check-circle"></i>
+
+    <div class="row g-3 mb-4">
+
+
+        <!-- Total Rooms -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="room-stat-card">
+
+                <div class="room-stat-top">
+
+                    <div>
+
+                        <h6>
+                            Total Rooms
+                        </h6>
+
+                        <h3>
+                            {{ total_rooms }}
+                        </h3>
+
+                    </div>
+
+                    <div class="room-stat-icon">
+                        <i class="bi bi-door-open-fill"></i>
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="stat-title">
-                Available Rooms
+        </div>
+
+
+        <!-- Available Rooms -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="room-stat-card">
+
+                <div class="room-stat-top">
+
+                    <div>
+
+                        <h6>
+                            Available
+                        </h6>
+
+                        <h3>
+                            {{ available_rooms }}
+                        </h3>
+
+                    </div>
+
+                    <div class="room-stat-icon">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="stat-value">
-                {{ available_rooms }}
+        </div>
+
+
+        <!-- Occupied Rooms -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="room-stat-card">
+
+                <div class="room-stat-top">
+
+                    <div>
+
+                        <h6>
+                            Occupied
+                        </h6>
+
+                        <h3>
+                            {{ occupied_rooms }}
+                        </h3>
+
+                    </div>
+
+                    <div class="room-stat-icon">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Maintenance -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="room-stat-card">
+
+                <div class="room-stat-top">
+
+                    <div>
+
+                        <h6>
+                            Maintenance
+                        </h6>
+
+                        <h3>
+                            {{ maintenance_rooms }}
+                        </h3>
+
+                    </div>
+
+                    <div class="room-stat-icon">
+                        <i class="bi bi-tools"></i>
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
@@ -635,243 +997,791 @@
     </div>
 
 
+    <!-- =====================================================
+         BOOKING STATISTICS
+         OCCUPIED BOOKING CARD REMOVED
+         TODAY'S BOOKINGS ADDED
+    ====================================================== -->
 
-    <!-- MAINTENANCE -->
+    <div class="section-title">
 
-    <div class="col-xl-3 col-md-6">
+        <h5>
+            Booking Statistics
+        </h5>
 
-        <div class="stat-card">
-
-            <div class="stat-icon icon-orange">
-
-                <i class="bi bi-tools"></i>
-
-            </div>
-
-            <div class="stat-title">
-                Maintenance
-            </div>
-
-            <div class="stat-value">
-                {{ maintenance_rooms }}
-            </div>
-
-        </div>
+        <a href="{% url 'manage_bookings' %}">
+            Manage Bookings
+            <i class="bi bi-arrow-right"></i>
+        </a>
 
     </div>
 
 
+    <div class="row g-3 mb-4">
 
-    <!-- CATEGORIES -->
 
-    <div class="col-xl-3 col-md-6">
+        <!-- =================================================
+             TOTAL BOOKINGS
+        ================================================== -->
 
-        <div class="stat-card">
+        <div class="col-xl-3 col-md-6">
 
-            <div class="stat-icon icon-red">
+            <a
+                href="{% url 'manage_bookings' %}"
+                class="dashboard-stat-link"
+            >
 
-                <i class="bi bi-tags"></i>
+                <div class="stat-card">
 
-            </div>
+                    <div class="stat-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
 
-            <div class="stat-title">
-                Room Categories
-            </div>
+                    <div>
 
-            <div class="stat-value">
-                {{ total_categories }}
-            </div>
+                        <h6>
+                            Total Bookings
+                        </h6>
+
+                        <h3>
+                            {{ total_bookings }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </a>
 
         </div>
+
+
+        <!-- =================================================
+             TODAY'S BOOKINGS
+        ================================================== -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a
+                href="{% url 'manage_bookings' %}"
+                class="dashboard-stat-link"
+            >
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-calendar-day"></i>
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Today's Bookings
+                        </h6>
+
+                        <h3>
+                            {{ today_bookings|default:0 }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             CONFIRMED BOOKINGS
+        ================================================== -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a
+                href="{% url 'manage_bookings' %}?status=confirmed"
+                class="dashboard-stat-link"
+            >
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-patch-check"></i>
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Confirmed
+                        </h6>
+
+                        <h3>
+                            {{ confirmed_bookings }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             CHECKED IN BOOKINGS
+        ================================================== -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a
+                href="{% url 'manage_bookings' %}?status=checked_in"
+                class="dashboard-stat-link"
+            >
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Checked In
+                        </h6>
+
+                        <h3>
+                            {{ checked_in_bookings }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             CHECKED OUT BOOKINGS
+        ================================================== -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <a
+                href="{% url 'manage_bookings' %}?status=checked_out"
+                class="dashboard-stat-link"
+            >
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </div>
+
+                    <div>
+
+                        <h6>
+                            Checked Out
+                        </h6>
+
+                        <h3>
+                            {{ checked_out_bookings }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        </div>
+
 
     </div>
 
 
-</div>
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <div class="row g-4">
 
 
+        <!-- =================================================
+             RECENT ROOMS
+        ================================================== -->
 
-<!-- =========================================================
-     SECOND ROW
-========================================================= -->
+        <div class="col-xl-5 col-lg-6">
 
-<div class="row g-4 mb-4">
+            <div class="dashboard-card">
 
+                <div class="dashboard-card-header">
 
-    <!-- RECENT ROOMS -->
+                    <h6>
+                        Recent Rooms
+                    </h6>
 
-    <div class="col-xl-8">
+                    <a href="{% url 'manage_rooms' %}">
+                        View All
+                    </a>
 
-        <div class="dashboard-card">
-
-
-            <div class="card-header-custom">
-
-                <h5>
-
-                    <i class="bi bi-door-open me-2"></i>
-
-                    Recent Rooms
-
-                </h5>
+                </div>
 
 
-                <a
-                    href="#"
-                    class="view-link"
-                >
-                    View All
-                </a>
+                <div class="dashboard-card-body">
 
-            </div>
-
-
-
-            <div class="table-responsive">
-
-                <table class="table">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Room
-                            </th>
-
-                            <th>
-                                Category
-                            </th>
-
-                            <th>
-                                Price
-                            </th>
-
-                            <th>
-                                Capacity
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
+                    {% if recent_rooms %}
 
                         {% for room in recent_rooms %}
 
-                        <tr>
+                            <div class="room-item">
 
-                            <td>
+                                <div class="room-left">
 
-                                <span class="room-number">
+                                    <div class="room-icon">
+                                        <i class="bi bi-door-closed"></i>
+                                    </div>
 
-                                    {{ room.room_number }}
+                                    <div>
 
-                                </span>
+                                        <div class="room-name">
 
-                                <br>
+                                            {% if room.name %}
+                                                {{ room.name }}
 
-                                <small class="text-muted">
+                                            {% elif room.category %}
+                                                {{ room.category.name }}
 
-                                    {{ room.name }}
+                                            {% else %}
+                                                Room
+                                            {% endif %}
 
-                                </small>
+                                        </div>
 
-                            </td>
+                                        <div class="room-number">
 
+                                            Room
+                                            {{ room.room_number }}
 
-                            <td>
+                                        </div>
 
-                                <span class="room-category">
+                                    </div>
 
-                                    {{ room.category.name }}
-
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                Rs. {{ room.price }}
-
-                            </td>
+                                </div>
 
 
-                            <td>
+                                <div class="text-end">
 
-                                <i class="bi bi-people me-1"></i>
+                                    <div class="room-price">
 
-                                {{ room.capacity }}
+                                        Rs.
+                                        {{ room.price }}
 
-                            </td>
+                                    </div>
 
+                                    {% if room.status %}
 
-                            <td>
+                                        <span
+                                            class="status-badge status-{{ room.status }}"
+                                        >
 
+                                            <i class="bi bi-circle-fill"></i>
 
-                                {% if room.status == 'available' %}
+                                            {{ room.get_status_display }}
 
-                                    <span class="status status-available">
+                                        </span>
 
-                                        Available
+                                    {% endif %}
 
-                                    </span>
+                                </div>
 
-                                {% elif room.status == 'maintenance' %}
-
-                                    <span class="status status-maintenance">
-
-                                        Maintenance
-
-                                    </span>
-
-                                {% else %}
-
-                                    <span class="status status-inactive">
-
-                                        Inactive
-
-                                    </span>
-
-                                {% endif %}
-
-
-                            </td>
-
-                        </tr>
-
-
-                        {% empty %}
-
-                        <tr>
-
-                            <td
-                                colspan="5"
-                                class="text-center py-5 text-muted"
-                            >
-
-                                <i
-                                    class="bi bi-door-open d-block mb-2"
-                                    style="font-size:30px;"
-                                ></i>
-
-                                No rooms have been added yet.
-
-                            </td>
-
-                        </tr>
+                            </div>
 
                         {% endfor %}
 
-                    </tbody>
+                    {% else %}
 
-                </table>
+                        <div class="empty-state">
+
+                            <i class="bi bi-door-open"></i>
+
+                            <p>
+                                No rooms available.
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <div class="col-xl-3 col-lg-6">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-header">
+
+                    <h6>
+                        Quick Actions
+                    </h6>
+
+                </div>
+
+
+                <div class="dashboard-card-body">
+
+
+                    <!-- Add Room -->
+
+                    <a
+                        href="{% url 'add_room' %}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-action-icon">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
+
+                        <div class="quick-action-text">
+
+                            <div class="quick-action-title">
+                                Add Room
+                            </div>
+
+                            <div class="quick-action-description">
+                                Create a new hotel room
+                            </div>
+
+                        </div>
+
+                        <i class="bi bi-chevron-right quick-action-arrow"></i>
+
+                    </a>
+
+
+                    <!-- Manage Bookings -->
+
+                    <a
+                        href="{% url 'manage_bookings' %}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-action-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+
+                        <div class="quick-action-text">
+
+                            <div class="quick-action-title">
+                                Manage Bookings
+                            </div>
+
+                            <div class="quick-action-description">
+                                View and update bookings
+                            </div>
+
+                        </div>
+
+                        <i class="bi bi-chevron-right quick-action-arrow"></i>
+
+                    </a>
+
+
+                    <!-- Payments -->
+
+                    <a
+                        href="{% url 'manage_payments' %}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-action-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+
+                        <div class="quick-action-text">
+
+                            <div class="quick-action-title">
+                                Payments
+                            </div>
+
+                            <div class="quick-action-description">
+                                Manage hotel payments
+                            </div>
+
+                        </div>
+
+                        <i class="bi bi-chevron-right quick-action-arrow"></i>
+
+                    </a>
+
+
+                    <!-- Customers -->
+
+                    <a
+                        href="{% url 'manage_customers' %}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-action-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+
+                        <div class="quick-action-text">
+
+                            <div class="quick-action-title">
+                                Customers
+                            </div>
+
+                            <div class="quick-action-description">
+                                Manage hotel customers
+                            </div>
+
+                        </div>
+
+                        <i class="bi bi-chevron-right quick-action-arrow"></i>
+
+                    </a>
+
+
+                    <!-- Reports -->
+
+                    <a
+                        href="{% url 'reports' %}"
+                        class="quick-action"
+                    >
+
+                        <div class="quick-action-icon">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
+
+                        <div class="quick-action-text">
+
+                            <div class="quick-action-title">
+                                Reports
+                            </div>
+
+                            <div class="quick-action-description">
+                                View hotel reports
+                            </div>
+
+                        </div>
+
+                        <i class="bi bi-chevron-right quick-action-arrow"></i>
+
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ROOM STATUS
+        ================================================== -->
+
+        <div class="col-xl-4 col-lg-12">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-header">
+
+                    <h6>
+                        Room Status
+                    </h6>
+
+                    <a href="{% url 'manage_rooms' %}">
+                        Manage
+                    </a>
+
+                </div>
+
+
+                <div class="dashboard-card-body">
+
+
+                    <!-- Available -->
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Available Rooms
+                            </div>
+
+                            <div class="info-value">
+                                {{ available_rooms }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Occupied -->
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Occupied Rooms
+                            </div>
+
+                            <div class="info-value">
+                                {{ occupied_rooms }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Maintenance -->
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-tools"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Maintenance Rooms
+                            </div>
+
+                            <div class="info-value">
+                                {{ maintenance_rooms }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Total -->
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Total Rooms
+                            </div>
+
+                            <div class="info-value">
+                                {{ total_rooms }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         BOOKING CALENDAR
+    ====================================================== -->
+
+    <div class="section-title mt-4">
+
+        <h5>
+            Booking Calendar
+        </h5>
+
+        <a href="{% url 'manage_bookings' %}">
+            Manage Bookings
+            <i class="bi bi-arrow-right"></i>
+        </a>
+
+    </div>
+
+
+    <div class="calendar-card">
+
+        <div class="calendar-header">
+
+            <div class="calendar-title">
+
+                <i class="bi bi-calendar3 me-1"></i>
+
+                Booking Schedule
+
+            </div>
+
+
+            <div class="calendar-controls">
+
+                <button
+                    type="button"
+                    class="calendar-btn"
+                    id="previousMonth"
+                    title="Previous Month"
+                >
+
+                    <i class="bi bi-chevron-left"></i>
+
+                </button>
+
+
+                <div
+                    class="calendar-month"
+                    id="calendarMonth"
+                >
+                    Loading...
+                </div>
+
+
+                <button
+                    type="button"
+                    class="calendar-btn"
+                    id="nextMonth"
+                    title="Next Month"
+                >
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="calendar-body">
+
+            <div
+                class="calendar-loading"
+                id="calendarLoading"
+            >
+
+                <i class="bi bi-arrow-repeat"></i>
+
+                Loading booking calendar...
+
+            </div>
+
+
+            <div
+                id="calendarContent"
+                style="display:none;"
+            >
+
+                <div class="calendar-weekdays">
+
+                    <div class="calendar-weekday">
+                        Sun
+                    </div>
+
+                    <div class="calendar-weekday">
+                        Mon
+                    </div>
+
+                    <div class="calendar-weekday">
+                        Tue
+                    </div>
+
+                    <div class="calendar-weekday">
+                        Wed
+                    </div>
+
+                    <div class="calendar-weekday">
+                        Thu
+                    </div>
+
+                    <div class="calendar-weekday">
+                        Fri
+                    </div>
+
+                    <div class="calendar-weekday">
+                        Sat
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="calendar-grid"
+                    id="calendarGrid"
+                >
+                </div>
+
+
+                <div class="calendar-legend">
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot legend-confirmed"></span>
+
+                        Confirmed
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot legend-checkin"></span>
+
+                        Checked In
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot legend-checkout"></span>
+
+                        Checked Out
+
+                    </div>
+
+
+                    <div class="legend-item">
+
+                        <span class="legend-dot legend-pending"></span>
+
+                        Pending
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -880,470 +1790,659 @@
     </div>
 
 
+    <!-- =====================================================
+         HOTEL INFORMATION
+    ====================================================== -->
 
-    <!-- QUICK ACTIONS -->
-
-    <div class="col-xl-4">
-
-        <div class="dashboard-card">
-
-
-            <div class="card-header-custom">
-
-                <h5>
-
-                    <i class="bi bi-lightning-charge me-2"></i>
-
-                    Quick Actions
-
-                </h5>
-
-            </div>
+    <div class="row g-4 mt-1">
 
 
-            <div class="p-3">
+        <!-- Hotel Information -->
+
+        <div class="col-lg-6">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-header">
+
+                    <h6>
+                        Hotel Information
+                    </h6>
+
+                    <a href="{% url 'admin_profile' %}">
+                        Profile
+                    </a>
+
+                </div>
 
 
-                <a
-                    href="#"
-                    class="quick-action"
-                >
-
-                    <div class="quick-action-icon">
-
-                        <i class="bi bi-plus-lg"></i>
-
-                    </div>
+                <div class="dashboard-card-body">
 
 
-                    <div class="quick-action-text">
+                    <div class="info-row">
 
-                        <strong>
-                            Add New Room
-                        </strong>
+                        <div class="info-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
 
-                        <small>
-                            Create a new hotel room
-                        </small>
+                        <div>
 
-                    </div>
+                            <div class="info-label">
+                                Hotel Name
+                            </div>
 
-                </a>
+                            <div class="info-value">
+                                GrandStay Hotel
+                            </div>
 
-
-
-                <a
-                    href="#"
-                    class="quick-action"
-                >
-
-                    <div class="quick-action-icon">
-
-                        <i class="bi bi-calendar-plus"></i>
+                        </div>
 
                     </div>
 
 
-                    <div class="quick-action-text">
+                    <div class="info-row">
 
-                        <strong>
-                            New Booking
-                        </strong>
+                        <div class="info-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
 
-                        <small>
-                            Create a customer booking
-                        </small>
+                        <div>
 
-                    </div>
+                            <div class="info-label">
+                                Location
+                            </div>
 
-                </a>
+                            <div class="info-value">
+                                Dhangadhi, Kailali, Nepal
+                            </div>
 
-
-
-                <a
-                    href="#"
-                    class="quick-action"
-                >
-
-                    <div class="quick-action-icon">
-
-                        <i class="bi bi-tags"></i>
+                        </div>
 
                     </div>
 
 
-                    <div class="quick-action-text">
+                    <div class="info-row">
 
-                        <strong>
-                            Room Category
-                        </strong>
+                        <div class="info-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
 
-                        <small>
-                            Manage room categories
-                        </small>
+                        <div>
 
-                    </div>
+                            <div class="info-label">
+                                Email
+                            </div>
 
-                </a>
+                            <div class="info-value">
+                                grandstayhotel@gmail.com
+                            </div>
 
-
-
-                <a
-                    href="#"
-                    class="quick-action"
-                >
-
-                    <div class="quick-action-icon">
-
-                        <i class="bi bi-bar-chart"></i>
+                        </div>
 
                     </div>
 
 
-                    <div class="quick-action-text">
+                    <div class="info-row">
 
-                        <strong>
-                            View Reports
-                        </strong>
+                        <div class="info-icon">
+                            <i class="bi bi-telephone"></i>
+                        </div>
 
-                        <small>
-                            Check hotel reports
-                        </small>
+                        <div>
+
+                            <div class="info-label">
+                                Phone
+                            </div>
+
+                            <div class="info-value">
+                                +977 98XXXXXXXX
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </a>
 
+                </div>
 
             </div>
 
         </div>
 
+
+        <!-- Dashboard Summary -->
+
+        <div class="col-lg-6">
+
+            <div class="dashboard-card">
+
+                <div class="dashboard-card-header">
+
+                    <h6>
+                        Dashboard Summary
+                    </h6>
+
+                </div>
+
+
+                <div class="dashboard-card-body">
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-calendar-event"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Today's Bookings
+                            </div>
+
+                            <div class="info-value">
+                                {{ today_bookings|default:0 }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-box-arrow-in-right"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Today's Check-ins
+                            </div>
+
+                            <div class="info-value">
+                                {{ today_checkins|default:0 }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Today's Check-outs
+                            </div>
+
+                            <div class="info-value">
+                                {{ today_checkouts|default:0 }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <div class="info-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+
+                        <div>
+
+                            <div class="info-label">
+                                Total Customers
+                            </div>
+
+                            <div class="info-value">
+                                {{ total_customers|default:0 }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
     </div>
+
 
 </div>
-
 
 
 <!-- =========================================================
-     THIRD ROW
+     CALENDAR JAVASCRIPT
 ========================================================= -->
 
-<div class="row g-4">
+<script>
 
+document.addEventListener("DOMContentLoaded", function () {
 
-    <!-- ROOM STATUS -->
 
-    <div class="col-lg-6">
+    const calendarGrid =
+        document.getElementById("calendarGrid");
 
-        <div class="dashboard-card">
 
-            <div class="card-header-custom">
+    const calendarMonth =
+        document.getElementById("calendarMonth");
 
-                <h5>
 
-                    <i class="bi bi-pie-chart me-2"></i>
+    const calendarLoading =
+        document.getElementById("calendarLoading");
 
-                    Room Status
 
-                </h5>
+    const calendarContent =
+        document.getElementById("calendarContent");
 
-            </div>
 
+    const previousMonth =
+        document.getElementById("previousMonth");
 
-            <div class="p-4">
 
+    const nextMonth =
+        document.getElementById("nextMonth");
 
-                <div class="d-flex justify-content-between mb-3">
 
-                    <span class="small">
-                        Available
-                    </span>
+    let currentDate = new Date();
 
-                    <strong class="small">
-                        {{ available_rooms }}
-                    </strong>
 
-                </div>
+    /* =====================================================
+       LOAD CALENDAR
+    ====================================================== */
 
+    function loadCalendar(year, month) {
 
-                <div
-                    class="progress mb-4"
-                    style="height:8px;"
-                >
+        calendarLoading.style.display = "block";
 
-                    <div
-                        class="progress-bar bg-success"
-                        style="
-                            width:
-                            {% if total_rooms %}
-                                {% widthratio available_rooms total_rooms 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%"
-                    ></div>
+        calendarContent.style.display = "none";
 
-                </div>
+        calendarGrid.innerHTML = "";
 
 
+        fetch(
+            "{% url 'calendar_data' %}" +
+            "?year=" + year +
+            "&month=" + month
+        )
 
-                <div class="d-flex justify-content-between mb-3">
+        .then(function (response) {
 
-                    <span class="small">
-                        Maintenance
-                    </span>
+            if (!response.ok) {
 
-                    <strong class="small">
-                        {{ maintenance_rooms }}
-                    </strong>
+                throw new Error(
+                    "Unable to load calendar."
+                );
 
-                </div>
+            }
 
+            return response.json();
 
-                <div
-                    class="progress mb-4"
-                    style="height:8px;"
-                >
+        })
 
-                    <div
-                        class="progress-bar bg-warning"
-                        style="
-                            width:
-                            {% if total_rooms %}
-                                {% widthratio maintenance_rooms total_rooms 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%"
-                    ></div>
+        .then(function (data) {
 
-                </div>
+            renderCalendar(data);
 
+        })
 
+        .catch(function (error) {
 
-                <div class="d-flex justify-content-between mb-3">
+            console.error(error);
 
-                    <span class="small">
-                        Inactive
-                    </span>
+            calendarLoading.innerHTML = `
+                <i class="bi bi-exclamation-circle"></i>
+                Unable to load booking calendar.
+            `;
 
-                    <strong class="small">
-                        {{ inactive_rooms }}
-                    </strong>
+        });
 
-                </div>
+    }
 
 
-                <div
-                    class="progress"
-                    style="height:8px;"
-                >
+    /* =====================================================
+       RENDER CALENDAR
+    ====================================================== */
 
-                    <div
-                        class="progress-bar bg-secondary"
-                        style="
-                            width:
-                            {% if total_rooms %}
-                                {% widthratio inactive_rooms total_rooms 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%"
-                    ></div>
+    function renderCalendar(data) {
 
-                </div>
 
-            </div>
+        const year = data.year;
 
-        </div>
+        const month = data.month;
 
-    </div>
+        const bookings = data.bookings || [];
 
+        const today = data.today;
 
 
-    <!-- HOTEL INFORMATION -->
+        const monthNames = [
 
-    <div class="col-lg-6">
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
 
-        <div class="dashboard-card">
+        ];
 
 
-            <div class="card-header-custom">
+        calendarMonth.textContent =
+            monthNames[month - 1] +
+            " " +
+            year;
 
-                <h5>
 
-                    <i class="bi bi-building me-2"></i>
+        calendarGrid.innerHTML = "";
 
-                    Hotel Information
 
-                </h5>
+        const firstDate =
+            new Date(
+                year,
+                month - 1,
+                1
+            );
 
-            </div>
 
+        const lastDate =
+            new Date(
+                year,
+                month,
+                0
+            );
 
-            <div class="hotel-info">
 
+        const firstDay =
+            firstDate.getDay();
 
-                {% if hotel %}
 
+        const daysInMonth =
+            lastDate.getDate();
 
-                <div class="info-item">
 
-                    <div class="info-icon">
+        /* =================================================
+           EMPTY DAYS BEFORE MONTH
+        ================================================== */
 
-                        <i class="bi bi-building"></i>
+        for (
+            let i = 0;
+            i < firstDay;
+            i++
+        ) {
 
-                    </div>
+            const emptyDay =
+                document.createElement("div");
 
 
-                    <div>
+            emptyDay.className =
+                "calendar-day empty";
 
-                        <div class="info-label">
-                            Hotel Name
-                        </div>
 
-                        <div class="info-value">
-                            {{ hotel.name }}
-                        </div>
+            calendarGrid.appendChild(
+                emptyDay
+            );
 
-                    </div>
+        }
 
-                </div>
 
+        /* =================================================
+           MONTH DAYS
+        ================================================== */
 
+        for (
+            let day = 1;
+            day <= daysInMonth;
+            day++
+        ) {
 
-                <div class="info-item">
 
-                    <div class="info-icon">
+            const calendarDay =
+                document.createElement("div");
 
-                        <i class="bi bi-geo-alt"></i>
 
-                    </div>
+            calendarDay.className =
+                "calendar-day";
 
 
-                    <div>
+            const monthString =
+                String(month).padStart(
+                    2,
+                    "0"
+                );
 
-                        <div class="info-label">
-                            Address
-                        </div>
 
-                        <div class="info-value">
+            const dayString =
+                String(day).padStart(
+                    2,
+                    "0"
+                );
 
-                            {% if hotel.address %}
 
-                                {{ hotel.address }}
+            const dateString =
+                year +
+                "-" +
+                monthString +
+                "-" +
+                dayString;
 
-                            {% else %}
 
-                                Not configured
+            if (
+                dateString === today
+            ) {
 
-                            {% endif %}
+                calendarDay.classList.add(
+                    "today"
+                );
 
-                        </div>
+            }
 
-                    </div>
 
-                </div>
+            const dayNumber =
+                document.createElement("div");
 
 
+            dayNumber.className =
+                "day-number";
 
-                <div class="info-item">
 
-                    <div class="info-icon">
+            dayNumber.textContent =
+                day;
 
-                        <i class="bi bi-telephone"></i>
 
-                    </div>
+            calendarDay.appendChild(
+                dayNumber
+            );
 
 
-                    <div>
+            /* =============================================
+               FIND BOOKINGS FOR THIS DATE
+            ============================================== */
 
-                        <div class="info-label">
-                            Phone
-                        </div>
+            bookings.forEach(
+                function (booking) {
 
-                        <div class="info-value">
 
-                            {% if hotel.phone %}
+                    const start =
+                        booking.start;
 
-                                {{ hotel.phone }}
 
-                            {% else %}
+                    const end =
+                        booking.end;
 
-                                Not configured
 
-                            {% endif %}
+                    const bookingStart =
+                        new Date(
+                            start +
+                            "T00:00:00"
+                        );
 
-                        </div>
 
-                    </div>
+                    const bookingEnd =
+                        new Date(
+                            end +
+                            "T00:00:00"
+                        );
 
-                </div>
 
+                    const currentDay =
+                        new Date(
+                            year,
+                            month - 1,
+                            day
+                        );
 
 
-                <div class="info-item mb-0">
+                    if (
+                        currentDay >= bookingStart &&
+                        currentDay < bookingEnd
+                    ) {
 
-                    <div class="info-icon">
 
-                        <i class="bi bi-envelope"></i>
+                        const event =
+                            document.createElement(
+                                "a"
+                            );
 
-                    </div>
 
+                        event.href =
+                            booking.detail_url;
 
-                    <div>
 
-                        <div class="info-label">
-                            Email
-                        </div>
+                        event.className =
+                            "booking-event " +
+                            (
+                                booking.status_value ||
+                                ""
+                            );
 
-                        <div class="info-value">
 
-                            {% if hotel.email %}
+                        const room =
+                            booking.room
+                                ? "Room " +
+                                  booking.room
+                                : "Room N/A";
 
-                                {{ hotel.email }}
 
-                            {% else %}
+                        event.textContent =
+                            room +
+                            " • " +
+                            booking.customer;
 
-                                Not configured
 
-                            {% endif %}
+                        event.title =
+                            booking.customer +
+                            " | " +
+                            room +
+                            " | " +
+                            booking.status;
 
-                        </div>
 
-                    </div>
+                        calendarDay.appendChild(
+                            event
+                        );
 
-                </div>
+                    }
 
+                }
+            );
 
-                {% else %}
 
+            calendarGrid.appendChild(
+                calendarDay
+            );
 
-                <div class="text-center py-4 text-muted">
+        }
 
-                    <i
-                        class="bi bi-building"
-                        style="font-size:35px;"
-                    ></i>
 
-                    <p class="small mt-2 mb-0">
+        calendarLoading.style.display =
+            "none";
 
-                        Hotel information has not been configured yet.
 
-                    </p>
+        calendarContent.style.display =
+            "block";
 
-                </div>
+    }
 
 
-                {% endif %}
+    /* =====================================================
+       PREVIOUS MONTH
+    ====================================================== */
 
+    previousMonth.addEventListener(
+        "click",
+        function () {
 
-            </div>
 
-        </div>
+            currentDate.setMonth(
+                currentDate.getMonth() - 1
+            );
 
-    </div>
 
+            loadCalendar(
+                currentDate.getFullYear(),
+                currentDate.getMonth() + 1
+            );
 
-</div>
+        }
+    );
 
+
+    /* =====================================================
+       NEXT MONTH
+    ====================================================== */
+
+    nextMonth.addEventListener(
+        "click",
+        function () {
+
+
+            currentDate.setMonth(
+                currentDate.getMonth() + 1
+            );
+
+
+            loadCalendar(
+                currentDate.getFullYear(),
+                currentDate.getMonth() + 1
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       INITIAL LOAD
+    ====================================================== */
+
+    loadCalendar(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1
+    );
+
+
+});
+
+</script>
 
 {% endblock %}
