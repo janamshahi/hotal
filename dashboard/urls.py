@@ -96,19 +96,11 @@ urlpatterns = [
     # BOOKINGS
     # =====================================================
 
-    # ADMIN BOOKING LIST
-
     path(
         'bookings/',
         views.manage_bookings,
         name='manage_bookings'
     ),
-
-
-    # ADMIN BOOKING DETAILS
-    # IMPORTANT:
-    # Different name from customer booking_detail
-    # to prevent URL reversing conflicts.
 
     path(
         'bookings/<int:booking_id>/',
@@ -116,17 +108,11 @@ urlpatterns = [
         name='dashboard_booking_detail'
     ),
 
-
-    # UPDATE BOOKING
-
     path(
         'bookings/<int:booking_id>/update/',
         views.update_booking,
         name='update_booking'
     ),
-
-
-    # DELETE BOOKING
 
     path(
         'bookings/<int:booking_id>/delete/',
@@ -139,16 +125,11 @@ urlpatterns = [
     # PAYMENTS
     # =====================================================
 
-    # PAYMENT LIST
-
     path(
         'payments/',
         views.manage_payments,
         name='manage_payments'
     ),
-
-
-    # PAYMENT DETAILS
 
     path(
         'payments/<int:payment_id>/',
@@ -156,17 +137,11 @@ urlpatterns = [
         name='payment_detail'
     ),
 
-
-    # UPDATE PAYMENT
-
     path(
         'payments/<int:payment_id>/update/',
         views.update_payment,
         name='update_payment'
     ),
-
-
-    # DELETE PAYMENT
 
     path(
         'payments/<int:payment_id>/delete/',
@@ -179,16 +154,11 @@ urlpatterns = [
     # REVIEWS
     # =====================================================
 
-    # REVIEW LIST
-
     path(
         'reviews/',
         views.manage_reviews,
         name='manage_reviews'
     ),
-
-
-    # REVIEW DETAILS
 
     path(
         'reviews/<int:review_id>/',
@@ -196,17 +166,11 @@ urlpatterns = [
         name='review_detail'
     ),
 
-
-    # APPROVE / UNAPPROVE REVIEW
-
     path(
         'reviews/<int:review_id>/toggle/',
         views.toggle_review_approval,
         name='toggle_review_approval'
     ),
-
-
-    # DELETE REVIEW
 
     path(
         'reviews/<int:review_id>/delete/',
@@ -215,74 +179,105 @@ urlpatterns = [
     ),
 
 
+    # =====================================================
+    # CUSTOMERS
+    # =====================================================
 
-# =====================================================
-# CUSTOMERS
-# =====================================================
+    path(
+        'customers/',
+        views.manage_customers,
+        name='manage_customers'
+    ),
 
-path(
-    'customers/',
-    views.manage_customers,
-    name='manage_customers'
-),
+    path(
+        'customers/<int:user_id>/',
+        views.customer_detail,
+        name='customer_detail'
+    ),
 
-path(
-    'customers/<int:user_id>/',
-    views.customer_detail,
-    name='customer_detail'
-),
+    path(
+        'customers/<int:user_id>/delete/',
+        views.delete_customer,
+        name='delete_customer'
+    ),
 
-path(
-    'customers/<int:user_id>/delete/',
-    views.delete_customer,
-    name='delete_customer'
-),
 
-path(
-    "notifications/",
-    views.admin_notifications,
-    name="admin_notifications"
-),
+    # =====================================================
+    # ADMIN NOTIFICATIONS
+    # =====================================================
 
-path(
-    "notifications/send/",
-    views.send_notification,
-    name="send_notification"
-),
+    path(
+        'notifications/',
+        views.admin_notifications,
+        name='admin_notifications'
+    ),
 
-path(
-    "notifications/read-all/",
-    views.mark_all_admin_notifications_read,
-    name="mark_all_admin_notifications_read"
-),
+    path(
+        'notifications/send/',
+        views.send_notification,
+        name='send_notification'
+    ),
 
-# =========================================================
-# REPORTS
-# =========================================================
+    # IMPORTANT:
+    # This URL was missing from your file.
+    # It fixes:
+    # NoReverseMatch:
+    # Reverse for 'admin_notification_read' not found.
 
-path(
-    "reports/",
-    views.reports,
-    name="reports"
-),
+    path(
+        'notifications/<int:notification_id>/read/',
+        views.admin_notification_read,
+        name='admin_notification_read'
+    ),
 
-path(
-    "analytics/",
-    views.analytics,
-    name="analytics"
-),
+    path(
+        'notifications/read-all/',
+        views.mark_all_admin_notifications_read,
+        name='mark_all_admin_notifications_read'
+    ),
 
-path("profile/", views.admin_profile, name="admin_profile"),
+
+    # =====================================================
+    # REPORTS
+    # =====================================================
+
+    path(
+        'reports/',
+        views.reports,
+        name='reports'
+    ),
+
+
+    # =====================================================
+    # ANALYTICS
+    # =====================================================
+
+    path(
+        'analytics/',
+        views.analytics,
+        name='analytics'
+    ),
+
+
+    # =====================================================
+    # ADMIN PROFILE
+    # =====================================================
+
+    path(
+        'profile/',
+        views.admin_profile,
+        name='admin_profile'
+    ),
 
 
     # =====================================================
     # DASHBOARD CALENDAR
     # =====================================================
 
-path(
-    "calendar-data/",
-    views.calendar_data,
-    name="calendar_data"
-),
+    path(
+        'calendar-data/',
+        views.calendar_data,
+        name='calendar_data'
+    ),
 
 ]
